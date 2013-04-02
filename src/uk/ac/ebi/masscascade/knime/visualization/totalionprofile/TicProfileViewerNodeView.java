@@ -1,0 +1,216 @@
+/*
+ * Copyright (C) 2013 EMBL - European Bioinformatics Institute
+ * 
+ * All rights reserved. This file is part of the MassCascade feature for KNIME.
+ * 
+ * The feature is free software: you can redistribute it and/or modify it under 
+ * the terms of the GNU General Public License as published by the Free 
+ * Software Foundation, either version 3 of the License, or (at your option) 
+ * any later version.
+ * 
+ * The feature is distributed in the hope that it will be useful, but WITHOUT 
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with 
+ * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Contributors:
+ *    Stephan Beisken - initial API and implementation
+ */
+package uk.ac.ebi.masscascade.knime.visualization.totalionprofile;
+
+import java.awt.Color;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.table.TableRowSorter;
+
+import org.knime.core.data.DataRow;
+
+import uk.ac.ebi.masscascade.charts.SimpleSpectrum;
+import uk.ac.ebi.masscascade.charts.SimpleSpectrum.PAINTERS;
+import uk.ac.ebi.masscascade.interfaces.Profile;
+import uk.ac.ebi.masscascade.interfaces.container.ProfileContainer;
+import uk.ac.ebi.masscascade.knime.NodeUtils;
+import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.defaults.DefaultView;
+import uk.ac.ebi.masscascade.knime.defaults.ViewerModel;
+import uk.ac.ebi.masscascade.knime.visualization.GraphColor;
+import uk.ac.ebi.masscascade.parameters.Parameter;
+import uk.ac.ebi.masscascade.tables.GroupProfileTable;
+import uk.ac.ebi.masscascade.tables.model.ATableModel;
+import uk.ac.ebi.masscascade.tables.renderer.NumberCellRenderer;
+import uk.ac.ebi.masscascade.tables.renderer.ScientificCellRenderer;
+import uk.ac.ebi.masscascade.utilities.DataSet;
+import uk.ac.ebi.masscascade.utilities.Labels.LABELS;
+import uk.ac.ebi.masscascade.utilities.xyz.XYList;
+import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
+import uk.ac.ebi.masscascade.utilities.xyz.XYZPoint;
+
+/**
+ * <code>NodeView</code> for the "SpectrumViewer" Node. Displays the spectrums from the selected run.
+ * 
+ * @author Stephan Beisken
+ */
+public class TicProfileViewerNodeView extends DefaultView {
+
+	private ProfileContainer profiles;
+	private DataSet ticDataSet;
+
+	private GraphColor graphColor;
+	private int selectedRun;
+	private int[] selectedRows;
+
+	/**
+	 * Creates a new view.
+	 * 
+	 * @param nodeModel The model (class: {@link SpectrumViewerNodeModel})
+	 */
+	protected TicProfileViewerNodeView(final ViewerModel nodeModel) {
+
+		super(nodeModel, Parameter.PEAK_COLUMN, new GroupProfileTable());
+
+		selectedRun = 1;
+		graphColor = new GraphColor();
+
+		tableView.getContentTable().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		Map<SimpleSpectrum.PAINTERS, Boolean> tracePainter = new HashMap<SimpleSpectrum.PAINTERS, Boolean>();
+		tracePainter.put(PAINTERS.POLY, true);
+		chart.setDefaultTracePainter(tracePainter);
+	}
+
+	/**
+	 * Updates the spectrum list.
+	 */
+	protected void loadDataFromTable(int... rowNumber) {
+
+		selectedRun = rowNumber.length != 0 ? rowNumber[0] : selectedRun;
+		DataRow row = NodeUtils.getDataRow(getNodeModel().getInternalTables()[0], selectedRun);
+		profiles = ((ProfileValue) row.getCell(column)).getPeakDataValue();
+
+		Object[][] tableData = new Object[profiles.size()][4];
+		Map<Double, Double> ticMap = new HashMap<Double, Double>();
+		int i = 0;
+		for (Profile profile : profiles) {
+
+			for (XYZPoint dp : profile.getData()) {
+				if (ticMap.containsKey(dp.x))
+					ticMap.put(dp.x, ticMap.get(dp.x) + dp.z);
+				else
+					ticMap.put(dp.x, dp.z);
+			}
+
+			tableData[i][0] = profile.getId();
+			tableData[i][1] = profile.getMz();
+			tableData[i][2] = profile.getRetentionTime();
+			tableData[i][3] = profile.getIntensity();
+
+			i++;
+		}
+
+		XYList data = new XYList();
+		for (Double rt : ticMap.keySet())
+			data.add(new XYPoint(rt, ticMap.get(rt)));
+		Collections.sort(data);
+		ticDataSet = new DataSet.Builder(data, "TIC").color(Color.BLACK).build();
+
+		ProfileTableModel tableModel = new ProfileTableModel();
+		tableModel.setData(tableData);
+		listTable.setModel(tableModel);
+		listTable.getColumnModel().getColumn(1).setCellRenderer(new NumberCellRenderer());
+		listTable.getColumnModel().getColumn(2).setCellRenderer(new NumberCellRenderer(new DecimalFormat("0.00")));
+		listTable.getColumnModel().getColumn(3).setCellRenderer(new ScientificCellRenderer());
+
+		TableRowSorter<ProfileTableModel> sorter = new TableRowSorter<ProfileTableModel>(tableModel);
+
+		List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+		sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+		sortKeys.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
+		sorter.setSortKeys(sortKeys);
+		listTable.setRowSorter(sorter);
+
+		loadDataFromList();
+		chart.zoomAll();
+	}
+
+	/**
+	 * Updates the profiles.
+	 */
+	protected void loadDataFromList(int... selectedRows) {
+
+		this.selectedRows = selectedRows;
+
+		chart.clearData();
+		graphColor.reset();
+
+		chart.addData(ticDataSet);
+
+		for (int selectedRow : selectedRows)
+			chart.addData(getDataSet(selectedRow));
+
+		chartsPanel.revalidate();
+	}
+
+	/**
+	 * Returns the compiled data set for the selected sample.
+	 * 
+	 * @param selectedRow selected sample row
+	 * @return the data set
+	 */
+	private DataSet getDataSet(int selectedRow) {
+
+		int profileIndex = Integer.parseInt(""
+				+ listTable.getModel().getValueAt(listTable.convertRowIndexToModel(selectedRow), 0));
+
+		Profile profile = profiles.getProfile(profileIndex);
+		XYList data = profile.getTrace().getData();
+
+		Color color = graphColor.nextColor();
+		return new DataSet.Builder(data, "" + profileIndex).color(color).build();
+	}
+
+	/**
+	 * Returns the scan indices of the selected scans in the table.
+	 * 
+	 * @return the scan indices
+	 */
+	protected String[] getSelectedIndices() {
+
+		String[] res = new String[selectedRows.length + 1];
+		int i = 0;
+
+		for (int selectedRow : selectedRows) {
+			res[i] = "" + listTable.getModel().getValueAt(listTable.convertRowIndexToModel(selectedRow), 0);
+			i++;
+		}
+
+		res[i] = "TIC";
+
+		return res;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void onOpen() {
+
+		chart.setAxisTitle(LABELS.RT.getLabel(), LABELS.INTENSITY.getLabel());
+	}
+
+	class ProfileTableModel extends ATableModel {
+
+		public ProfileTableModel() {
+			super(new String[] { "id", "m/z", "rt [s]", "intensity" });
+		}
+	}
+}

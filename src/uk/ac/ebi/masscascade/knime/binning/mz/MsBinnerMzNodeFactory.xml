@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 EMBL - European Bioinformatics Institute
+  
+  All rights reserved. This file is part of the MassCascade feature for KNIME.
+  
+  The feature is free software: you can redistribute it and/or modify it under 
+  the terms of the GNU General Public License as published by the Free 
+  Software Foundation, either version 3 of the License, or (at your option) 
+  any later version.
+  
+  The feature is distributed in the hope that it will be useful, but WITHOUT 
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License along with 
+  the feature. If not, see <http://www.gnu.org/licenses/>.
+  
+  Contributors:
+     Stephan Beisken - initial API and implementation
+-->
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="./bin_mz.png" type="Manipulator">
+    <name>Mz Binner</name>
+    
+    <shortDescription>
+        Bins the scans of a mass spectrometry dataset in the m/z domain.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>Bins the individual spectra of all runs using as representative data point either the average, maximum, 
+        mininmum, or sum of the data points that are within the defined bin width.</intro>
+        
+        <option name="Data column">The mass spectrometry data column.</option>
+        <option name="Bin width">The width of the individual m/z bins in amu.</option>
+        <option name="Bin method">The method to calculate the binned value. Max: maximum value; Min: minimum value; Sum: Sum 
+        total of all values in bin; Avg: Average of bin values.</option>
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="Data table">Table containing mass spec data.</inPort>
+        <outPort index="0" name="Binned Samples">Table containing the binned mass spec data.</outPort>
+    </ports>    
+</knimeNode>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 EMBL - European Bioinformatics Institute
+  
+  All rights reserved. This file is part of the MassCascade feature for KNIME.
+  
+  The feature is free software: you can redistribute it and/or modify it under 
+  the terms of the GNU General Public License as published by the Free 
+  Software Foundation, either version 3 of the License, or (at your option) 
+  any later version.
+  
+  The feature is distributed in the hope that it will be useful, but WITHOUT 
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License along with 
+  the feature. If not, see <http://www.gnu.org/licenses/>.
+  
+  Contributors:
+     Stephan Beisken - initial API and implementation
+-->
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="./adduct.png" type="Manipulator">
+	<name>Adduct Finder</name>
+
+	<shortDescription>
+		Detects adducts within the spectra.
+    </shortDescription>
+
+	<fullDescription>
+		<intro>
+			Detects adducts in the spectra within the given mass tolerance and writes the information to the
+			profiles. The node assumes the presence of either M-H (neg. mode) or M+H (pos. mode) signals as anchor point.
+			<br />
+			The adduct information is provided in two columns, the first containing the adduct label, the second
+			containing the exact adduct mass.
+		</intro>
+
+		<option name="Spectrum column">The mass spectrometry spectrum column.</option>
+		<option name="Label column">The ion label.</option>
+		<option name="Value column">The ion mass.</option>
+		<option name="Mass tolerance">The mass tolerance in ppm.</option>
+		<option name="Ion mode">The ion mode.</option>
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Spectrum table">Table containing the spectra data.</inPort>
+		<inPort index="1" name="Adduct table">Table containing the adduct masses and labels.</inPort>
+		<outPort index="0" name="Processed spectrum table">Table containing the the annotated spectra data.</outPort>
+	</ports>
+</knimeNode>

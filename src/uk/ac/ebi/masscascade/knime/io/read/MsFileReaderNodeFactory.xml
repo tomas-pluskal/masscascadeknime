@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 EMBL - European Bioinformatics Institute
+  
+  All rights reserved. This file is part of the MassCascade feature for KNIME.
+  
+  The feature is free software: you can redistribute it and/or modify it under 
+  the terms of the GNU General Public License as published by the Free 
+  Software Foundation, either version 3 of the License, or (at your option) 
+  any later version.
+  
+  The feature is distributed in the hope that it will be useful, but WITHOUT 
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License along with 
+  the feature. If not, see <http://www.gnu.org/licenses/>.
+  
+  Contributors:
+     Stephan Beisken - initial API and implementation
+-->
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="./input.png" type="Source">
+    <name>File Reader</name>
+    
+    <shortDescription>
+        File reader node for Thermo RAW, PSI mzML and CML mass spectrometry files.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>The node iterates over a given directory and reads the containing Thermo RAW, PSI mzML or CML files.
+        Alternatively a single file can be selected. The files are parsed and stored internally as MsDataCell.
+        Broken files, which cannot be parsed, are indicated in the second out port.</intro>  
+              
+        <option name="Directory / File">The directory or file to be read in.</option>
+    </fullDescription>
+    
+    <ports>
+        <outPort index="0" name="Loaded files">Table containing the successfully loaded files.</outPort>
+		<outPort index="1" name="Broken files">Table containing the broken files.</outPort>
+    </ports>    
+</knimeNode>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 EMBL - European Bioinformatics Institute
+  
+  All rights reserved. This file is part of the MassCascade feature for KNIME.
+  
+  The feature is free software: you can redistribute it and/or modify it under 
+  the terms of the GNU General Public License as published by the Free 
+  Software Foundation, either version 3 of the License, or (at your option) 
+  any later version.
+  
+  The feature is distributed in the hope that it will be useful, but WITHOUT 
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License along with 
+  the feature. If not, see <http://www.gnu.org/licenses/>.
+  
+  Contributors:
+     Stephan Beisken - initial API and implementation
+-->
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="./spec_compare.png" type="Manipulator">
+    <name>Obiwarp</name>
+    
+    <shortDescription>
+        Obiwarp alignment for profiles.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>The node executes the Obiwarp binary with the given parameters. The reference profile container is taken from the first row taken in the reference table.</intro>
+        <option name="Peak column">The mass spectrometry profile column.</option>
+        <option name="Reference column">The mass spectrometry reference profile column.</option>
+        <option name="Executable">The absolute path to the Obiwarp executable.</option>
+        <option name="Gap init">The gap penalty for initiating a gap.</option>
+        <option name="Gap ext">The gap penaly for extending a gap.</option>
+        <option name="Response">The responsiveness of warping [0 - 100].</option>
+        <option name="Mass window">The maximum mass window in ppm</option>
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="Profile table">Table containing profile data.</inPort>
+        <inPort index="1" name="Reference profile table">Table containing the profile reference.</inPort>
+        <outPort index="0" name="Aligned profiles">Table containing the aligned profiles.</outPort>
+    </ports>
+</knimeNode>

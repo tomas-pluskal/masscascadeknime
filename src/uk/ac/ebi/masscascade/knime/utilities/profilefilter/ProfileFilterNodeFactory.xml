@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 EMBL - European Bioinformatics Institute
+  
+  All rights reserved. This file is part of the MassCascade feature for KNIME.
+  
+  The feature is free software: you can redistribute it and/or modify it under 
+  the terms of the GNU General Public License as published by the Free 
+  Software Foundation, either version 3 of the License, or (at your option) 
+  any later version.
+  
+  The feature is distributed in the hope that it will be useful, but WITHOUT 
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License along with 
+  the feature. If not, see <http://www.gnu.org/licenses/>.
+  
+  Contributors:
+     Stephan Beisken - initial API and implementation
+-->
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="./filter.png" type="Manipulator">
+	<name>Profile Filter</name>
+
+	<shortDescription>
+		Filters and trims the extracted profiles by the set m/z range, time range, minimum and maximum
+		profile width.
+    </shortDescription>
+
+	<fullDescription>
+		<intro></intro>
+		<option name="Data column">The mass spec data column.</option>
+		<option name="Mass range">The lower and upper m/z limit.</option>
+		<option name="Time range">The lower and upper time limit.</option>
+		<option name="Profile range">The profile range in no. of scans.</option>
+		<option name="Min. profile intensity">The minimum profile intensity.</option>
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Profile table">Table containing the profile data.</inPort>
+		<outPort index="0" name="Processed profile table">Table containing the filtered profiles.</outPort>
+	</ports>
+</knimeNode>

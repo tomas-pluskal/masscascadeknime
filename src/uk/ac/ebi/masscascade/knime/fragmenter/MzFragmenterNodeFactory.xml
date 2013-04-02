@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 EMBL - European Bioinformatics Institute
+  
+  All rights reserved. This file is part of the MassCascade feature for KNIME.
+  
+  The feature is free software: you can redistribute it and/or modify it under 
+  the terms of the GNU General Public License as published by the Free 
+  Software Foundation, either version 3 of the License, or (at your option) 
+  any later version.
+  
+  The feature is distributed in the hope that it will be useful, but WITHOUT 
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License along with 
+  the feature. If not, see <http://www.gnu.org/licenses/>.
+  
+  Contributors:
+     Stephan Beisken - initial API and implementation
+-->
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="./ms_icon.png" type="Other">
+    <name>Molecule Fragmenter</name>
+    
+    <shortDescription>
+        Fragments a molecule using a deterministic algorithm.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>Exhaustive fragmentation of a given molecule. The fragmentation depth and behaviour can be set via the parameters.</intro>
+
+        <option name="CDK Molecule Column">The molecule column.</option>
+        <option name="Tree Depth">The width-first tree depth.</option>
+        <option name="Threads">The number of threads for fragmentation.</option>
+        <option name="Minimum Mass">The lower mass threshold.</option>
+        <option name="Break Aromatic Rings">Ignore / break aromatic rings.</option>
+        <option name="Check MF Redundancy">Retain only fragments with distinct molecular formula.</option>
+        <option name="Calculate Energies">Calculate fragmentation energies.</option>
+        <option name="Break Only Likely Bonds">Break only polarized bonds.</option>
+        <option name="Peak Intensity">The default peak intensity.</option>
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="CDK Molecules">CDK molecules.</inPort>
+        <outPort index="0" name="CDK Molecule Fragments">Input molecules plus fragments.</outPort>
+    </ports>    
+</knimeNode>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 EMBL - European Bioinformatics Institute
+  
+  All rights reserved. This file is part of the MassCascade feature for KNIME.
+  
+  The feature is free software: you can redistribute it and/or modify it under 
+  the terms of the GNU General Public License as published by the Free 
+  Software Foundation, either version 3 of the License, or (at your option) 
+  any later version.
+  
+  The feature is distributed in the hope that it will be useful, but WITHOUT 
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License along with 
+  the feature. If not, see <http://www.gnu.org/licenses/>.
+  
+  Contributors:
+     Stephan Beisken - initial API and implementation
+-->
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="./spec_view.png" type="Visualizer">
+    <name>Spectrum Viewer</name>
+    
+    <shortDescription>
+        Displays all mass spectra from the selected run.
+    </shortDescription>
+    
+    <fullDescription>
+        <intro>The node shows all mass spectra for the selected mass spec sample.
+        The view supports zooming and highlighting of individual data points.</intro>
+        
+        <option name="Data column">The mass spectrometry data column.</option>
+    </fullDescription>
+    
+    <ports>
+        <inPort index="0" name="Data table">Table containing mass spec data.</inPort>
+    </ports>    
+    <views>
+        <view index="0" name="Spectrum">Interactive view to explore the spectra.</view>
+    </views>
+</knimeNode>

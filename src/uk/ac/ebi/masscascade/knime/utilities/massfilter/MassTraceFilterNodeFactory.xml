@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2013 EMBL - European Bioinformatics Institute
+  
+  All rights reserved. This file is part of the MassCascade feature for KNIME.
+  
+  The feature is free software: you can redistribute it and/or modify it under 
+  the terms of the GNU General Public License as published by the Free 
+  Software Foundation, either version 3 of the License, or (at your option) 
+  any later version.
+  
+  The feature is distributed in the hope that it will be useful, but WITHOUT 
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License along with 
+  the feature. If not, see <http://www.gnu.org/licenses/>.
+  
+  Contributors:
+     Stephan Beisken - initial API and implementation
+-->
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="./filter.png" type="Manipulator">
+	<name>Mass Filter</name>
+
+	<shortDescription>
+		Removes extracted profiles from the profile container using an external mass list.
+    </shortDescription>
+
+	<fullDescription>
+		<intro>Contaminants, solvents and known impurities can be removed from
+			a profile collection given a list of exact
+			molecular ion masses.</intro>
+
+		<option name="Profile column">The mass spectrometry profile column.</option>
+		<option name="Mass column">The column containing exact ion masses.</option>
+		<option name="Mass tolerance">Mass tolerance used for the profile removal in ppm.</option>
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Profile table">Table containing the profile data.</inPort>
+		<inPort index="1" name="Mass table">Table containing exact ion masses.</inPort>
+		<outPort index="0" name="Processed profile table">Table containing the filtered profiles.</outPort>
+	</ports>
+</knimeNode>

@@ -67,7 +67,7 @@ public class MsFastDtwNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.REFERENCE_RAW_CONTAINER, refFile);
 		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
 		
-		return getDataTableSpec(data, Parameter.DATA_COLUMN, Parameter.DATA_COLUMN, true);
+		return getDataTableSpec(data, Parameter.DATA_COLUMN, Parameter.DATA_COLUMN, false);
 	}
 
 	/**

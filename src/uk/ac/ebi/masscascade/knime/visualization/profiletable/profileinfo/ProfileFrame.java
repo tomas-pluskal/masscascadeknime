@@ -79,6 +79,7 @@ public class ProfileFrame extends JFrame {
 	private JLabel rtLabel;
 	private JLabel mzLabel;
 	private JLabel areaLabel;
+	private JLabel msnLabel;
 	private JLabel spectrumLabel;
 
 	private JPanel profilePanel;
@@ -163,6 +164,13 @@ public class ProfileFrame extends JFrame {
 		c.gridx = 1;
 		areaLabel = new JLabel();
 		infoPanel.add(areaLabel, c);
+		c.gridx = 0;
+		c.gridy++;
+		
+		infoPanel.add(new JLabel("MSn IDs: "), c);
+		c.gridx = 1;
+		msnLabel = new JLabel();
+		infoPanel.add(msnLabel, c);
 		c.gridx = 0;
 		c.gridy++;
 		
@@ -303,6 +311,14 @@ public class ProfileFrame extends JFrame {
 		mzLabel.setText(MathUtils.THREE_DECIMAL_FORMAT.format(profile.getMzIntDp().x));
 		rtLabel.setText(MathUtils.THREE_DECIMAL_FORMAT.format(profile.getRetentionTime()));
 		areaLabel.setText(MathUtils.SCIENTIFIC_FORMAT.format(profile.getArea()));
+		Map<Integer, Set<Integer>> msnMap = profile.getMsnScans();
+		String msnIds = "";
+		for (int msn : msnMap.keySet()) {
+			for (int childId : msnMap.get(msn)) {
+				msnIds += "MSn:" + (msn + 2) + " = id:" + childId;
+			}
+		}
+		msnLabel.setText(msnIds);
 		
 		if (id != null) spectrumLabel.setText(id);
 

@@ -29,8 +29,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -255,18 +253,6 @@ public class ProfileTableNodeView extends NodeView<ViewerModel> {
 		if (profileContainer != null && profileContainer.size() == 0) {
 			return;
 		}
-		
-		for (Profile profile : profileContainer) {
-			Map<Integer, Set<Integer>> msnMap = profile.getMsnScans();
-			String msnIds = "";
-			for (int msn : msnMap.keySet()) {
-				for (int childId : msnMap.get(msn)) {
-					msnIds += "MSn:" + (msn + 2) + " = id:" + childId;
-				}
-			}
-			if (!msnIds.isEmpty()) System.out.println(msnIds);
-		}
-		
 		
 		LazyProfileTableModel peakTable = new LazyProfileTableModel(lazyList, profileTable);
 		profileTable.setModel(peakTable);

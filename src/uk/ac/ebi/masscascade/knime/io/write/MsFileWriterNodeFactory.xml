@@ -24,12 +24,11 @@
 	<name>File Writer</name>
 
 	<shortDescription>
-		Writes the mass spectrometry raw data, profiles, or pseudospectra to disk in CML format.
+		Writes the identified small molecules out in mzTab format.
     </shortDescription>
 
 	<fullDescription>
-		<intro>The node writes all mass spectrometry data container to disk in CML format. The user can select any combination
-			of raw data, profiles, and pseudospectra to define what will be written disk.</intro>
+		<intro>The node writes all identified small molecules out in mzTab format.</intro>
 
 		<option name="Directory">The output directory.</option>
 		<option name="Data column">The mass spectrometry data column.</option>
@@ -38,6 +37,6 @@
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing mass spec data.</inPort>
+		<inPort index="0" name="Data table">Table containing pofile data.</inPort>
 	</ports>
 </knimeNode>

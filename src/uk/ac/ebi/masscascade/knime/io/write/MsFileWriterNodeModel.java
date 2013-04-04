@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.io.write;
 
@@ -26,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
+import org.knime.core.data.DataCell;
 import org.knime.core.data.DataRow;
 import org.knime.core.data.DataTableSpec;
 import org.knime.core.node.BufferedDataTable;
@@ -39,11 +37,11 @@ import org.knime.core.node.NodeSettingsWO;
 import org.knime.core.util.ThreadPool;
 
 import uk.ac.ebi.masscascade.interfaces.container.Container;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
-import uk.ac.ebi.masscascade.io.CmlWriter;
+import uk.ac.ebi.masscascade.io.MzTabWriter;
 import uk.ac.ebi.masscascade.knime.NodePlugin;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
-import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
+import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileCell;
+import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumCell;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Parameter;
@@ -62,7 +60,6 @@ public class MsFileWriterNodeModel extends NodeModel {
 	 * Constructor for the node model.
 	 */
 	protected MsFileWriterNodeModel() {
-
 		super(1, 0);
 	}
 
@@ -74,7 +71,7 @@ public class MsFileWriterNodeModel extends NodeModel {
 			throws Exception {
 
 		DataTableSpec inSpec = inData[0].getDataTableSpec();
-		final int colIndex = inSpec.findColumnIndex(settings.getColumnName(Parameter.DATA_COLUMN));
+		final int colIndex = inSpec.findColumnIndex(settings.getColumnName(Parameter.PEAK_COLUMN));
 
 		final List<Future<Container>> tasks = new ArrayList<Future<Container>>();
 
@@ -93,12 +90,13 @@ public class MsFileWriterNodeModel extends NodeModel {
 				exec.setProgress((double) currentRow / rowCount, "processing rows " + (currentRow - threadCounter)
 						+ " - " + currentRow);
 
-				RawContainer rawFile = ((MsValue) row.getCell(colIndex)).getMsDataValue();
-
 				ParameterMap params = new ParameterMap();
-				params.put(Parameter.RAW_CONTAINER, rawFile);
+				DataCell cell = row.getCell(colIndex);
+				if (cell instanceof ProfileCell) params.put(Parameter.PROFILE_CONTAINER, ((ProfileCell) cell).getPeakDataValue());
+				else if (cell instanceof SpectrumCell) params.put(Parameter.SPECTRUM_CONTAINER, ((SpectrumCell) cell).getSpectrumDataValue());
 				params.put(Parameter.OUTPUT_DIRECTORY, path);
-				CmlWriter task = new CmlWriter(params);
+				
+				MzTabWriter task = new MzTabWriter(params);
 				tasks.add(threadPool.enqueue(task));
 			}
 			if (threadPool.getRunningThreads() == threadNumber) {
@@ -110,6 +108,8 @@ public class MsFileWriterNodeModel extends NodeModel {
 			threadCounter++;
 
 			threadPool.waitForTermination();
+		} catch(Exception exception) {
+			exception.printStackTrace();
 		} finally {
 			threadPool.interruptAll();
 			threadPool.shutdown();
@@ -128,7 +128,7 @@ public class MsFileWriterNodeModel extends NodeModel {
 			settings.setTextOption(Parameter.OUTPUT_DIRECTORY, "" + Parameter.OUTPUT_DIRECTORY.getDefaultValue());
 		}
 
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.DATA_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN, Parameter.SPECTRUM_COLUMN);
 		return new DataTableSpec[] {};
 	}
 
@@ -137,10 +137,7 @@ public class MsFileWriterNodeModel extends NodeModel {
 	 */
 	@Override
 	protected void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException {
-
-		Settings tmpSettings = new DefaultSettings();
-		tmpSettings.loadSettings(settings);
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
+		// do nothing
 	}
 
 	@Override

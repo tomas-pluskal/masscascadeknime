@@ -27,7 +27,8 @@ import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 import org.knime.core.node.util.FilesHistoryPanel;
 
-import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
+import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -43,7 +44,6 @@ public class MsFileWriterNodeFactory extends NodeFactory<MsFileWriterNodeModel> 
 	 */
 	@Override
 	public MsFileWriterNodeModel createNodeModel() {
-
 		return new MsFileWriterNodeModel();
 	}
 
@@ -52,7 +52,6 @@ public class MsFileWriterNodeFactory extends NodeFactory<MsFileWriterNodeModel> 
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -61,7 +60,6 @@ public class MsFileWriterNodeFactory extends NodeFactory<MsFileWriterNodeModel> 
 	 */
 	@Override
 	public NodeView<MsFileWriterNodeModel> createNodeView(final int viewIndex, final MsFileWriterNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -70,7 +68,6 @@ public class MsFileWriterNodeFactory extends NodeFactory<MsFileWriterNodeModel> 
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 
@@ -82,7 +79,7 @@ public class MsFileWriterNodeFactory extends NodeFactory<MsFileWriterNodeModel> 
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
+		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class, SpectrumValue.class);
 
 		FilesHistoryPanel fileName = new FilesHistoryPanel(this.getClass().getPackage().toString());
 		fileName.setSelectMode(JFileChooser.DIRECTORIES_ONLY);

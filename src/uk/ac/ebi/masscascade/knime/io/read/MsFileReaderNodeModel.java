@@ -181,9 +181,6 @@ public class MsFileReaderNodeModel extends NodeModel {
 			} else if (suffix.equalsIgnoreCase(Constants.FILE_FORMATS.MZML.name())) {
 				return new PsiMzmlReader(params);
 			} 
-//			else if (suffix.equalsIgnoreCase(Constants.FILE_FORMATS.CML.name())) {
-//				return new CmlReader(params);
-//			}
 		} catch (Exception exception) {
 			throw new IOException(fileName + ". " + exception.getMessage());
 		}

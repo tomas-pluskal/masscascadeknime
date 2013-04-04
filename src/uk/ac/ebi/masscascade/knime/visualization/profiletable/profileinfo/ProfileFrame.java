@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -79,7 +80,7 @@ public class ProfileFrame extends JFrame {
 	private JLabel rtLabel;
 	private JLabel mzLabel;
 	private JLabel areaLabel;
-	private JLabel msnLabel;
+	private JComboBox<String> msnLabel;
 	private JLabel spectrumLabel;
 
 	private JPanel profilePanel;
@@ -169,7 +170,8 @@ public class ProfileFrame extends JFrame {
 		
 		infoPanel.add(new JLabel("MSn IDs: "), c);
 		c.gridx = 1;
-		msnLabel = new JLabel();
+		msnLabel = new JComboBox<String>();
+		msnLabel.setBorder(null);
 		infoPanel.add(msnLabel, c);
 		c.gridx = 0;
 		c.gridy++;
@@ -315,11 +317,11 @@ public class ProfileFrame extends JFrame {
 		String msnIds = "";
 		for (int msn : msnMap.keySet()) {
 			for (int childId : msnMap.get(msn)) {
-				msnIds += "MSn:" + (msn + 2) + " = id:" + childId;
+				msnIds = "MSn:" + (msn + 2) + " = id:" + childId + " ";
+				msnLabel.addItem(msnIds);
 			}
 		}
-		msnLabel.setText(msnIds);
-		
+
 		if (id != null) spectrumLabel.setText(id);
 
 		DataSet profileData = new DataSet.Builder(profile.getPaddedData(Constants.PADDING).getXZSlice(), "").color(Color.BLUE).build();

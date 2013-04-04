@@ -37,7 +37,6 @@ public class MsFileReaderNodeFactory extends NodeFactory<MsFileReaderNodeModel> 
 	 */
 	@Override
 	public MsFileReaderNodeModel createNodeModel() {
-
 		return new MsFileReaderNodeModel();
 	}
 
@@ -46,7 +45,6 @@ public class MsFileReaderNodeFactory extends NodeFactory<MsFileReaderNodeModel> 
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -55,7 +53,6 @@ public class MsFileReaderNodeFactory extends NodeFactory<MsFileReaderNodeModel> 
 	 */
 	@Override
 	public NodeView<MsFileReaderNodeModel> createNodeView(final int viewIndex, final MsFileReaderNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -64,7 +61,6 @@ public class MsFileReaderNodeFactory extends NodeFactory<MsFileReaderNodeModel> 
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

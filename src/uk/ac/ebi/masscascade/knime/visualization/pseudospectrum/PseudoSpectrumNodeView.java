@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.visualization.pseudospectrum;
 
@@ -59,6 +56,8 @@ import org.knime.core.data.DataRow;
 import org.knime.core.node.NodeView;
 import org.knime.core.node.tableview.TableContentModel;
 import org.knime.core.node.tableview.TableView;
+
+import com.google.common.collect.Lists;
 
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum;
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum.PAINTERS;
@@ -154,9 +153,8 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 			public void actionPerformed(ActionEvent arg0) {
 
 				JOptionPaneOneInput inputPane = new JOptionPaneOneInput();
-				if (inputPane.getStatus() != JOptionPane.OK_OPTION) {
+				if (inputPane.getStatus() != JOptionPane.OK_OPTION)
 					return;
-				}
 
 				final int id = inputPane.getId();
 				SwingUtilities.invokeLater(new RunIdSearch(id));
@@ -171,9 +169,8 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 			public void actionPerformed(ActionEvent e) {
 
 				JOptionPaneTwoInput inputPane = new JOptionPaneTwoInput();
-				if (inputPane.getStatus() != JOptionPane.OK_OPTION) {
+				if (inputPane.getStatus() != JOptionPane.OK_OPTION)
 					return;
-				}
 
 				final double mass = inputPane.getMz();
 				final double ppm = inputPane.getPpm();
@@ -234,6 +231,7 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 
 					public void run() {
 
+						progressPanel = new InfiniteProgressPanel();
 						progressPanel.start();
 						final GroupProfileTableModel tableModel = new GroupProfileTableModel();
 						Thread tableLoader = new Thread(new Runnable() {
@@ -241,16 +239,19 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 							public void run() {
 
 								int rowNumber = tableView.getContentTable().getSelectedRows()[0];
-								DataRow dataRow = NodeUtils.getDataRow(getNodeModel().getInternalTables()[0], rowNumber);
+								DataRow dataRow = NodeUtils
+										.getDataRow(getNodeModel().getInternalTables()[0], rowNumber);
 								spectrumContainer = ((SpectrumValue) dataRow.getCell(column)).getSpectrumDataValue();
 								getSpectrumTableModel(tableModel);
-								
+
 								progressPanel.stop();
 							}
 						}, "TableLoader");
 						tableLoader.start();
-						while (tableLoader.isAlive()) {};
-						
+						while (tableLoader.isAlive()) {
+						}
+						;
+
 						spectraTable.clearSelection();
 						spectraTable.setModel(tableModel);
 						spectraTable.revalidate();
@@ -529,6 +530,7 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 
 		public void run() {
 
+			progressPanel = new InfiniteProgressPanel();
 			progressPanel.start();
 			final List<Integer> resultList = new ArrayList<Integer>();
 			final Thread tableLoader = new Thread(new Runnable() {
@@ -536,7 +538,7 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 				public void run() {
 
 					Range range = MathUtils.getRangeFromPPM(mass, ppm);
-					
+
 					if (spectrumContainer != null) {
 						for (Spectrum spectrum : spectrumContainer) {
 							for (XYPoint dp : spectrum.getData()) {
@@ -550,8 +552,8 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 				}
 			}, "TableLoader");
 			tableLoader.start();
-			while(tableLoader.isAlive()) {}
-			
+			while (tableLoader.isAlive()) {}
+
 			int resultIndex = -1;
 			if (resultList.size() == 1) {
 				resultIndex = resultList.get(0);
@@ -559,8 +561,7 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 				String[] comboBoxStrings = new String[resultList.size()];
 				int k = 0;
 				for (int i : resultList) {
-					double rt = MathUtils.roundToThreeDecimals(spectrumContainer.getSpectrum(i)
-							.getRetentionTime());
+					double rt = MathUtils.roundToThreeDecimals(spectrumContainer.getSpectrum(i).getRetentionTime());
 					comboBoxStrings[k++] = "id: " + i + " -  rt:" + rt;
 				}
 				JOptionPaneComboBox inputPane = new JOptionPaneComboBox(comboBoxStrings);
@@ -575,8 +576,7 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 			for (int row = 0; row < spectraTable.getRowCount(); row++) {
 				if (resultIndex == (Integer) spectraTable.getModel().getValueAt(row, 0)) {
 					spectraTable.getSelectionModel().setSelectionInterval(row, row);
-					spectraTable.scrollRectToVisible(new Rectangle(spectraTable.getCellRect(resultIndex, 0,
-							false)));
+					spectraTable.scrollRectToVisible(new Rectangle(spectraTable.getCellRect(resultIndex, 0, false)));
 				}
 			}
 		}
@@ -587,42 +587,46 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 		private int id;
 
 		public RunIdSearch(int id) {
-
 			this.id = id;
 		}
 
 		public void run() {
 
+			progressPanel = new InfiniteProgressPanel();
 			progressPanel.start();
+			final List<Integer> specIndex = Lists.newArrayList();
 			Thread tableLoader = new Thread(new Runnable() {
 
 				public void run() {
 
-					int specIndex = -1;
-
 					if (spectrumContainer != null) {
 						for (Spectrum spectrum : spectrumContainer) {
 							if (spectrum.getProfile(id) != null) {
-								specIndex = spectrum.getIndex();
+								specIndex.add(spectrum.getIndex());
 								break;
 							}
 						}
 					}
 
+					// the inifite progress panel 'freezes' the JFrame if not set to null after termination, why!?
 					progressPanel.stop();
-
-					if (specIndex == 1) {
-						for (int row = 0; row < spectraTable.getRowCount(); row++) {
-							if (specIndex == (Integer) spectraTable.getModel().getValueAt(row, 0)) {
-								spectraTable.getSelectionModel().setSelectionInterval(row, row);
-								spectraTable.scrollRectToVisible(new Rectangle(spectraTable.getCellRect(row, 0,
-										false)));
-							}
-						}
-					}
+					progressPanel = null;
+					
 				}
 			}, "TableLoader");
+
 			tableLoader.start();
+			while (tableLoader.isAlive()) {}
+
+			if (!specIndex.isEmpty()) {
+				for (int row = 0; row < spectraTable.getRowCount(); row++) {
+					if (specIndex.get(0) == (Integer) spectraTable.getModel().getValueAt(row, 0)) {
+						spectraTable.getSelectionModel().setSelectionInterval(row, row);
+						spectraTable.scrollRectToVisible(new Rectangle(spectraTable.getCellRect(specIndex.get(0), 0,
+								false)));
+					}
+				}
+			}
 		}
 	}
 }

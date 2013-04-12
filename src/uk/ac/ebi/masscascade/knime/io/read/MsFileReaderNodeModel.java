@@ -166,7 +166,8 @@ public class MsFileReaderNodeModel extends NodeModel {
 		if (fileName.lastIndexOf(".") <= 0)
 			throw new IOException("File prefix missing: " + fileName);
 
-		String name = fileName.substring(0, fileName.lastIndexOf("."));
+		// "~" as global delimiter: file name ~ task1 - task2 - ...
+		String name = fileName.substring(0, fileName.lastIndexOf(".")) + "~";
 		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 
 		ParameterMap params = new ParameterMap();

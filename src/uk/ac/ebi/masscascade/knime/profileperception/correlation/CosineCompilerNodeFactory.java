@@ -41,7 +41,6 @@ public class CosineCompilerNodeFactory extends NodeFactory<CosineCompilerNodeMod
 	 */
 	@Override
 	public CosineCompilerNodeModel createNodeModel() {
-
 		return new CosineCompilerNodeModel();
 	}
 
@@ -50,7 +49,6 @@ public class CosineCompilerNodeFactory extends NodeFactory<CosineCompilerNodeMod
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -59,7 +57,6 @@ public class CosineCompilerNodeFactory extends NodeFactory<CosineCompilerNodeMod
 	 */
 	@Override
 	public NodeView<CosineCompilerNodeModel> createNodeView(final int viewIndex, final CosineCompilerNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -68,7 +65,6 @@ public class CosineCompilerNodeFactory extends NodeFactory<CosineCompilerNodeMod
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

@@ -24,12 +24,12 @@
     <name>File Reader</name>
     
     <shortDescription>
-        File reader node for Thermo RAW, PSI mzML and CML mass spectrometry files.
+        File reader node for centroid Thermo RAW and PSI mzML mass spectrometry files.
     </shortDescription>
     
     <fullDescription>
-        <intro>The node iterates over a given directory and reads the containing Thermo RAW, PSI mzML or CML files.
-        Alternatively a single file can be selected. The files are parsed and stored internally as MsDataCell.
+        <intro>The node iterates over a given directory and reads the containing Thermo RAW and PSI mzML files.
+        Alternatively multiples files can be selected directly. The files are parsed and stored internally as MsCells.
         Broken files, which cannot be parsed, are indicated in the second out port.</intro>  
               
         <option name="Directory / File">The directory or file to be read in.</option>

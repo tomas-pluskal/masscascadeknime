@@ -24,12 +24,12 @@
     <name>Mz Binner</name>
     
     <shortDescription>
-        Bins the scans of a mass spectrometry dataset in the m/z domain.
+        Bins m/z-intensity data points of mass spectrometry data scans in the m/z domain.
     </shortDescription>
     
     <fullDescription>
-        <intro>Bins the individual spectra of all runs using as representative data point either the average, maximum, 
-        mininmum, or sum of the data points that are within the defined bin width.</intro>
+        <intro>Bins m/z-intensity data points of mass spectrometry data scans in the m/z domain using equidistant binning. 
+        Binned data points result from either the average, maximum, minimum, or sum of the data points that fall into a bin.</intro>
         
         <option name="Data column">The mass spectrometry data column.</option>
         <option name="Bin width">The width of the individual m/z bins in amu.</option>
@@ -38,7 +38,7 @@
     </fullDescription>
     
     <ports>
-        <inPort index="0" name="Data table">Table containing mass spec data.</inPort>
-        <outPort index="0" name="Binned Samples">Table containing the binned mass spec data.</outPort>
+        <inPort index="0" name="Data table">Table containing mass spec data (MS Data).</inPort>
+        <outPort index="0" name="Binned Samples">Table containing binned mass spec data (MS Data).</outPort>
     </ports>    
 </knimeNode>

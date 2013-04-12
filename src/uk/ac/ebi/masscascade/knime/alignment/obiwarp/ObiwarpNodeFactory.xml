@@ -33,14 +33,14 @@
         <option name="Reference column">The mass spectrometry reference profile column.</option>
         <option name="Executable">The absolute path to the Obiwarp executable.</option>
         <option name="Gap init">The gap penalty for initiating a gap.</option>
-        <option name="Gap ext">The gap penaly for extending a gap.</option>
+        <option name="Gap ext">The gap penalty for extending a gap.</option>
         <option name="Response">The responsiveness of warping [0 - 100].</option>
         <option name="Mass window">The maximum mass window in ppm</option>
     </fullDescription>
     
     <ports>
-        <inPort index="0" name="Profile table">Table containing profile data.</inPort>
-        <inPort index="1" name="Reference profile table">Table containing the profile reference.</inPort>
-        <outPort index="0" name="Aligned profiles">Table containing the aligned profiles.</outPort>
+        <inPort index="0" name="Profile table">Table containing profile data (Peak column).</inPort>
+        <inPort index="1" name="Reference profile table">Table containing the profile reference (Peak column).</inPort>
+        <outPort index="0" name="Aligned profiles">Table containing the aligned profiles (Peak column).</outPort>
     </ports>
 </knimeNode>

@@ -41,7 +41,6 @@ public class MsBackgroundRemoverNodeFactory extends NodeFactory<MsBackgroundRemo
 	 */
 	@Override
 	public MsBackgroundRemoverNodeModel createNodeModel() {
-
 		return new MsBackgroundRemoverNodeModel();
 	}
 
@@ -50,7 +49,6 @@ public class MsBackgroundRemoverNodeFactory extends NodeFactory<MsBackgroundRemo
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -60,7 +58,6 @@ public class MsBackgroundRemoverNodeFactory extends NodeFactory<MsBackgroundRemo
 	@Override
 	public NodeView<MsBackgroundRemoverNodeModel> createNodeView(final int viewIndex,
 			final MsBackgroundRemoverNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -69,7 +66,6 @@ public class MsBackgroundRemoverNodeFactory extends NodeFactory<MsBackgroundRemo
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

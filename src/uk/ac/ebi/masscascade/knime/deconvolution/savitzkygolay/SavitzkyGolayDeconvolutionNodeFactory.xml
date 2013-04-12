@@ -28,17 +28,18 @@
     </shortDescription>
     
     <fullDescription>
-        <intro>Performs deconvolution using the first and second derivative of the polynomial to determine the 
+        <intro>Performs deconvolution using the first and second derivative of a polynomial to determine the 
         boundaries and maximum intensities of the individual components (peaks) of the mass trace.</intro>
         
         <option name="Peak column">Mass spectrometry peak column</option>
-		<option name="Time window">Minimum peak width of the individual deconvoluted components in the time domain [number of scans]</option>
+		<option name="Scan window">Minimum peak width of the individual deconvoluted components in the time domain [number of scans]</option>
 		<option name="Minimum Intensity">Minimum intensity of the individual deconvoluted comopnents.</option>
+		<option name="Filter Level">The filter level of the SG function [1-12].</option>
 		<option name="Derivative Threshold">Minimum relative intensity of the second derivative [0-1].</option>
     </fullDescription>
     
     <ports>
-        <inPort index="0" name="Peak table">Table containing the peak data.</inPort>
-		<outPort index="0" name="Processed Peak table">Table containing the deconvoluted peak data.</outPort>
+        <inPort index="0" name="Peak table">Table containing peak data (Peak column).</inPort>
+		<outPort index="0" name="Processed Peak table">Table containing deconvoluted peak data (Peak column).</outPort>
     </ports>    
 </knimeNode>

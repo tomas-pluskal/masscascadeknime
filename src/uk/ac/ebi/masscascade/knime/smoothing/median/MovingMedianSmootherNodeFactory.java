@@ -41,7 +41,6 @@ public class MovingMedianSmootherNodeFactory extends NodeFactory<MovingMedianSmo
 	 */
 	@Override
 	public MovingMedianSmootherNodeModel createNodeModel() {
-
 		return new MovingMedianSmootherNodeModel();
 	}
 
@@ -50,7 +49,6 @@ public class MovingMedianSmootherNodeFactory extends NodeFactory<MovingMedianSmo
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -60,7 +58,6 @@ public class MovingMedianSmootherNodeFactory extends NodeFactory<MovingMedianSmo
 	@Override
 	public NodeView<MovingMedianSmootherNodeModel> createNodeView(final int viewIndex,
 			final MovingMedianSmootherNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -69,7 +66,6 @@ public class MovingMedianSmootherNodeFactory extends NodeFactory<MovingMedianSmo
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

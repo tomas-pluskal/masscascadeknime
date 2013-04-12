@@ -43,7 +43,6 @@ public class BiehmanDeconvolutionNodeFactory extends NodeFactory<BiehmanDeconvol
 	 */
 	@Override
 	public BiehmanDeconvolutionNodeModel createNodeModel() {
-
 		return new BiehmanDeconvolutionNodeModel();
 	}
 
@@ -52,7 +51,6 @@ public class BiehmanDeconvolutionNodeFactory extends NodeFactory<BiehmanDeconvol
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -62,7 +60,6 @@ public class BiehmanDeconvolutionNodeFactory extends NodeFactory<BiehmanDeconvol
 	@Override
 	public NodeView<BiehmanDeconvolutionNodeModel> createNodeView(final int viewIndex,
 			final BiehmanDeconvolutionNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -71,7 +68,6 @@ public class BiehmanDeconvolutionNodeFactory extends NodeFactory<BiehmanDeconvol
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

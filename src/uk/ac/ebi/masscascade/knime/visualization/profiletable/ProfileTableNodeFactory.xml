@@ -30,7 +30,7 @@
 	<fullDescription>
 		<intro>Visualises a profile set as table including peak id,
 			retention time, signal width, mass, mass deviation,
-			area and shape of the peak.</intro>
+			area and shape of the peak. Double clicking on a single profile opens a window with profile annotations.</intro>
 
 		<option name="Profile column">The mass spectrometry profile column.</option>
 	</fullDescription>

@@ -33,6 +33,9 @@
 			values are extracted: id, rt, rt width, m/z, intensity, std. deviation, and area.</intro>
 
 		<option name="Profile column">The mass spectrometry profile column.</option>
+		<option name="Select profile">The profile id to be extracted. If a profile from a spectrum 
+		container is chosen, all profiles in that spectrum are extracted. If left blank, all profiles 
+		are extracted.</option>
 	</fullDescription>
 
 	<ports>

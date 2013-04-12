@@ -40,7 +40,6 @@ public class ScanFilterNodeFactory extends NodeFactory<ScanFilterNodeModel> {
 	 */
 	@Override
 	public ScanFilterNodeModel createNodeModel() {
-
 		return new ScanFilterNodeModel();
 	}
 
@@ -49,7 +48,6 @@ public class ScanFilterNodeFactory extends NodeFactory<ScanFilterNodeModel> {
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -58,7 +56,6 @@ public class ScanFilterNodeFactory extends NodeFactory<ScanFilterNodeModel> {
 	 */
 	@Override
 	public NodeView<ScanFilterNodeModel> createNodeView(final int viewIndex, final ScanFilterNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -67,7 +64,6 @@ public class ScanFilterNodeFactory extends NodeFactory<ScanFilterNodeModel> {
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

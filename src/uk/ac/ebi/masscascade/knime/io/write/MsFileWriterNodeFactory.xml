@@ -21,10 +21,10 @@
 -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./output.png" type="Sink">
-	<name>File Writer</name>
+	<name>mzTab Writer (alpha version)</name>
 
 	<shortDescription>
-		Writes the identified small molecules out in mzTab format.
+		Writes identified small molecules out in mzTab format.
     </shortDescription>
 
 	<fullDescription>
@@ -37,6 +37,6 @@
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing pofile data.</inPort>
+		<inPort index="0" name="Data table">Table containing profile data.</inPort>
 	</ports>
 </knimeNode>

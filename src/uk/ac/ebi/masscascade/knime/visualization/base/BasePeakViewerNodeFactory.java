@@ -42,7 +42,6 @@ public class BasePeakViewerNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public ViewerModel createNodeModel() {
-
 		return new ViewerModel();
 	}
 
@@ -51,7 +50,6 @@ public class BasePeakViewerNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 1;
 	}
 
@@ -60,7 +58,6 @@ public class BasePeakViewerNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public NodeView<ViewerModel> createNodeView(final int viewIndex, final ViewerModel nodeModel) {
-
 		return new BasePeakViewerNodeView(nodeModel);
 	}
 
@@ -69,7 +66,6 @@ public class BasePeakViewerNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

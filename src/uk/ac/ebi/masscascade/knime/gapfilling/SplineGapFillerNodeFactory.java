@@ -41,7 +41,6 @@ public class SplineGapFillerNodeFactory extends NodeFactory<SplineGapFillerNodeM
 	 */
 	@Override
 	public SplineGapFillerNodeModel createNodeModel() {
-
 		return new SplineGapFillerNodeModel();
 	}
 
@@ -50,7 +49,6 @@ public class SplineGapFillerNodeFactory extends NodeFactory<SplineGapFillerNodeM
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -60,7 +58,6 @@ public class SplineGapFillerNodeFactory extends NodeFactory<SplineGapFillerNodeM
 	@Override
 	public NodeView<SplineGapFillerNodeModel> createNodeView(final int viewIndex,
 			final SplineGapFillerNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -69,7 +66,6 @@ public class SplineGapFillerNodeFactory extends NodeFactory<SplineGapFillerNodeM
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

@@ -41,7 +41,6 @@ public class MsBinnerRtNodeFactory extends NodeFactory<MsBinnerRtNodeModel> {
 	 */
 	@Override
 	public MsBinnerRtNodeModel createNodeModel() {
-
 		return new MsBinnerRtNodeModel();
 	}
 
@@ -50,7 +49,6 @@ public class MsBinnerRtNodeFactory extends NodeFactory<MsBinnerRtNodeModel> {
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -59,7 +57,6 @@ public class MsBinnerRtNodeFactory extends NodeFactory<MsBinnerRtNodeModel> {
 	 */
 	@Override
 	public NodeView<MsBinnerRtNodeModel> createNodeView(final int viewIndex, final MsBinnerRtNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -68,7 +65,6 @@ public class MsBinnerRtNodeFactory extends NodeFactory<MsBinnerRtNodeModel> {
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

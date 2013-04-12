@@ -40,7 +40,6 @@ public class WaveletCompilerNodeFactory extends NodeFactory<WaveletCompilerNodeM
 	 */
 	@Override
 	public WaveletCompilerNodeModel createNodeModel() {
-
 		return new WaveletCompilerNodeModel();
 	}
 
@@ -49,7 +48,6 @@ public class WaveletCompilerNodeFactory extends NodeFactory<WaveletCompilerNodeM
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -59,7 +57,6 @@ public class WaveletCompilerNodeFactory extends NodeFactory<WaveletCompilerNodeM
 	@Override
 	public NodeView<WaveletCompilerNodeModel> createNodeView(final int viewIndex,
 			final WaveletCompilerNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -68,7 +65,6 @@ public class WaveletCompilerNodeFactory extends NodeFactory<WaveletCompilerNodeM
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

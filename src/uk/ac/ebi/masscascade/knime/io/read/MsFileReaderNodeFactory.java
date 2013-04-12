@@ -69,7 +69,6 @@ public class MsFileReaderNodeFactory extends NodeFactory<MsFileReaderNodeModel> 
 	 */
 	@Override
 	public NodeDialogPane createNodeDialogPane() {
-
 		return new MsFileReaderNodeDialog();
 	}
 }

@@ -24,15 +24,17 @@
 	<name>Profile Matrix</name>
 
 	<shortDescription>
-		Node to extract profile information from the profile container. All profile details are converted into a table matrix,
-		where all profile container are shown in succession.
+		Compiles a profile matrix from all samples.
     </shortDescription>
 
 	<fullDescription>
-		<intro>Extracts the peak information from every peak data cell and converts it into tabular format. The following
-			values are extracted: id, rt, rt width, m/z, intensity, std. deviation, and area.</intro>
+		<intro>Compiles a profile matrix from all samples. The resulting table can be used 
+		with generic KNIME nodes.</intro>
 
 		<option name="Profile column">The mass spectrometry profile column.</option>
+		<option name="m/z window">The m/z window for matching profiles across samples [ppm].</option>
+		<option name="Time window">The time window for matching profiles across samples [s].</option>
+		<option name="Classic matrix">Whether a simple sample to m/z matrix is preferred.</option>
 	</fullDescription>
 
 	<ports>

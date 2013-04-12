@@ -41,7 +41,6 @@ public class SavitzkyGolayDeconvolutionNodeFactory extends NodeFactory<SavitzkyG
 	 */
 	@Override
 	public SavitzkyGolayDeconvolutionNodeModel createNodeModel() {
-
 		return new SavitzkyGolayDeconvolutionNodeModel();
 	}
 
@@ -50,7 +49,6 @@ public class SavitzkyGolayDeconvolutionNodeFactory extends NodeFactory<SavitzkyG
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -60,7 +58,6 @@ public class SavitzkyGolayDeconvolutionNodeFactory extends NodeFactory<SavitzkyG
 	@Override
 	public NodeView<SavitzkyGolayDeconvolutionNodeModel> createNodeView(final int viewIndex,
 			final SavitzkyGolayDeconvolutionNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -69,7 +66,6 @@ public class SavitzkyGolayDeconvolutionNodeFactory extends NodeFactory<SavitzkyG
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

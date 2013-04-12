@@ -36,11 +36,12 @@
         
         </intro>
         <option name="Data column">The mass spectrometry data column.</option>
+        <option name="Time window">The time window for the alignment in seconds.</option>
     </fullDescription>
     
     <ports>
-        <inPort index="0" name="Data table">Table containing mass spec data.</inPort>
-        <inPort index="1" name="Reference table">Table containing the mass spec reference.</inPort>
-        <outPort index="0" name="Aligned samples">Table containing the aligned mass spec data.</outPort>
+        <inPort index="0" name="Data table">Table containing mass spec data (MS Data).</inPort>
+        <inPort index="1" name="Reference table">Table containing the mass spec reference (MS Data).</inPort>
+        <outPort index="0" name="Aligned samples">Table containing the aligned mass spec data (MS Data).</outPort>
     </ports>
 </knimeNode>

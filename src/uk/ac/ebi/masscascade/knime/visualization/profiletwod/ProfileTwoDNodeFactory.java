@@ -41,7 +41,6 @@ public class ProfileTwoDNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public ViewerModel createNodeModel() {
-
 		return new ViewerModel(Parameter.PEAK_COLUMN);
 	}
 
@@ -50,7 +49,6 @@ public class ProfileTwoDNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 1;
 	}
 
@@ -59,7 +57,6 @@ public class ProfileTwoDNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public NodeView<ViewerModel> createNodeView(final int viewIndex, final ViewerModel nodeModel) {
-
 		return new ProfileTwoDNodeView(nodeModel);
 	}
 
@@ -68,7 +65,6 @@ public class ProfileTwoDNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

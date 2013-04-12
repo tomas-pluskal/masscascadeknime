@@ -34,6 +34,8 @@
 			<br />
 			The adduct information is provided in two columns, the first containing the adduct label, the second
 			containing the exact adduct mass.
+			<br />
+			The exact adduct mass must not be corrected for charge already (i.e., addition or subtraction of a hydrogen).
 		</intro>
 
 		<option name="Spectrum column">The mass spectrometry spectrum column.</option>
@@ -41,6 +43,7 @@
 		<option name="Value column">The ion mass.</option>
 		<option name="Mass tolerance">The mass tolerance in ppm.</option>
 		<option name="Ion mode">The ion mode.</option>
+		<option name="Neutral loss">If the values are for neutral losses. Otherwise they will be charge corrected based on the ion mode.</option>
 	</fullDescription>
 
 	<ports>

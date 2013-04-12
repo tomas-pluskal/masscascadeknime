@@ -40,7 +40,6 @@ public class MsUnifierNodeFactory extends NodeFactory<MsUnifierNodeModel> {
 	 */
 	@Override
 	public MsUnifierNodeModel createNodeModel() {
-
 		return new MsUnifierNodeModel();
 	}
 
@@ -49,7 +48,6 @@ public class MsUnifierNodeFactory extends NodeFactory<MsUnifierNodeModel> {
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -58,7 +56,6 @@ public class MsUnifierNodeFactory extends NodeFactory<MsUnifierNodeModel> {
 	 */
 	@Override
 	public NodeView<MsUnifierNodeModel> createNodeView(final int viewIndex, final MsUnifierNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -67,7 +64,6 @@ public class MsUnifierNodeFactory extends NodeFactory<MsUnifierNodeModel> {
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

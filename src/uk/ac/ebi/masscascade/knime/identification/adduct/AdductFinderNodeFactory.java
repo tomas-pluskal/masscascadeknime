@@ -46,7 +46,6 @@ public class AdductFinderNodeFactory extends NodeFactory<AdductFinderNodeModel> 
 	 */
 	@Override
 	public AdductFinderNodeModel createNodeModel() {
-
 		return new AdductFinderNodeModel();
 	}
 
@@ -55,7 +54,6 @@ public class AdductFinderNodeFactory extends NodeFactory<AdductFinderNodeModel> 
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -64,7 +62,6 @@ public class AdductFinderNodeFactory extends NodeFactory<AdductFinderNodeModel> 
 	 */
 	@Override
 	public NodeView<AdductFinderNodeModel> createNodeView(final int viewIndex, final AdductFinderNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -73,7 +70,6 @@ public class AdductFinderNodeFactory extends NodeFactory<AdductFinderNodeModel> 
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

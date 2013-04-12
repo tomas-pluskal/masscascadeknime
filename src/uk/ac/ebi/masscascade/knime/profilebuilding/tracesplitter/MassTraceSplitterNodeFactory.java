@@ -41,7 +41,6 @@ public class MassTraceSplitterNodeFactory extends NodeFactory<MassTraceSplitterN
 	 */
 	@Override
 	public MassTraceSplitterNodeModel createNodeModel() {
-
 		return new MassTraceSplitterNodeModel();
 	}
 
@@ -50,7 +49,6 @@ public class MassTraceSplitterNodeFactory extends NodeFactory<MassTraceSplitterN
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -60,7 +58,6 @@ public class MassTraceSplitterNodeFactory extends NodeFactory<MassTraceSplitterN
 	@Override
 	public NodeView<MassTraceSplitterNodeModel> createNodeView(final int viewIndex,
 			final MassTraceSplitterNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -69,7 +66,6 @@ public class MassTraceSplitterNodeFactory extends NodeFactory<MassTraceSplitterN
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

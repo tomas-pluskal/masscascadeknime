@@ -40,7 +40,6 @@ public class PropertyExtractorNodeFactory extends NodeFactory<PropertyExtractorN
 	 */
 	@Override
 	public PropertyExtractorNodeModel createNodeModel() {
-
 		return new PropertyExtractorNodeModel();
 	}
 
@@ -49,7 +48,6 @@ public class PropertyExtractorNodeFactory extends NodeFactory<PropertyExtractorN
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -59,7 +57,6 @@ public class PropertyExtractorNodeFactory extends NodeFactory<PropertyExtractorN
 	@Override
 	public NodeView<PropertyExtractorNodeModel> createNodeView(final int viewIndex,
 			final PropertyExtractorNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -68,7 +65,6 @@ public class PropertyExtractorNodeFactory extends NodeFactory<PropertyExtractorN
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

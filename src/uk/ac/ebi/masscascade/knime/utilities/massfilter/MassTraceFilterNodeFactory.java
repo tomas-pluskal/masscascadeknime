@@ -42,7 +42,6 @@ public class MassTraceFilterNodeFactory extends NodeFactory<MassTraceFilterNodeM
 	 */
 	@Override
 	public MassTraceFilterNodeModel createNodeModel() {
-
 		return new MassTraceFilterNodeModel();
 	}
 
@@ -51,7 +50,6 @@ public class MassTraceFilterNodeFactory extends NodeFactory<MassTraceFilterNodeM
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -61,7 +59,6 @@ public class MassTraceFilterNodeFactory extends NodeFactory<MassTraceFilterNodeM
 	@Override
 	public NodeView<MassTraceFilterNodeModel> createNodeView(final int viewIndex,
 			final MassTraceFilterNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -70,7 +67,6 @@ public class MassTraceFilterNodeFactory extends NodeFactory<MassTraceFilterNodeM
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

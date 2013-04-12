@@ -24,19 +24,19 @@
     <name>Rt Binner</name>
     
     <shortDescription>
-        Bins the scans of a mass spectrometry dataset in the time domain.
+    	Bins rt-intensity data points of mass spectrometry data scans in the time domain.
     </shortDescription>
     
     <fullDescription>
-        <intro>Bins the individual spectra of all runs according to bin width chosen. All data points 
-        from subsequent scans that fall within the bin width are added to a single scan.</intro>
+        <intro>Bins rt-intensity data points of mass spectrometry data scans in the time domain using equidistant binning.
+        All data points from scans that fall into the same bin are added to a single scan.</intro>
         
         <option name="Data column">The mass spectrometry data column.</option>
         <option name="Bin width">The width of the individual time bins in seconds.</option>
     </fullDescription>
     
     <ports>
-        <inPort index="0" name="Data table">Table containing mass spec data.</inPort>
-        <outPort index="0" name="Binned Samples">Table containing binned mass spec data.</outPort>
+        <inPort index="0" name="Data table">Table containing mass spec data (MS Data).</inPort>
+        <outPort index="0" name="Binned Samples">Table containing binned mass spec data (MS Data).</outPort>
     </ports>    
 </knimeNode>

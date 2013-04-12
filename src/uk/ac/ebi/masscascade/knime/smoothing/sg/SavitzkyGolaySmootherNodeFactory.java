@@ -41,7 +41,6 @@ public class SavitzkyGolaySmootherNodeFactory extends NodeFactory<SavitzkyGolayS
 	 */
 	@Override
 	public SavitzkyGolaySmootherNodeModel createNodeModel() {
-
 		return new SavitzkyGolaySmootherNodeModel();
 	}
 
@@ -50,7 +49,6 @@ public class SavitzkyGolaySmootherNodeFactory extends NodeFactory<SavitzkyGolayS
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -60,7 +58,6 @@ public class SavitzkyGolaySmootherNodeFactory extends NodeFactory<SavitzkyGolayS
 	@Override
 	public NodeView<SavitzkyGolaySmootherNodeModel> createNodeView(final int viewIndex,
 			final SavitzkyGolaySmootherNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -69,7 +66,6 @@ public class SavitzkyGolaySmootherNodeFactory extends NodeFactory<SavitzkyGolayS
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

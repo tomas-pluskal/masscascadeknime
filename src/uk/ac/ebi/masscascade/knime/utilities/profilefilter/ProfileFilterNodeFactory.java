@@ -40,7 +40,6 @@ public class ProfileFilterNodeFactory extends NodeFactory<ProfileFilterNodeModel
 	 */
 	@Override
 	public ProfileFilterNodeModel createNodeModel() {
-
 		return new ProfileFilterNodeModel();
 	}
 
@@ -49,7 +48,6 @@ public class ProfileFilterNodeFactory extends NodeFactory<ProfileFilterNodeModel
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -58,7 +56,6 @@ public class ProfileFilterNodeFactory extends NodeFactory<ProfileFilterNodeModel
 	 */
 	@Override
 	public NodeView<ProfileFilterNodeModel> createNodeView(final int viewIndex, final ProfileFilterNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -67,7 +64,6 @@ public class ProfileFilterNodeFactory extends NodeFactory<ProfileFilterNodeModel
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 

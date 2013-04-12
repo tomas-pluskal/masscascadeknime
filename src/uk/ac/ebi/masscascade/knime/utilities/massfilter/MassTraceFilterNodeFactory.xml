@@ -29,8 +29,7 @@
 
 	<fullDescription>
 		<intro>Contaminants, solvents and known impurities can be removed from
-			a profile collection given a list of exact
-			molecular ion masses.</intro>
+			a profile collection given a list of exact molecular ion masses.</intro>
 
 		<option name="Profile column">The mass spectrometry profile column.</option>
 		<option name="Mass column">The column containing exact ion masses.</option>

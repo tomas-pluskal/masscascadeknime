@@ -24,18 +24,22 @@
     <name>Biehman Deconvolution</name>
     
     <shortDescription>
-        ---NON FUNCTIONAL---
+        Performs Biehman deconvolution on a collection of peak profiles.
     </shortDescription>
     
     <fullDescription>
-        <intro>---NON FUNCTIONAL---</intro>
-        
+        <intro>Performs deconvolution using a Biehman approach. The local maxima of a mass trace is 
+        perceived and, after background correction and noise estimation, deconvoluted by scanning 
+        the perceived maxima forwards and backwards for local minima.</intro>
         
         <option name="Peak column">Mass spectrometry peak column</option>
+		<option name="Scan window">The overall window used to perceive peaks from one local minimum to another [number of scans].</option>
+		<option name="Noise factor">The factor by which the background noise estimation is multiplied. Peak perception terminates when intensity signals fall below the resulting threshold.</option>
+		<option name="Center profiles">Whether profiles should be re-centerd using a three-point parabola. The actual data points are moved in this case.</option>
     </fullDescription>
     
     <ports>
-        <inPort index="0" name="Peak table">Table containing the peak data.</inPort>
-		<outPort index="0" name="Processed Peak table">Table containing the deconvoluted peak data.</outPort>
+        <inPort index="0" name="Peak table">Table containing peak data (Peak column).</inPort>
+		<outPort index="0" name="Processed Peak table">Table containing deconvoluted peak data (Peak column).</outPort>
     </ports>
 </knimeNode>

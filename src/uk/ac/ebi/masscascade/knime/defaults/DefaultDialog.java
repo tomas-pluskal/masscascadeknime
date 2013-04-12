@@ -162,7 +162,6 @@ public class DefaultDialog extends NodeDialogPane {
 	 * @param width a width for the text field
 	 */
 	public void addTextOption(final String label, final int width) {
-
 		textField.put(label, new JTextField(width));
 	}
 
@@ -173,7 +172,6 @@ public class DefaultDialog extends NodeDialogPane {
 	 * @param component a component
 	 */
 	public void addCustomOption(final Parameter parameter, final JComponent component) {
-
 		addCustomOption(parameter.getDescription(), component);
 	}
 

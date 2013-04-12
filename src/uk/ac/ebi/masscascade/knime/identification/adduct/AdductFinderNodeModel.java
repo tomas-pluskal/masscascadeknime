@@ -72,16 +72,22 @@ public class AdductFinderNodeModel extends DefaultModel {
 			parameterMap.put(Parameter.ION_MODE, Constants.ION_MODE.POSITIVE);
 		else if (settings.getBooleanOption(Parameter.NEGATIVE_MODE))
 			parameterMap.put(Parameter.ION_MODE, Constants.ION_MODE.NEGATIVE);
+		
+		parameterMap.put(Parameter.NEUTRAL_LOSS, settings.getBooleanOption(Parameter.NEUTRAL_LOSS));
 
 		List<AdductSingle> adductList = new ArrayList<AdductSingle>();
 		for (DataRow row : data[1]) {
 			String name = ((StringValue) row.getCell(labelIndex)).getStringValue();
 			double mass = ((DoubleValue) row.getCell(massIndex)).getDoubleValue();
 			adductList.add(new AdductSingle(name, 0, mass, parameterMap.get(Parameter.ION_MODE,
-					Constants.ION_MODE.class)));
+					Constants.ION_MODE.class), settings.getBooleanOption(Parameter.NEUTRAL_LOSS)));
 		}
 		parameterMap.put(Parameter.ADDUCT_LIST, adductList);
 
+		for (AdductSingle d : adductList) {
+			System.out.println(d.getName() + " " + d.getMass());
+		}
+		
 		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
 	}
 

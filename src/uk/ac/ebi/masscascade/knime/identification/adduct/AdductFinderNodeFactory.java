@@ -21,6 +21,7 @@
 package uk.ac.ebi.masscascade.knime.identification.adduct;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 
 import org.knime.core.data.DoubleValue;
@@ -91,7 +92,7 @@ public class AdductFinderNodeFactory extends NodeFactory<AdductFinderNodeModel> 
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 5);
 
 		JRadioButton posMode = new JRadioButton("", true);
-		JRadioButton negMode = new JRadioButton("", true);
+		JRadioButton negMode = new JRadioButton("", false);
 
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(posMode);
@@ -99,6 +100,8 @@ public class AdductFinderNodeFactory extends NodeFactory<AdductFinderNodeModel> 
 
 		dialog.addCustomOption(Parameter.POSITIVE_MODE, posMode);
 		dialog.addCustomOption(Parameter.NEGATIVE_MODE, negMode);
+		
+		dialog.addCustomOption(Parameter.NEUTRAL_LOSS, new JCheckBox());
 
 		return dialog.build();
 	}

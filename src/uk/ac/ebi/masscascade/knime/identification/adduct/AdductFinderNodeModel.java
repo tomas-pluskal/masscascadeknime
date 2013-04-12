@@ -84,10 +84,6 @@ public class AdductFinderNodeModel extends DefaultModel {
 		}
 		parameterMap.put(Parameter.ADDUCT_LIST, adductList);
 
-		for (AdductSingle d : adductList) {
-			System.out.println(d.getName() + " " + d.getMass());
-		}
-		
 		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
 	}
 

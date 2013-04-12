@@ -44,7 +44,6 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 	 * Constructor for the node model.
 	 */
 	protected BiehmanDeconvolutionNodeModel() {
-
 		super(1, 1, CoreTasks.BIEHMAN.getCallableClass());
 	}
 
@@ -55,6 +54,7 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
 		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
+		parameterMap.put(Parameter.NOISE_FACTOR, settings.getIntOption(Parameter.NOISE_FACTOR));
 		parameterMap.put(Parameter.CENTER, settings.getBooleanOption(Parameter.CENTER));
 
 		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
@@ -68,6 +68,7 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 
 		if (settings.getOptionMapSize() == 0) {
 			settings.setTextOption(Parameter.SCAN_WINDOW, "" + Parameter.SCAN_WINDOW.getDefaultValue());
+			settings.setTextOption(Parameter.NOISE_FACTOR, "" + Parameter.NOISE_FACTOR.getDefaultValue());
 			settings.setTextOption(Parameter.CENTER, "" + Parameter.CENTER.getDefaultValue());
 		}
 
@@ -84,6 +85,7 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 		tmpSettings.loadSettings(settings);
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
-		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.TIME_WINDOW);
+		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
+		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.NOISE_FACTOR);
 	}
 }

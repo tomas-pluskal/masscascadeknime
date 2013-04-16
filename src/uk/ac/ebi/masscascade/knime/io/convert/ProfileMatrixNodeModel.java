@@ -47,9 +47,10 @@ import org.knime.core.node.NodeSettingsWO;
 
 import uk.ac.ebi.masscascade.alignment.ProfileBin;
 import uk.ac.ebi.masscascade.alignment.ProfileBinTableModel;
-import uk.ac.ebi.masscascade.interfaces.container.ProfileContainer;
+import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Parameter;
@@ -77,14 +78,19 @@ public class ProfileMatrixNodeModel extends NodeModel {
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
 
-		List<ProfileContainer> profileContainers = new ArrayList<ProfileContainer>();
+		List<Container> profileContainers = new ArrayList<Container>();
 
-		int colIndex = inData[0].getDataTableSpec().findColumnIndex(settings.getColumnName(Parameter.PEAK_COLUMN));
+		String colName = settings.getColumnName(Parameter.PEAK_COLUMN) == null ? settings
+				.getColumnName(Parameter.SPECTRUM_COLUMN) : settings.getColumnName(Parameter.PEAK_COLUMN);
+		int colIndex = inData[0].getDataTableSpec().findColumnIndex(colName);
+		
 		for (DataRow row : inData[0]) {
 			DataCell cell = row.getCell(colIndex);
 			if (cell.isMissing())
 				continue;
-			profileContainers.add(((ProfileValue) cell).getPeakDataValue());
+			
+			if (cell instanceof ProfileValue) profileContainers.add(((ProfileValue) cell).getPeakDataValue());
+			else profileContainers.add(((SpectrumValue) cell).getSpectrumDataValue());
 		}
 
 		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);
@@ -137,7 +143,7 @@ public class ProfileMatrixNodeModel extends NodeModel {
 	/**
 	 * Creates the table output specification.
 	 */
-	private DataColumnSpec[] createOutputTableSpecification(List<ProfileContainer> container, List<ProfileBin> rows) {
+	private DataColumnSpec[] createOutputTableSpecification(List<Container> container, List<ProfileBin> rows) {
 
 		List<DataColumnSpec> dataColumnSpecs = new ArrayList<DataColumnSpec>();
 
@@ -177,7 +183,7 @@ public class ProfileMatrixNodeModel extends NodeModel {
 			settings.setTextOption(Parameter.TIME_WINDOW, "" + Parameter.TIME_WINDOW.getDefaultValue());
 		}
 
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN, Parameter.SPECTRUM_COLUMN);
 		return null;
 	}
 
@@ -190,7 +196,10 @@ public class ProfileMatrixNodeModel extends NodeModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		if (tmpSettings.getColumnName(Parameter.PEAK_COLUMN) == null)
+			NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		else 
+			NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.TIME_WINDOW);
 	}

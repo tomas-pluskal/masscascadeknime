@@ -77,6 +77,10 @@ public class ProfileRenderer extends AbstractPainterDataValueRenderer {
 		}
 
 		TreeMultimap<Double, Integer> peakTimes = profileContainer.getTimes();
+		if (peakTimes.isEmpty()) {
+			g.drawString(profileContainer.getId(), 3, getHeight() - 3);
+			return;
+		}
 
 		int[] bins = new int[51];
 		SortedSet<Double> times = peakTimes.keySet();

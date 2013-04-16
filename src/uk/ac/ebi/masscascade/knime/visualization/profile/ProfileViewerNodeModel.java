@@ -38,7 +38,7 @@ import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 
 import uk.ac.ebi.masscascade.alignment.ProfileBinTableModel;
-import uk.ac.ebi.masscascade.interfaces.container.ProfileContainer;
+import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
@@ -71,7 +71,7 @@ public class ProfileViewerNodeModel extends NodeModel {
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
 
-		List<ProfileContainer> profileContainers = new ArrayList<ProfileContainer>();
+		List<Container> profileContainers = new ArrayList<Container>();
 		
 		int colIndex = inData[0].getDataTableSpec().findColumnIndex(settings.getColumnName(Parameter.PEAK_COLUMN));
 		for (DataRow row : inData[0]) {

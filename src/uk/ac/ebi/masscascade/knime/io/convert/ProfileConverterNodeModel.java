@@ -221,8 +221,7 @@ public class ProfileConverterNodeModel extends ThreadedTableBuilderNodeModel {
 	@Override
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, new Parameter[] { Parameter.SPECTRUM_COLUMN,
-				Parameter.PEAK_COLUMN });
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN, Parameter.PEAK_COLUMN);
 		return new DataTableSpec[] { new DataTableSpec(createOutputTableSpecification()) };
 	}
 

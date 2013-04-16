@@ -29,7 +29,7 @@
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile data.</inPort>
+		<inPort index="0" name="Profile table">Table containing Profile or Spectrum data.</inPort>
 		<outPort index="0" name="Extracted profile table">Table containing the profile matrix.</outPort>
 	</ports>
 </knimeNode>

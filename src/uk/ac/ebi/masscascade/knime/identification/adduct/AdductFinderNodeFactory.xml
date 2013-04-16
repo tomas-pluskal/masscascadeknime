@@ -24,31 +24,31 @@
 	<name>Adduct Finder</name>
 
 	<shortDescription>
-		Detects adducts within the spectra.
+		Detects adducts in spectra.
     </shortDescription>
 
 	<fullDescription>
 		<intro>
-			Detects adducts in the spectra within the given mass tolerance and writes the information to the
-			profiles. The node assumes the presence of either M-H (neg. mode) or M+H (pos. mode) signals as anchor point.
+			Detects adducts in the spectra within the given mass tolerance and writes the information to the 
+			profiles. The node assumes the presence of either M-H (neg. mode) or M+H (pos. mode) signals as anchor points.
 			<br />
-			The adduct information is provided in two columns, the first containing the adduct label, the second
+			The adduct information is provided in two columns, the first containing the adduct label, the second 
 			containing the exact adduct mass.
 			<br />
 			The exact adduct mass must not be corrected for charge already (i.e., addition or subtraction of a hydrogen).
 		</intro>
 
-		<option name="Spectrum column">The mass spectrometry spectrum column.</option>
-		<option name="Label column">The ion label.</option>
-		<option name="Value column">The ion mass.</option>
-		<option name="Mass tolerance">The mass tolerance in ppm.</option>
-		<option name="Ion mode">The ion mode.</option>
-		<option name="Neutral loss">If the values are for neutral losses. Otherwise they will be charge corrected based on the ion mode.</option>
+		<option name="Spectrum column">A Spectra data column.</option>
+		<option name="Label column">An ion label.</option>
+		<option name="Value column">An ion mass.</option>
+		<option name="Mass tolerance">A mass tolerance in ppm.</option>
+		<option name="Ion mode">An ion mode.</option>
+		<option name="Neutral loss">If the mass values are for neutral losses. Otherwise they will be charge corrected based on the ion mode.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Spectrum table">Table containing the spectra data.</inPort>
-		<inPort index="1" name="Adduct table">Table containing the adduct masses and labels.</inPort>
-		<outPort index="0" name="Processed spectrum table">Table containing the the annotated spectra data.</outPort>
+		<inPort index="0" name="Spectrum table">Table containing Spectra Data.</inPort>
+		<inPort index="1" name="Adduct table">Table containing adduct molecular masses and labels.</inPort>
+		<outPort index="0" name="Processed spectrum table">Table containing annotated Spectra Data.</outPort>
 	</ports>
 </knimeNode>

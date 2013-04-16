@@ -1,38 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./metlin.png" type="Other">
-    <name>Metlin</name>
-    
-    <shortDescription>
-        Profile-based Metlin database search.
-    </shortDescription>
-    
-    <fullDescription>
-        <intro>Query the Metlin database with mass-to-charge values to retrieve molecular compounds in CDK format.</intro>
-    </fullDescription>
-    
-    <ports>
-        <inPort index="0" name="Molecular masses">Table containing molecular masses for the database search.</inPort>
-        <outPort index="0" name="Retrieved hits">As input table with an attached column containing the retrieved hits.</outPort>
-    </ports>    
+	<name>Metlin</name>
+
+	<shortDescription>
+		Profile-based Metlin database search.
+	</shortDescription>
+
+	<fullDescription>
+		<intro>
+			Simple profile-based
+			<a href="http://metlin.scripps.edu/">Metlin</a>
+			database queries. The profile mass-to-charge values are used for the query to identify peaks.
+		</intro>
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Data table">Table containing Peak or Spectrum data.</inPort>
+		<outPort index="0" name="Retrieved hits">Table containing annotated Peak or Spectrum data.</outPort>
+	</ports>
 </knimeNode>

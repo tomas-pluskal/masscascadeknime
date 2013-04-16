@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./input.png" type="Source">
-    <name>File Reader</name>
-    
-    <shortDescription>
-        File reader node for centroid Thermo RAW and PSI mzML mass spectrometry files.
-    </shortDescription>
-    
-    <fullDescription>
-        <intro>The node iterates over a given directory and reads the containing Thermo RAW and PSI mzML files.
-        Alternatively multiples files can be selected directly. The files are parsed and stored internally as MsCells.
-        Broken files, which cannot be parsed, are indicated in the second out port.</intro>  
-              
-        <option name="Directory / File">The directory or file to be read in.</option>
-    </fullDescription>
-    
-    <ports>
-        <outPort index="0" name="Loaded files">Table containing the successfully loaded files.</outPort>
-		<outPort index="1" name="Broken files">Table containing the broken files.</outPort>
-    </ports>    
+	<name>File Reader</name>
+
+	<shortDescription>
+		File reader node for centroid Thermo RAW and PSI mzML mass spectrometry files.
+	</shortDescription>
+
+	<fullDescription>
+		<intro>
+			The node iterates over a given directory and reads the containing files.
+			<br />
+			PSI's
+			<a href="http://www.psidev.info/mzml/">mzML</a>
+			and Thermo's
+			<a href="http://sjsupport.thermofinnigan.com/public/detail.asp?id=703">RAW</a>
+			formats are supported as input formats. The File 
+			Reader node supports selection of whole directories and individual 
+			files. The file counter can be set to limit the 
+			number of files to be read in. Broken files which cannot be parsed get 
+			excluded. File names must be unique. See 
+			<a href="https://github.com/SBeisken/MassCascadeKnime/wiki/FileFormats">Supported File Formats</a>
+			for additional 
+			information. 
+		</intro>
+
+		<option name="Directory / File(s)">A directory or file(s) to be read in.</option>
+	</fullDescription>
+
+	<ports>
+		<outPort index="0" name="Loaded files">Table containing successfully loaded MS Data cells.</outPort>
+		<outPort index="1" name="Broken files">Table containing broken files.</outPort>
+	</ports>
 </knimeNode>

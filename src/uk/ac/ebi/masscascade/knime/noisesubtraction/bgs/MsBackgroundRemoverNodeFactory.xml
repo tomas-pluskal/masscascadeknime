@@ -1,51 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./background.png" type="Manipulator">
 	<name>Background Remover</name>
 
 	<shortDescription>
 		Removes the reference background from all mass spectra.
-    </shortDescription>
+	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Thoroughly removes the background of the sample by iteratively scanning a pre-defined time window in a blank control
-			sample for noise for every data point in all scans within a pre-defined mass window.
+			Thoroughly removes background noise of a sample by iteratively scanning a pre-defined time window in a blank control 
+			sample for noise within a pre-defined mass window.
 			<br />
-			Zhang, H., Yang, Y. (2008). An algorithm for thorough background subtraction from high-resolution LC / MS data :
-			application for detection of glutathione-trapped reactive metabolites, (February), 1181-1190. doi:10.1002/jms
+			The node is based on a paper by
+			<a href="http://dx.doi.org/10.1021/ac8027189">Zhang, H., Yang, Y. (2008)</a>
+			.
+			<br />
+			Note that only the first row of the reference table will be read.
 		</intro>
 
-		<option name="Mass Spec Data Column">The mass spec data column.</option>
-		<option name="Mass Spec Reference Column">The background / blank data column.</option>
-		<option name="Time Window">The time window in seconds defining the scan range in the background control.</option>
-		<option name="Mass Window">The mass tolerance in ppm for background data point sampling.</option>
-		<option name="Scale">The factor by which the background intensity should be scaled.</option>
+		<option name="Mass Spec Data Column">A MS data column.</option>
+		<option name="Mass Spec Reference Column">A background / blank MS data data column.</option>
+		<option name="Time Window">A time window in seconds defining the scan range in the background control.</option>
+		<option name="Mass Window">A mass tolerance in ppm for background data point sampling.</option>
+		<option name="Scale">A factor by which the background intensity should be scaled.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Mass Spec data">Table containing mass spec data.</inPort>
-		<inPort index="1" name="Background">Table containing the background mass spec data.</inPort>
-		<outPort index="0" name="Processed Samples">Table containing background-removed mass spec data.</outPort>
+		<inPort index="0" name="Mass Spec data">Table containing MS Data.</inPort>
+		<inPort index="1" name="Background">Table containing background MS data.</inPort>
+		<outPort index="0" name="Processed Samples">Table containing background-removed MS Data.</outPort>
 	</ports>
 </knimeNode>

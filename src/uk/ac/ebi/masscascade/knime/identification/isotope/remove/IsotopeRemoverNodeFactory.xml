@@ -1,45 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./isotope_remover.png" type="Manipulator">
 	<name>Isotope Manager</name>
 
 	<shortDescription>
 		Deisotopes the spectra or filters the isotopes using isotope annotations.
-    </shortDescription>
+	</shortDescription>
 
 	<fullDescription>
-		<intro>The node deisotopes the spectra by removing the isotope profiles. Alternatively, the spectra can be filtered
-			for isotopes. I.e., only profiles with isotopes are kept. In addition, all detected adducts of the major isotope peak
-			are kept as well.
-			Isotopes can be detected using the "Isotope Finder" node.</intro>
+		<intro>
+			The node deisotopes the spectra by removing the isotope profiles. Alternatively, the spectra can be filtered 
+			for isotopes. I.e., only profiles with isotopes are kept. In addition, all detected adducts of the major isotope peak 
+			are kept as well. Isotopes can be detected using the "Isotope Finder" node.
+		</intro>
 
-		<option name="Spectrum column">The mass spectrometry spectrum column.</option>
+		<option name="Data column">A Spectrum data column.</option>
 		<option name="Keep Isotopes">If the annotated isotopes should be extracted.</option>
 		<option name="Remove Isotopes">If the annotated isotopes should be removed.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Spectrum table">Table containing the spectra data.</inPort>
-		<outPort index="0" name="Processed spectrum table">Table containing the the deisotoped / filtered spectra data.</outPort>
+		<inPort index="0" name="Spectrum table">Table containing Spectra data.</inPort>
+		<outPort index="0" name="Processed spectrum table">Table containing deisotoped / filtered Spectra data.</outPort>
 	</ports>
 </knimeNode>

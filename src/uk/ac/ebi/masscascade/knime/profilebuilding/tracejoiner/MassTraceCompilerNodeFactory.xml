@@ -1,42 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./mass_trace.png" type="Manipulator">
 	<name>Mass Trace Joiner</name>
 
 	<shortDescription>
 		Compiles whole chromatogram mass traces from a given set of profiles.
-    </shortDescription>
+	</shortDescription>
 
 	<fullDescription>
-		<intro>Given a set of profiles, the node iterates over all profiles and groups identical or similar masses, as defined by
-			the tolerance value, into a single profile.</intro>
+		<intro>
+			Given a set of profiles, the node iterates over all profiles and groups identical or similar masses, 
+			as defined by the tolerance value, into a single profile.
+		</intro>
 
-		<option name="Peak column">The mass spectrometry profile column.</option>
-		<option name="Mass tolerance">The mass tolerance in ppm.</option>
+		<option name="Peak column">A Profile data column.</option>
+		<option name="Mass tolerance">A mass tolerance in ppm.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing the profile data.</inPort>
-		<outPort index="0" name="Processed profile table">Table containing the joined profiles.</outPort>
+		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
+		<outPort index="0" name="Processed profile table">Table containing joined Profile Data.</outPort>
 	</ports>
 </knimeNode>

@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: KNIME MassCascade Integration
 Bundle-SymbolicName: uk.ac.ebi.masscascade.knime;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7,
- JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: MassCascadeKnime.jar,
  lib/MassCascade.jar
 Bundle-Activator: uk.ac.ebi.masscascade.knime.NodePlugin
@@ -18,6 +17,7 @@ Require-Bundle: org.knime.base;bundle-version="2.4.1",
 Bundle-ActivationPolicy: lazy
 Export-Package: uk.ac.ebi.masscascade.knime,
  uk.ac.ebi.masscascade.knime.alignment.fastdtw,
+ uk.ac.ebi.masscascade.knime.alignment.obiwarp,
  uk.ac.ebi.masscascade.knime.binning.mz,
  uk.ac.ebi.masscascade.knime.binning.rt,
  uk.ac.ebi.masscascade.knime.database.chemspider,
@@ -64,9 +64,9 @@ Export-Package: uk.ac.ebi.masscascade.knime,
  uk.ac.ebi.masscascade.knime.visualization.profiletable.profilequery,
  uk.ac.ebi.masscascade.knime.visualization.profiletwod,
  uk.ac.ebi.masscascade.knime.visualization.pseudospectrum,
+ uk.ac.ebi.masscascade.knime.visualization.pseudospectrum.spectrumquery,
  uk.ac.ebi.masscascade.knime.visualization.spectrum,
  uk.ac.ebi.masscascade.knime.visualization.spectrum.compare,
- uk.ac.ebi.masscascade.knime.visualization.threed,
  uk.ac.ebi.masscascade.knime.visualization.totalion,
  uk.ac.ebi.masscascade.knime.visualization.totalionprofile
 

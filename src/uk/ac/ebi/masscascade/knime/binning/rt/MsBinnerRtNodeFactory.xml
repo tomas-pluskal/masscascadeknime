@@ -1,42 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./bin_rt.png" type="Manipulator">
-    <name>Rt Binner</name>
-    
-    <shortDescription>
-    	Bins rt-intensity data points of mass spectrometry data scans in the time domain.
-    </shortDescription>
-    
-    <fullDescription>
-        <intro>Bins rt-intensity data points of mass spectrometry data scans in the time domain using equidistant binning.
-        All data points from scans that fall into the same bin are added to a single scan.</intro>
-        
-        <option name="Data column">The mass spectrometry data column.</option>
-        <option name="Bin width">The width of the individual time bins in seconds.</option>
-    </fullDescription>
-    
-    <ports>
-        <inPort index="0" name="Data table">Table containing mass spec data (MS Data).</inPort>
-        <outPort index="0" name="Binned Samples">Table containing binned mass spec data (MS Data).</outPort>
-    </ports>    
+	<name>Rt Binner</name>
+
+	<shortDescription>
+		Bins rt-intensity data points of MS Data cells in the time domain.
+	</shortDescription>
+
+	<fullDescription>
+		<intro>Bins rt-intensity data points of MS Data cells in the time domain using equidistant binning. 
+			Data points from scans that fall into the same bin are added to a single scan.
+		</intro>
+
+		<option name="Data column">A MS data column.</option>
+		<option name="Bin width">A time bin width seconds.</option>
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Data table">Table containing MS Data.</inPort>
+		<outPort index="0" name="Binned Samples">Table containing binned MS Data.</outPort>
+	</ports>
 </knimeNode>

@@ -1,42 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./spec_view.png" type="Visualizer">
-    <name>Pseudo Spectrum</name>
-    
-    <shortDescription>
-        Shows grouped profiles including their annotations.
-    </shortDescription>
-    
-    <fullDescription>
-        <intro>Shows the pseudo mass spectra of the grouped profiles including all annotations.</intro>
-        
-        <option name="Spectrum column">The mass spectrometry spectrum column.</option>
-    </fullDescription>
-    
-    <ports>
-        <inPort index="0" name="Spectrum table">Table containing the spectra data.</inPort>
-    </ports>    
-    <views>
-        <view index="0" name="Spectrum view">Interactive view to explore the pseudo spectra and extracted traces.</view>
-    </views>
+	<name>Pseudo Spectrum</name>
+
+	<shortDescription>
+		Shows grouped profiles including their annotations.
+	</shortDescription>
+
+	<fullDescription>
+		<intro>
+			Shows the pseudo mass spectra of Spectra Data cells including all annotations.
+		</intro>
+
+		<option name="Spectrum column">A Spectra Data column.</option>
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Spectrum table">Table containing Spectra Data.</inPort>
+	</ports>
+	<views>
+		<view index="0" name="Spectrum view">Interactive view to explore pseudo spectra and extracted traces.</view>
+	</views>
 </knimeNode>

@@ -1,40 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./isotope.png" type="Manipulator">
 	<name>Isotope Finder</name>
 
 	<shortDescription>
 		Detects isotopes in the spectra.
-    </shortDescription>
+	</shortDescription>
 
 	<fullDescription>
-		<intro>Detects isotopes in the charge range -3 to +3 and writes the information to the profiles.</intro>
+		<intro>
+			Detects isotopes in the charge range -3 to +3 and writes the information to the profiles. 
+		</intro>
 
-		<option name="Spectrum column">The mass spectrometry spectrum column.</option>
+		<option name="Data column">A Spectrum data column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Spectrum table">Table containing the spectra data.</inPort>
-		<outPort index="0" name="Processed spectrum table">Table containing the the annotated spectra data.</outPort>
+		<inPort index="0" name="Spectrum table">Table containing Spectrum Data.</inPort>
+		<outPort index="0" name="Processed spectrum table">Table containing annotated Spectrum data.</outPort>
 	</ports>
 </knimeNode>

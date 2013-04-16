@@ -1,45 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./ion.png" type="Manipulator">
 	<name>Ion Search</name>
 
 	<shortDescription>
 		Searches all spectra for the query masses.
-    </shortDescription>
+	</shortDescription>
 
 	<fullDescription>
-		<intro>Searches all spectra for the input masses within the set mass tolerance (ppm). The masses are assumed to be the
-			major isotopic masses of the molecules and will be corrected according to the ion mode.</intro>
+		<intro>
+			Searches all spectra for the input masses within the set mass tolerance (ppm). The masses are assumed to be the 
+			major isotopic masses of the molecules and will be corrected according to the ion mode.
+		</intro>
 
-		<option name="Spectrum column">The mass spectrometry spectrum column.</option>
-		<option name="Label column">The ion label.</option>
-		<option name="Value column">The ion mass.</option>
-		<option name="Mass tolerance">The mass tolerance in ppm.</option>
-		<option name="Ion mode">The ion mode.</option>
+		<option name="Data column">A Spectrum data column.</option>
+		<option name="Label column">An ion label.</option>
+		<option name="Value column">An ion mass.</option>
+		<option name="Mass tolerance">A mass tolerance in ppm.</option>
+		<option name="Ion mode">An ion mode.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Spectrum table">Table containing the spectra data.</inPort>
-		<outPort index="0" name="Processed spectrum table">Table containing the the annotated spectra data.</outPort>
+		<inPort index="0" name="Spectrum table">Table containing Spectra Data.</inPort>
+		<outPort index="0" name="Processed spectrum table">Table containing annotated Spectra Data.</outPort>
 	</ports>
 </knimeNode>

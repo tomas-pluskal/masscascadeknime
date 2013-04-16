@@ -29,11 +29,11 @@
 
 	<fullDescription>
 		<intro>
-			The node displays the scan data for the selected mass spectrometry run in 3D.
+			The node displays the scan data for the selected mass spectrometry run in 3D. 
 			The view supports zooming and highlighting of individual data points.
 			<br />
 			<br />
-			<b>### This node requires Java3D ###</b>
+			This node requires Java3D.
 		</intro>
 
 		<option name="Mass Spec Data Column">The mass spec data column.</option>

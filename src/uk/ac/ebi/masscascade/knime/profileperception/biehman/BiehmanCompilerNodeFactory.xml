@@ -1,42 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./correlation.png" type="Manipulator">
 	<name>Biehman Compiler</name>
 
 	<shortDescription>
 		Node to generate pseudospectra based on a modified Biehman approach.
-    </shortDescription>
+	</shortDescription>
 
 	<fullDescription>
-		<intro>The node uses a modified Biehman algorithm to group similar profiles into pseudo spectra. The algorithm relies
-			on the peak shape and retention time of the profiles. </intro>
+		<intro>
+			The node uses a modified Biehman algorithm to group similar profiles into pseudo spectra. The algorithm relies 
+			on the peak shape and retention time of the profiles.
+		</intro>
 
-		<option name="Bins">The number of bins in the time domain.</option>
-		<option name="Scan distance">The approximate distance between two successive scans (seconds).</option>
+		<option name="Bins">A number of bins in the time domain.</option>
+		<option name="Scan distance">An approximate distance between two successive scans (seconds).</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing the profile data.</inPort>
-		<outPort index="0" name="Spectrum table">Table containing the the spectra.</outPort>
+		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
+		<outPort index="0" name="Spectrum table">Table containing Spectra Data.</outPort>
 	</ports>
 </knimeNode>

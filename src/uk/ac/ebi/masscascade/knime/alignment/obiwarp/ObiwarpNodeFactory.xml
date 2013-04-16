@@ -1,46 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./spec_compare.png" type="Manipulator">
-    <name>Obiwarp</name>
-    
-    <shortDescription>
-        Obiwarp alignment for profiles.
-    </shortDescription>
-    
-    <fullDescription>
-        <intro>The node executes the Obiwarp binary with the given parameters. The reference profile container is taken from the first row taken in the reference table.</intro>
-        <option name="Peak column">The mass spectrometry profile column.</option>
-        <option name="Reference column">The mass spectrometry reference profile column.</option>
-        <option name="Executable">The absolute path to the Obiwarp executable.</option>
-        <option name="Gap init">The gap penalty for initiating a gap.</option>
-        <option name="Gap ext">The gap penalty for extending a gap.</option>
-        <option name="Response">The responsiveness of warping [0 - 100].</option>
-        <option name="Mass window">The maximum mass window in ppm</option>
-    </fullDescription>
-    
-    <ports>
-        <inPort index="0" name="Profile table">Table containing profile data (Peak column).</inPort>
-        <inPort index="1" name="Reference profile table">Table containing the profile reference (Peak column).</inPort>
-        <outPort index="0" name="Aligned profiles">Table containing the aligned profiles (Peak column).</outPort>
-    </ports>
+	<name>Obiwarp</name>
+
+	<shortDescription>
+		Obiwarp alignment for profiles.
+	</shortDescription>
+
+	<fullDescription>
+		<intro>
+			The node calls the referenced
+			<a href="http://obi-warp.sourceforge.net/">Obiwarp</a>
+			binary with the given parameters. The reference MS Data cell is taken from the first row in the reference table.
+			<br />
+			Note that only the first row of the reference is read.
+		</intro>
+		<option name="Data column">A Profile data column.</option>
+		<option name="Reference column">A reference Profile column.</option>
+		<option name="Executable">An absolute path to the Obiwarp executable.</option>
+		<option name="Gap init">A gap penalty for initiating a gap.</option>
+		<option name="Gap ext">A gap penalty for extending a gap.</option>
+		<option name="Response">A responsiveness value for the warping [0 - 100].</option>
+		<option name="Mass window">A size for the m/z bins in ppm to group profiles across references.</option>
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Profile table">Table containing Profile data.</inPort>
+		<inPort index="1" name="Reference profile table">Table containing a Profile data reference.</inPort>
+		<outPort index="0" name="Aligned profiles">Table containing aligned Profile data.</outPort>
+	</ports>
 </knimeNode>

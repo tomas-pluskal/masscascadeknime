@@ -1,45 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./deconvolution.png" type="Manipulator">
-    <name>Biehman Deconvolution</name>
-    
-    <shortDescription>
-        Performs Biehman deconvolution on a collection of peak profiles.
-    </shortDescription>
-    
-    <fullDescription>
-        <intro>Performs deconvolution using a Biehman approach. The local maxima of a mass trace is 
-        perceived and, after background correction and noise estimation, deconvoluted by scanning 
-        the perceived maxima forwards and backwards for local minima.</intro>
-        
-        <option name="Peak column">Mass spectrometry peak column</option>
-		<option name="Scan window">The overall window used to perceive peaks from one local minimum to another [number of scans].</option>
-		<option name="Noise factor">The factor by which the background noise estimation is multiplied. Peak perception terminates when intensity signals fall below the resulting threshold.</option>
-		<option name="Center profiles">Whether profiles should be re-centerd using a three-point parabola. The actual data points are moved in this case.</option>
-    </fullDescription>
-    
-    <ports>
-        <inPort index="0" name="Peak table">Table containing peak data (Peak column).</inPort>
-		<outPort index="0" name="Processed Peak table">Table containing deconvoluted peak data (Peak column).</outPort>
-    </ports>
+	<name>Biehman Deconvolution</name>
+
+	<shortDescription>
+		Performs Biehman deconvolution on a collection of peak profiles.
+	</shortDescription>
+
+	<fullDescription>
+		<intro>
+			Performs deconvolution using a Bieman approach. The local maxima of a mass trace is
+			perceived and, after background correction and noise estimation, deconvoluted by scanning 
+			the perceived maxima forwards and backwards for local minima.
+		</intro>
+
+		<option name="Data column">A Profile Data column.</option>
+		<option name="Scan window">A window used to perceive peaks from one local minimum to another [number of scans].</option>
+		<option name="Noise factor">A factor by which the background noise estimation is multiplied. Peak perception terminates when
+			intensity signals fall below the resulting threshold.</option>
+		<option name="Center profiles">Whether profiles should be re-centerd using a three-point parabola. The actual data points are
+			moved in this case.</option>
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Peak table">Table containing Profile Data.</inPort>
+		<outPort index="0" name="Processed Peak table">Table containing deconvoluted Profile Data.</outPort>
+	</ports>
 </knimeNode>

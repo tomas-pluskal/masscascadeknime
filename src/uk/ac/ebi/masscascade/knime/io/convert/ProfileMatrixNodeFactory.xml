@@ -1,44 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright (C) 2013 EMBL - European Bioinformatics Institute
-  
-  All rights reserved. This file is part of the MassCascade feature for KNIME.
-  
-  The feature is free software: you can redistribute it and/or modify it under 
-  the terms of the GNU General Public License as published by the Free 
-  Software Foundation, either version 3 of the License, or (at your option) 
-  any later version.
-  
-  The feature is distributed in the hope that it will be useful, but WITHOUT 
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-  FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License along with 
-  the feature. If not, see <http://www.gnu.org/licenses/>.
-  
-  Contributors:
-     Stephan Beisken - initial API and implementation
--->
+<!-- Copyright (C) 2013 EMBL - European Bioinformatics Institute All rights reserved. This file is part of the MassCascade 
+	feature for KNIME. The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General 
+	Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later 
+	version. The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You 
+	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
+	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./conversion.png" type="Sink">
 	<name>Profile Matrix</name>
 
 	<shortDescription>
 		Compiles a profile matrix from all samples.
-    </shortDescription>
+	</shortDescription>
 
 	<fullDescription>
-		<intro>Compiles a profile matrix from all samples. The resulting table can be used 
-		with generic KNIME nodes.</intro>
+		<intro>
+			Compiles a profile matrix from all samples. The resulting table can be used 
+			with generic KNIME nodes.
+			<br />
+			The node is still in experimental status.
+		</intro>
 
-		<option name="Profile column">The mass spectrometry profile column.</option>
-		<option name="m/z window">The m/z window for matching profiles across samples [ppm].</option>
-		<option name="Time window">The time window for matching profiles across samples [s].</option>
+		<option name="Data column">A Profile or Spectrum data column.</option>
+		<option name="m/z window">A m/z window for matching profiles across samples [ppm].</option>
+		<option name="Time window">A time window for matching profiles across samples [s].</option>
 		<option name="Classic matrix">Whether a simple sample to m/z matrix is preferred.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing the profile data.</inPort>
-		<outPort index="0" name="Extracted profile table">Table containing profile matrix.</outPort>
+		<inPort index="0" name="Profile table">Table containing Profile data.</inPort>
+		<outPort index="0" name="Extracted profile table">Table containing the profile matrix.</outPort>
 	</ports>
 </knimeNode>

@@ -29,7 +29,7 @@
 			excluded. File names must be unique. See 
 			<a href="https://github.com/SBeisken/MassCascadeKnime/wiki/FileFormats">Supported File Formats</a>
 			for additional 
-			information. 
+			information. RAW files require the vendor library to be installed and are centroided by default using the vendor library. 
 		</intro>
 
 		<option name="Directory / File(s)">A directory or file(s) to be read in.</option>

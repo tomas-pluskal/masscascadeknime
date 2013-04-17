@@ -76,7 +76,7 @@ public final class MsRenderer extends AbstractPainterDataValueRenderer {
 		}
 
 		Chromatogram chromatogram = rawContainer.getTicChromatogram(Constants.MSN.MS1);
-		if (chromatogram.getData() == null || chromatogram.getData().size() == 0) {
+		if (chromatogram == null || chromatogram.getData().size() == 0) {
 			g.drawString("Container empty", 3, getHeight() - 15);
 			g.drawString(rawContainer.getId(), 3, getHeight() - 3);
 			return;

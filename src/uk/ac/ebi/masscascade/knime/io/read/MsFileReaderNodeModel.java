@@ -74,8 +74,6 @@ public class MsFileReaderNodeModel extends NodeModel {
 	private final MsFileReaderSettings settings = new MsFileReaderSettings();
 	private List<File> scanFileIds = new ArrayList<File>();
 
-	private boolean checked = false;
-
 	private static final String RAWLOCATION = "uk/ac/ebi/masscascade/thermo/RAWdumpProfile.exe";
 	private static final String DLLLOCATION = "uk/ac/ebi/masscascade/thermo/XRawfile2.dll";
 
@@ -83,7 +81,6 @@ public class MsFileReaderNodeModel extends NodeModel {
 	 * Constructor for the node model.
 	 */
 	protected MsFileReaderNodeModel() {
-
 		super(0, 2);
 	}
 
@@ -230,7 +227,6 @@ public class MsFileReaderNodeModel extends NodeModel {
 	 */
 	@Override
 	protected void saveSettingsTo(final NodeSettingsWO settings) {
-
 		this.settings.saveSettings(settings);
 	}
 
@@ -239,7 +235,6 @@ public class MsFileReaderNodeModel extends NodeModel {
 	 */
 	@Override
 	protected void loadValidatedSettingsFrom(final NodeSettingsRO settings) throws InvalidSettingsException {
-
 		this.settings.loadSettings(settings);
 	}
 
@@ -277,9 +272,6 @@ public class MsFileReaderNodeModel extends NodeModel {
 
 	private void checkAndPreparePlatform() throws InvalidSettingsException {
 
-		if (checked)
-			return;
-
 		String osName = System.getProperty("os.name").toUpperCase();
 		if (!osName.toUpperCase().contains("WINDOWS"))
 			setWarningMessage("Platform not supported for Thermo RAW files. Extracting archived RAW reader. ");
@@ -292,7 +284,6 @@ public class MsFileReaderNodeModel extends NodeModel {
 				setWarningMessage("Failed to load RAWdump.");
 			}
 		}
-		checked = true;
 	}
 
 	/**

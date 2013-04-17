@@ -3,25 +3,24 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.visualization.profiletable.profileinfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,8 +48,8 @@ public class AdductTableModel extends AbstractTableModel {
 	 */
 	public void setDataList(Set<Property> adducts) {
 
-		if (adducts != null && adducts.size() > 0)
-			this.adducts = new ArrayList<Property>(adducts);
+		if (adducts != null)
+			setDataList(new ArrayList<Property>(adducts));
 	}
 
 	/**
@@ -60,8 +59,25 @@ public class AdductTableModel extends AbstractTableModel {
 	 */
 	public void setDataList(List<Property> adducts) {
 
-		if (adducts != null && adducts.size() > 0)
-			this.adducts = adducts;
+		if (adducts == null || adducts.size() == 0)
+			return;
+
+		this.adducts = adducts;
+
+		Set<String> duplicateSet = new HashSet<>();
+		Iterator<Property> iter = adducts.iterator();
+		while (iter.hasNext()) {
+			Property prop = iter.next();
+			if (prop instanceof Adduct) {
+				Adduct adduct = (Adduct) prop;
+				String propString = adduct.getName() + adduct.getChildId() + adduct.getParentId();
+				if (duplicateSet.contains(propString))
+					iter.remove();
+				else
+					duplicateSet.add(propString);
+			}
+
+		}
 	}
 
 	@Override

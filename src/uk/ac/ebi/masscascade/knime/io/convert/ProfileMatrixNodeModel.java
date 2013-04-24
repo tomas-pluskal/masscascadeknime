@@ -54,6 +54,7 @@ import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Parameter;
+import uk.ac.ebi.masscascade.utilities.TextUtils;
 
 /**
  * This is the model implementation of the "ProfileMatrix" node to build the m/z to sample matrix.
@@ -113,7 +114,7 @@ public class ProfileMatrixNodeModel extends NodeModel {
 			dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
 			for (int i = 0; i < profileContainers.size(); i++) {
 				mzIndex = 0;
-				cellRow[mzIndex++] = new StringCell(profileContainers.get(i).getId());
+				cellRow[mzIndex++] = new StringCell(TextUtils.cleanId(profileContainers.get(i).getId()));
 				for (ProfileBin row : rows) {
 					double intensity = row.isPresent(i);
 					cellRow[mzIndex++] = intensity > 0 ? new DoubleCell(intensity) : DataType.getMissingCell();
@@ -158,7 +159,7 @@ public class ProfileMatrixNodeModel extends NodeModel {
 			createColumnSpec(dataColumnSpecs, "label", StringCell.TYPE);
 			createColumnSpec(dataColumnSpecs, "m/z dev", DoubleCell.TYPE);
 			for (int i = 0; i < container.size(); i++)
-				createColumnSpec(dataColumnSpecs, container.get(i).getId(), DoubleCell.TYPE);
+				createColumnSpec(dataColumnSpecs, TextUtils.cleanId(container.get(i).getId()), DoubleCell.TYPE);
 		}
 		return dataColumnSpecs.toArray(new DataColumnSpec[] {});
 	}

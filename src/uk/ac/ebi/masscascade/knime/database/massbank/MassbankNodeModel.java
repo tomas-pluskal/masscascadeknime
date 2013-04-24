@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.database.massbank;
 
@@ -26,6 +23,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -47,19 +45,15 @@ import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 import org.knime.core.util.ThreadPool;
 
-import uk.ac.ebi.masscascade.interfaces.CallableTask;
+import uk.ac.ebi.masscascade.interfaces.CallableWebservice;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
-import uk.ac.ebi.masscascade.interfaces.container.ProfileContainer;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
 import uk.ac.ebi.masscascade.interfaces.container.SpectrumContainer;
 import uk.ac.ebi.masscascade.knime.NodePlugin;
-import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsCell;
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileCell;
 import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumCell;
 import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.parameters.ParameterMap;
-import uk.ac.ebi.masscascade.ws.massbank.MassBankSearch;
+import uk.ac.ebi.masscascade.ws.massbank.MassBankBatchSearch;
 
 /**
  * This is the model implementation of Massbank. Spectrum-based Massbank database search.
@@ -112,14 +106,17 @@ public class MassbankNodeModel extends NodeModel {
 
 				container = ((SpectrumValue) row.getCell(colIndex)).getSpectrumDataValue();
 				ParameterMap params = new ParameterMap();
-				params.put(Parameter.MIN_PROFILE_INTENSITY, settings.getCutoff());
+				params.put(Parameter.SCORE, settings.getScore());
 				params.put(Parameter.ION_MODE, settings.getIonMode());
-				params.put(Parameter.INSTRUMENTS, settings.getInstruments());
-				params.put(Parameter.MZ_WINDOW_PPM, settings.getTolerance());
+
+				List<String> instruments = new ArrayList<String>(Arrays.asList(settings.getInstruments()));
+
+				params.put(Parameter.INSTRUMENTS, instruments);
 				params.put(Parameter.RESULTS, settings.getMaxNumOfResults());
+				params.put(Parameter.MIN_PROFILES, settings.getMinNumOfProfiles());
 				params.put(Parameter.SPECTRUM_CONTAINER, container);
 
-				CallableTask task = new MassBankSearch(params);
+				CallableWebservice task = new MassBankBatchSearch(params);
 				tasks.add(threadPool.enqueue(task));
 
 				if (threadPool.getRunningThreads() == threadNumber) {
@@ -175,20 +172,11 @@ public class MassbankNodeModel extends NodeModel {
 				}
 
 				try {
-					Container file = tasks.get(fileIndex).get();
-					fileIndex++;
+					Container file = tasks.get(fileIndex++).get();
 
 					ids.add(file.getDataFile());
+					return new SpectrumCell((SpectrumContainer) file);
 
-					if (file instanceof RawContainer) {
-						return new MsCell((RawContainer) file);
-					} else if (file instanceof ProfileContainer) {
-						return new ProfileCell((ProfileContainer) file);
-					} else if (file instanceof SpectrumContainer) {
-						return new SpectrumCell((SpectrumContainer) file);
-					} else {
-						return cell;
-					}
 				} catch (Exception exception) {
 					LOGGER.error(this, exception);
 					setWarningMessage("Erroneous cell: " + row.getKey() + " -- skipped");
@@ -298,16 +286,16 @@ public class MassbankNodeModel extends NodeModel {
 			throw new InvalidSettingsException("No valid spectrum column.");
 		}
 
-		if (tmpSettings.getCutoff() < 0 || tmpSettings.getCutoff() > 1000) {
-			throw new InvalidSettingsException("Cutoff must be between 0 and 1000.");
+		if (tmpSettings.getScore() < 0 || tmpSettings.getScore() > 1) {
+			throw new InvalidSettingsException("Score must be between 0 and 1.");
 		}
 
 		if (tmpSettings.getMaxNumOfResults() <= 0) {
 			throw new InvalidSettingsException("Maximum results must be positive.");
 		}
 
-		if (tmpSettings.getTolerance() <= 0) {
-			throw new InvalidSettingsException("Tolerance must be positive.");
+		if (tmpSettings.getMinNumOfProfiles() <= 0) {
+			throw new InvalidSettingsException("Min. no. of profiles must be positive.");
 		}
 	}
 

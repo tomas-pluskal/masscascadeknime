@@ -59,6 +59,7 @@ import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Parameter;
+import uk.ac.ebi.masscascade.utilities.TextUtils;
 
 /**
  * This is the model implementation of PropertyExtractor. Extracts meta information from mass spec data files.
@@ -129,7 +130,7 @@ public class PropertyExtractorNodeModel extends NodeModel {
 
 				RawContainer rawFile = ((MsValue) dataCell).getMsDataValue();
 
-				newCells[0] = new StringCell(rawFile.getRawInfo().getId());
+				newCells[0] = new StringCell(TextUtils.cleanId(rawFile.getRawInfo().getId()));
 				newCells[1] = new StringCell(rawFile.getRawInfo().getDate());
 				newCells[2] = new StringCell(rawFile.getRawInfo().getAuthors());
 

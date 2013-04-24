@@ -36,7 +36,6 @@ public class MassbankNodeFactory extends NodeFactory<MassbankNodeModel> {
 	 */
 	@Override
 	public MassbankNodeModel createNodeModel() {
-
 		return new MassbankNodeModel();
 	}
 
@@ -45,7 +44,6 @@ public class MassbankNodeFactory extends NodeFactory<MassbankNodeModel> {
 	 */
 	@Override
 	public int getNrNodeViews() {
-
 		return 0;
 	}
 
@@ -54,7 +52,6 @@ public class MassbankNodeFactory extends NodeFactory<MassbankNodeModel> {
 	 */
 	@Override
 	public NodeView<MassbankNodeModel> createNodeView(final int viewIndex, final MassbankNodeModel nodeModel) {
-
 		return null;
 	}
 
@@ -63,7 +60,6 @@ public class MassbankNodeFactory extends NodeFactory<MassbankNodeModel> {
 	 */
 	@Override
 	public boolean hasDialog() {
-
 		return true;
 	}
 
@@ -72,7 +68,6 @@ public class MassbankNodeFactory extends NodeFactory<MassbankNodeModel> {
 	 */
 	@Override
 	public NodeDialogPane createNodeDialogPane() {
-
 		return new MassbankNodeDialog();
 	}
 }

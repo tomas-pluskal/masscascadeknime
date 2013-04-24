@@ -25,7 +25,8 @@
 
 		<option name="Data column">A Spectrum data column.</option>
 		<option name="Mass tolerance">A query m/z tolerance in ppm.</option>
-		<option name="Cutoff">A relative intensity cutoff value (0-1000). Only peaks above the threshold are used.</option>
+		<option name="Score">The MassBank query score. Query results under the given score are rejected: 0-1</option>
+		<option name="Min. number of profiles">A minimum number of profiles a spectrum must have to be considered for a database query.</option>
 		<option name="Max results">A maximum number of results that are accepted.</option>
 		<option name="Ion mode">An ion mode.</option>
 		<option name="Instrument">The instruments which spectra should be queried.</option>

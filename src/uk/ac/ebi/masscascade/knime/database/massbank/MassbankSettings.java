@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.database.massbank;
 
@@ -42,8 +39,8 @@ public class MassbankSettings {
 			"LC-ESI-QQ", "LC-ESI-QTOF", "MALDI-TOF", "MALDI-TOFTOF" };
 
 	private String spectrumColumn;
-	private int cutoff = 50;
-	private double tolerance = 10d;
+	private int minNumOfProfiles = 3;
+	private double score = 0.8;
 	private Constants.ION_MODE ionMode = Constants.ION_MODE.POSITIVE;
 	private int maxNumOfResults = 50;
 	private String[] instruments = DEF_INST;
@@ -52,7 +49,6 @@ public class MassbankSettings {
 	 * @return the spectrumColumn
 	 */
 	public final String getSpectrumColumn() {
-
 		return spectrumColumn;
 	}
 
@@ -60,31 +56,27 @@ public class MassbankSettings {
 	 * @param spectrumColumn the spectrumColumn to set
 	 */
 	public final void setSpectrumColumn(String spectrumColumn) {
-
 		this.spectrumColumn = spectrumColumn;
 	}
 
 	/**
-	 * @return the tolerance
+	 * @return the score
 	 */
-	public final double getTolerance() {
-
-		return tolerance;
+	public final double getScore() {
+		return score;
 	}
 
 	/**
-	 * @param tolerance the tolerance to set
+	 * @param score the score to set
 	 */
-	public final void setTolerance(double tolerance) {
-
-		this.tolerance = tolerance;
+	public final void setScore(double score) {
+		this.score = score;
 	}
 
 	/**
 	 * @return the ionMode
 	 */
 	public final Constants.ION_MODE getIonMode() {
-
 		return ionMode;
 	}
 
@@ -92,7 +84,6 @@ public class MassbankSettings {
 	 * @param ionMode the ionMode to set
 	 */
 	public final void setIonMode(Constants.ION_MODE ionMode) {
-
 		this.ionMode = ionMode;
 	}
 
@@ -100,7 +91,6 @@ public class MassbankSettings {
 	 * @return the maxNumOfResults
 	 */
 	public final int getMaxNumOfResults() {
-
 		return maxNumOfResults;
 	}
 
@@ -108,7 +98,6 @@ public class MassbankSettings {
 	 * @param maxNumOfResults the maxNumOfResults to set
 	 */
 	public final void setMaxNumOfResults(int maxNumOfResults) {
-
 		this.maxNumOfResults = maxNumOfResults;
 	}
 
@@ -116,7 +105,6 @@ public class MassbankSettings {
 	 * @return the instruments
 	 */
 	public final String[] getInstruments() {
-
 		return instruments;
 	}
 
@@ -124,24 +112,21 @@ public class MassbankSettings {
 	 * @param instruments the instruments to set
 	 */
 	public final void setInstruments(String[] instruments) {
-
 		this.instruments = instruments;
 	}
 
 	/**
-	 * @return the cutoff
+	 * @return the minimum no. of profiles
 	 */
-	public final int getCutoff() {
-
-		return cutoff;
+	public final int getMinNumOfProfiles() {
+		return minNumOfProfiles;
 	}
 
 	/**
-	 * @param cutoff the cutoff to set
+	 * @param minNumOfProfiles the minimum no. of profiles
 	 */
-	public final void setCutoff(int cutoff) {
-
-		this.cutoff = cutoff;
+	public final void setMinNumOfProfiles(int minNumOfProfiles) {
+		this.minNumOfProfiles = minNumOfProfiles;
 	}
 
 	/**
@@ -153,11 +138,11 @@ public class MassbankSettings {
 
 		settings.addString("spectrumColumn", spectrumColumn);
 
-		settings.addDouble("tolerance", tolerance);
+		settings.addDouble("score", score);
 		settings.addString("mode", ionMode.name());
 		settings.addStringArray("instruments", instruments);
 		settings.addInt("results", maxNumOfResults);
-		settings.addInt("cutoff", cutoff);
+		settings.addInt("minProfiles", minNumOfProfiles);
 	}
 
 	/**
@@ -169,11 +154,11 @@ public class MassbankSettings {
 
 		spectrumColumn = settings.getString("spectrumColumn", null);
 
-		tolerance = settings.getDouble("tolerance", 10d);
+		score = settings.getDouble("score", 0.9);
 		ionMode = Constants.ION_MODE.valueOf(settings.getString("mode", Constants.ION_MODE.POSITIVE.name()));
 		instruments = settings.getStringArray("instruments", DEF_INST);
 		maxNumOfResults = settings.getInt("results", 50);
-		cutoff = settings.getInt("cutoff", 50);
+		minNumOfProfiles = settings.getInt("minProfiles", 3);
 	}
 
 	/**
@@ -186,10 +171,10 @@ public class MassbankSettings {
 
 		spectrumColumn = settings.getString("spectrumColumn");
 
-		tolerance = settings.getDouble("tolerance");
+		score = settings.getDouble("score");
 		ionMode = Constants.ION_MODE.valueOf(settings.getString("mode"));
 		instruments = settings.getStringArray("instruments");
 		maxNumOfResults = settings.getInt("results");
-		cutoff = settings.getInt("cutoff");
+		minNumOfProfiles = settings.getInt("minProfiles");
 	}
 }

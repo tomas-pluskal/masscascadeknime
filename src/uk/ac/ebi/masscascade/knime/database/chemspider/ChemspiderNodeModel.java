@@ -44,7 +44,6 @@ public class ChemspiderNodeModel extends DefaultModel {
 	 * Constructor for the node model.
 	 */
 	protected ChemspiderNodeModel() {
-
 		super(1, 1, WebTasks.CHEMSPIDER.getCallableClass());
 	}
 

@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.database.massbank;
 
@@ -61,8 +58,8 @@ public class MassbankNodeDialog extends NodeDialogPane {
 	private final ColumnSelectionComboxBox spectrumColumn = new ColumnSelectionComboxBox((Border) null,
 			SpectrumValue.class);
 
-	private JTextField tolerance = new JTextField(6);
-	private JTextField cutoff = new JTextField(6);
+	private JTextField minProfiles = new JTextField(6);
+	private JTextField score = new JTextField(6);
 	private JTextField maxNumOfResults = new JTextField(6);
 	private JRadioButton positiveButton = new JRadioButton("positive");
 	private JRadioButton negativeButton = new JRadioButton("negative");
@@ -95,14 +92,14 @@ public class MassbankNodeDialog extends NodeDialogPane {
 		panel.add(spectrumColumn, c);
 		c.gridy++;
 		c.gridx = 0;
-		panel.add(new JLabel("m/z tolerance [ppm]"), c);
+		panel.add(new JLabel("Min. number of profiles"), c);
 		c.gridx++;
-		panel.add(tolerance, c);
+		panel.add(minProfiles, c);
 		c.gridy++;
 		c.gridx = 0;
-		panel.add(new JLabel("Cutoff (0-1000)"), c);
+		panel.add(new JLabel("Query score (0-1)"), c);
 		c.gridx = 1;
-		panel.add(cutoff, c);
+		panel.add(score, c);
 		c.gridy++;
 		c.gridx = 0;
 		panel.add(new JLabel("Max results"), c);
@@ -159,8 +156,8 @@ public class MassbankNodeDialog extends NodeDialogPane {
 
 		spectrumColumn.update(specs[0], this.settings.getSpectrumColumn());
 
-		tolerance.setText("" + this.settings.getTolerance());
-		cutoff.setText("" + this.settings.getCutoff());
+		score.setText("" + this.settings.getScore());
+		minProfiles.setText("" + this.settings.getMinNumOfProfiles());
 		maxNumOfResults.setText("" + this.settings.getMaxNumOfResults());
 
 		if (this.settings.getIonMode() == Constants.ION_MODE.POSITIVE) {
@@ -170,12 +167,10 @@ public class MassbankNodeDialog extends NodeDialogPane {
 		}
 
 		Map<String, Boolean> instrumentMap = new HashMap<String, Boolean>();
-		for (String instrument : MassbankSettings.ALL_INST) {
+		for (String instrument : MassbankSettings.ALL_INST)
 			instrumentMap.put(instrument, false);
-		}
-		for (String instrument : this.settings.getInstruments()) {
+		for (String instrument : this.settings.getInstruments())
 			instrumentMap.put(instrument, true);
-		}
 		instrumentModel.update(instrumentMap);
 	}
 
@@ -187,8 +182,8 @@ public class MassbankNodeDialog extends NodeDialogPane {
 
 		this.settings.setSpectrumColumn(spectrumColumn.getSelectedColumn());
 
-		this.settings.setTolerance(Double.parseDouble(tolerance.getText()));
-		this.settings.setCutoff(Integer.parseInt(cutoff.getText()));
+		this.settings.setScore(Double.parseDouble(score.getText()));
+		this.settings.setMinNumOfProfiles(Integer.parseInt(minProfiles.getText()));
 		this.settings.setMaxNumOfResults(Integer.parseInt(maxNumOfResults.getText()));
 
 		if (positiveButton.isSelected()) {

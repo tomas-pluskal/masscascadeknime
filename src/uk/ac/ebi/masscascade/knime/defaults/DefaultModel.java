@@ -48,6 +48,7 @@ import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 
 import uk.ac.ebi.masscascade.interfaces.CallableTask;
+import uk.ac.ebi.masscascade.interfaces.Task;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.interfaces.container.ProfileContainer;
 import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
@@ -74,14 +75,14 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 	protected final ParameterMap parameterMap;
 
 	private Parameter dataColumnIn;
-	private Class<? extends CallableTask> taskClass;
+	private Class<? extends Task> taskClass;
 	private boolean replace;
 	private int colIndex;
 
 	/**
 	 * Constructor for the default node model.
 	 */
-	protected DefaultModel(int inPorts, int outPorts, Class<? extends CallableTask> taskClass) {
+	protected DefaultModel(int inPorts, int outPorts, Class<? extends Task> taskClass) {
 
 		super(inPorts, outPorts);
 

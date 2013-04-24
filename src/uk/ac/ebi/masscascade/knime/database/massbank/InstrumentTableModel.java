@@ -87,7 +87,6 @@ public class InstrumentTableModel extends AbstractTableModel {
 	 */
 	@Override
 	public int getColumnCount() {
-
 		return 2;
 	}
 
@@ -96,7 +95,6 @@ public class InstrumentTableModel extends AbstractTableModel {
 	 */
 	@Override
 	public int getRowCount() {
-
 		return instruments.size();
 	}
 

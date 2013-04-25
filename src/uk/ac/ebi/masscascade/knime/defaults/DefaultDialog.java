@@ -3,29 +3,28 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.defaults;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -34,7 +33,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
 import org.knime.core.data.DataTableSpec;
@@ -48,6 +50,7 @@ import org.knime.core.node.util.ColumnSelectionComboxBox;
 import org.knime.core.node.util.FilesHistoryPanel;
 
 import uk.ac.ebi.masscascade.exception.MassCascadeException;
+import uk.ac.ebi.masscascade.knime.defaults.elements.BooleanTableModel;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
@@ -72,6 +75,7 @@ public class DefaultDialog extends NodeDialogPane {
 	private final Settings settings;
 	private final Map<String, JTextField> textField;
 	private final Map<String, JComponent> customField;
+	private final Map<String, JScrollPane> scrollPane;
 	private final Map<String, ColumnSelectionComboxBox> comboBox;
 	// if the column selection combo box does not refer to the first input port
 	private final Map<String, Integer> comboBoxSpec;
@@ -83,10 +87,11 @@ public class DefaultDialog extends NodeDialogPane {
 
 		this.settings = new DefaultSettings();
 
-		this.textField = new HashMap<String, JTextField>();
-		this.customField = new HashMap<String, JComponent>();
+		this.textField = new LinkedHashMap<String, JTextField>();
+		this.customField = new LinkedHashMap<String, JComponent>();
 		this.comboBox = new LinkedHashMap<String, ColumnSelectionComboxBox>();
-		this.comboBoxSpec = new HashMap<String, Integer>();
+		this.comboBoxSpec = new LinkedHashMap<String, Integer>();
+		this.scrollPane = new LinkedHashMap<String, JScrollPane>();
 
 		this.loopTerminus = new JCheckBox();
 
@@ -113,7 +118,6 @@ public class DefaultDialog extends NodeDialogPane {
 	 * @param cellValue a <code>CellValue</code> defining the selection box
 	 */
 	public void addColumnSelection(final Parameter parameter, final Class<? extends DataValue>... cellValue) {
-
 		addColumnSelection(parameter.getDescription(), cellValue);
 	}
 
@@ -140,7 +144,6 @@ public class DefaultDialog extends NodeDialogPane {
 	 */
 	public void addColumnSelection(final Parameter parameter, final int tableSpec,
 			final Class<? extends DataValue>... cellValue) {
-
 		addColumnSelection(parameter.getDescription(), tableSpec, cellValue);
 	}
 
@@ -151,7 +154,6 @@ public class DefaultDialog extends NodeDialogPane {
 	 * @param width a width for the text field
 	 */
 	public void addTextOption(final Parameter parameter, final int width) {
-
 		addTextOption(parameter.getDescription(), width);
 	}
 
@@ -191,6 +193,35 @@ public class DefaultDialog extends NodeDialogPane {
 	}
 
 	/**
+	 * Adds a boolean table to the parameter panel with the selected objects.
+	 * 
+	 * @param parameter the parameter for the table
+	 * @param objects the objects and their state
+	 */
+	public void addBooleanTable(final Parameter parameter, Map<String, Boolean> objects) {
+		addBooleanTable(parameter.getDescription(), objects);
+	}
+
+	/**
+	 * Adds a boolean table to the parameter panel with the selected objects.
+	 * 
+	 * @param label the label for the table
+	 * @param objects the objects and their state
+	 */
+	public void addBooleanTable(final String label, Map<String, Boolean> objects) {
+
+		BooleanTableModel tableModel = new BooleanTableModel(objects);
+		JTable table = new JTable(tableModel);
+		JScrollPane tableScrollPane = new JScrollPane(table);
+		tableScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		tableScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		tableScrollPane.setPreferredSize(new Dimension(250, 250));
+		table.setFillsViewportHeight(true);
+
+		scrollPane.put(label, tableScrollPane);
+	}
+
+	/**
 	 * Builds a panel containing all node settings.
 	 * 
 	 * @return the panel
@@ -202,9 +233,15 @@ public class DefaultDialog extends NodeDialogPane {
 		JPanel columnPanel = buildColumnSelection();
 		JPanel optionPanel = buildTextandCustomOption();
 
-		panel.add(columnPanel);
-		panel.add(optionPanel);
+		JScrollPane columnSPane = new JScrollPane(columnPanel);
+		columnSPane.setBorder(null);
+		JScrollPane optionSPane = new JScrollPane(optionPanel);
+		optionSPane.setBorder(null);
+		
+		panel.add(columnSPane);
+		panel.add(optionSPane);
 
+		panel.setPreferredSize(new Dimension(400, 300));
 		this.addTab("Settings", panel);
 
 		return this;
@@ -270,6 +307,18 @@ public class DefaultDialog extends NodeDialogPane {
 			c.gridy++;
 		}
 
+		c.insets = new Insets(0, 0, 0, 0);
+		c.anchor = GridBagConstraints.NORTHWEST;
+		c.fill = GridBagConstraints.BOTH;
+		
+		c.gridwidth = 2;
+		for (String label : scrollPane.keySet()) {
+
+			optionPanel.add(scrollPane.get(label), c);
+			c.gridy++;
+		}
+		c.gridwidth = 1;
+		
 		c.insets = new Insets(10, 0, 0, 0);
 		optionPanel.add(new JLabel("Retain Data (Loop)" + PADDING), c);
 		c.gridx++;
@@ -309,6 +358,15 @@ public class DefaultDialog extends NodeDialogPane {
 			}
 		}
 
+		for (String label : scrollPane.keySet()) {
+			List<String> selected = new ArrayList<>();
+			for (String object : this.settings.getStringArrayOption(label))
+				selected.add(object);
+
+			JTable table = (JTable) scrollPane.get(label).getViewport().getView();
+			((BooleanTableModel) table.getModel()).update(selected);
+		}
+
 		loopTerminus.setSelected(this.settings.getBooleanOption(TERMINUS));
 	}
 
@@ -332,6 +390,12 @@ public class DefaultDialog extends NodeDialogPane {
 			} else if (customField.get(label) instanceof JCheckBox) {
 				this.settings.setTextOption(label, ((JCheckBox) customField.get(label)).isSelected() + "");
 			}
+		}
+
+		for (String label : scrollPane.keySet()) {
+			JTable table = (JTable) scrollPane.get(label).getViewport().getView();
+			String[] selectedObjects = ((BooleanTableModel) table.getModel()).getSelected().toArray(new String[] {});
+			this.settings.setStringArrayOption(label, selectedObjects);
 		}
 
 		this.settings.setTextOption(TERMINUS, loopTerminus.isSelected() + "");

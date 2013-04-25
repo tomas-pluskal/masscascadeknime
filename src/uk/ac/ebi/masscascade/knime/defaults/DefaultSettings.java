@@ -56,6 +56,14 @@ public class DefaultSettings implements Settings {
 	public void setBooleanOption(String label, boolean bool) {
 		optionMap.put(label, "" + bool);
 	}
+	
+	@Override
+	public void setStringArrayOption(String label, String[] array) {
+		String res = "";
+		for (String s : array) res += s + "~";
+		res.substring(0, res.length() - 1);
+		optionMap.put(label, res);
+	}
 
 	@Override
 	public int getOptionMapSize() {
@@ -85,6 +93,11 @@ public class DefaultSettings implements Settings {
 	@Override
 	public boolean getBooleanOption(String label) {
 		return Boolean.parseBoolean(optionMap.get(label));
+	}
+	
+	@Override
+	public String[] getStringArrayOption(String label) {
+		return (optionMap.get(label) == null) ? new String[0] : optionMap.get(label).split("~");
 	}
 
 	@Override
@@ -125,6 +138,11 @@ public class DefaultSettings implements Settings {
 	@Override
 	public boolean getBooleanOption(Parameter parameter) {
 		return getBooleanOption(parameter.getDescription());
+	}
+	
+	@Override
+	public String[] getStringArrayOption(Parameter parameter) {
+		return getStringArrayOption(parameter.getDescription());
 	}
 
 	@Override

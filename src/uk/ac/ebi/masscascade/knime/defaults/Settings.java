@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.defaults;
 
@@ -40,7 +37,7 @@ public interface Settings {
 	 * @param name a column name
 	 */
 	public void setColumnName(Parameter parameter, String name);
-	
+
 	/**
 	 * Sets the column name.
 	 * 
@@ -56,7 +53,7 @@ public interface Settings {
 	 * @param name a String option name
 	 */
 	public void setTextOption(Parameter parameter, String name);
-	
+
 	/**
 	 * Sets a text option (<code>JTextField</code>).
 	 * 
@@ -72,7 +69,31 @@ public interface Settings {
 	 * @param bool a boolean value
 	 */
 	public void setBooleanOption(Parameter parameter, boolean bool);
-	
+
+	/**
+	 * Sets an array of strings.
+	 * 
+	 * @param label a label for the String Array option
+	 * @param array a String Array
+	 */
+	void setStringArrayOption(String label, String[] array);
+
+	/**
+	 * Returns the string array.
+	 * 
+	 * @param label the label for the string array
+	 * @return the string array
+	 */
+	String[] getStringArrayOption(String label);
+
+	/**
+	 * Returns the string array.
+	 * 
+	 * @param parameter the parameter for the string array
+	 * @return the string array
+	 */
+	String[] getStringArrayOption(Parameter parameter);
+
 	/**
 	 * Sets a boolean option.
 	 * 
@@ -95,7 +116,7 @@ public interface Settings {
 	 * @return the column name
 	 */
 	public String getColumnName(Parameter parameter);
-	
+
 	/**
 	 * Returns a column name.
 	 * 
@@ -111,7 +132,7 @@ public interface Settings {
 	 * @return the String option
 	 */
 	public String getTextOption(Parameter parameter);
-	
+
 	/**
 	 * Returns a text option.
 	 * 
@@ -127,7 +148,7 @@ public interface Settings {
 	 * @return the integer option
 	 */
 	public int getIntOption(Parameter parameter);
-	
+
 	/**
 	 * Returns an integer option.
 	 * 
@@ -143,7 +164,7 @@ public interface Settings {
 	 * @return the double option
 	 */
 	public double getDoubleOption(Parameter parameter);
-	
+
 	/**
 	 * Returns a double option.
 	 * 
@@ -159,7 +180,7 @@ public interface Settings {
 	 * @return the boolean option
 	 */
 	public boolean getBooleanOption(Parameter parameter);
-	
+
 	/**
 	 * Returns a boolean option.
 	 * 

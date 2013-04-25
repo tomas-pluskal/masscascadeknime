@@ -203,7 +203,7 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 		}
 
 		Constructor<?> cstr = taskClass.getConstructor(ParameterMap.class);
-		CallableTask task = (CallableTask) cstr.newInstance(taskParms);
+		Task task = (Task) cstr.newInstance(taskParms);
 		Container container = task.call();
 
 		if (container == null) {

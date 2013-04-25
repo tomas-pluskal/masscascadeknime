@@ -34,7 +34,7 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.parameters.WebTasks;
 
 /**
- * This is the model implementation of Chemspider. Peak-based Chemspider database search.
+ * This is the model implementation of Chemspider. Profile-based Chemspider database search.
  * 
  * @author Stephan Beisken
  */
@@ -62,8 +62,9 @@ public class ChemspiderNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
 		parameterMap.put(Parameter.SECURITY_TOKEN, settings.getTextOption(Parameter.SECURITY_TOKEN));
 		parameterMap.put(Parameter.ION_MODE, ionMode);
+		parameterMap.put(Parameter.DATABASES, settings.getStringArrayOption(Parameter.DATABASES));
 
-		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
+		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
 	}
 
 	/**
@@ -78,7 +79,7 @@ public class ChemspiderNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.POSITIVE_MODE, "" + Parameter.POSITIVE_MODE.getDefaultValue());
 		}
 
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
 	}
 
 	/**
@@ -90,7 +91,7 @@ public class ChemspiderNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 		NodeUtils.validateTextNotEmpty(tmpSettings, Parameter.SECURITY_TOKEN);
 	}

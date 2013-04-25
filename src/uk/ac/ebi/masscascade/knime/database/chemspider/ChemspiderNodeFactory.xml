@@ -18,16 +18,17 @@
 		<intro>
 			Profile-based query for the
 			<a href="http://www.chemspider.com/">Chemspider</a>
-			database. The returned molecule names and InChI are stored with the matching profiles.
+			database. The returned molecule names and InChI are stored with the matching profiles. 
 		</intro>
 
-		<option name="Data column">A Profile data column.</option>
+		<option name="Data column">A Spectrum data column.</option>
 		<option name="Mass window">A m/z tolerance for the query in ppm.</option>
 		<option name="Token">A ChemSpider authentication token.</option>
+		<option name="Databases">The databases to query.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
-		<outPort index="0" name="Processed Peak table">Table containing annotated Profile Data.</outPort>
+		<inPort index="0" name="Profile table">Table containing Spectrum Data.</inPort>
+		<outPort index="0" name="Processed Peak table">Table containing annotated Spectrum Data.</outPort>
 	</ports>
 </knimeNode>

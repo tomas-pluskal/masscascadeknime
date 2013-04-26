@@ -30,7 +30,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -57,8 +56,6 @@ import org.knime.core.node.NodeView;
 import org.knime.core.node.tableview.TableContentModel;
 import org.knime.core.node.tableview.TableView;
 
-import com.google.common.collect.Lists;
-
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum;
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum.PAINTERS;
 import uk.ac.ebi.masscascade.interfaces.Chromatogram;
@@ -81,12 +78,14 @@ import uk.ac.ebi.masscascade.tables.GroupProfileTable;
 import uk.ac.ebi.masscascade.tables.SimpleProfileTable;
 import uk.ac.ebi.masscascade.tables.model.GroupProfileTableModel;
 import uk.ac.ebi.masscascade.tables.model.SimpleProfileTableModel;
+import uk.ac.ebi.masscascade.utilities.AnnotationUtils;
 import uk.ac.ebi.masscascade.utilities.DataSet;
 import uk.ac.ebi.masscascade.utilities.Labels.LABELS;
-import uk.ac.ebi.masscascade.utilities.ProfUtils;
 import uk.ac.ebi.masscascade.utilities.math.MathUtils;
 import uk.ac.ebi.masscascade.utilities.xyz.XYList;
 import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
+
+import com.google.common.collect.Lists;
 
 /**
  * <code>NodeView</code> for the "PeakSpectrum" Node. Visualises grouped peak clusters including their annotations as
@@ -391,7 +390,7 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 	private DataSet getDataSet(Spectrum spectrum) {
 
 		XYList data = spectrum.getData();
-		Map<XYPoint, String> annotations = getAnnotations(spectrum.getProfileMap().values());
+		Map<XYPoint, String> annotations = AnnotationUtils.getAnnotations(spectrum.getProfileMap().values());
 		Collections.sort(data);
 
 		Color color = graphColorSpectra.nextColor();
@@ -420,27 +419,6 @@ public class PseudoSpectrumNodeView extends NodeView<ViewerModel> {
 		}
 
 		chartsPanel.repaint();
-	}
-
-	/**
-	 * Gets the annotations from the list of peaks.
-	 * 
-	 * @param peakList the annotated list of peaks
-	 * @return the annotation map: data point - annotation
-	 */
-	private Map<XYPoint, String> getAnnotations(Collection<Profile> peakList) {
-
-		Map<XYPoint, String> annotations = new HashMap<XYPoint, String>();
-
-		String annotation = "";
-		for (Profile peak : peakList) {
-
-			annotation = ProfUtils.getProfileLabel(peak);
-			if (!annotation.isEmpty())
-				annotations.put(peak.getMzIntDp(), annotation);
-		}
-
-		return annotations;
 	}
 
 	/**

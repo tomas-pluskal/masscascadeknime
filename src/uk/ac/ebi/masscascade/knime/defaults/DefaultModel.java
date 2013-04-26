@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.defaults;
 
@@ -74,10 +71,14 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 	protected final Settings settings = new DefaultSettings();
 	protected final ParameterMap parameterMap;
 
-	private Parameter dataColumnIn;
+	// the first index indicates the column to be replaced (if set)
+	// all subsequent values are additional input container (one per type, max 3)
+	private int[] colIndex;
+	// all values are input container (one per type, max 3)
+	private Parameter dataColumnIn[];
+	
 	private Class<? extends Task> taskClass;
 	private boolean replace;
-	private int colIndex;
 
 	/**
 	 * Constructor for the default node model.
@@ -103,28 +104,21 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 
 	public DataTableSpec[] getDataTableSpec(final DataTable[] data, Parameter dataColumnIn, Parameter dataColumnOut,
 			boolean append) {
+		return getDataTableSpec(new DataTableSpec[] { data[0].getDataTableSpec() }, new Parameter[] { dataColumnIn },
+				dataColumnOut, append);
+	}
 
-		this.replace = !append;
-		this.dataColumnIn = dataColumnIn;
-
-		DataTableSpec inSpec = data[0].getDataTableSpec();
-		colIndex = findDataColumn(inSpec);
-
-		if (replace)
-			return new DataTableSpec[] { inSpec };
-
-		DataColumnSpecCreator specCreator = null;
-		if (dataColumnOut == Parameter.PEAK_COLUMN)
-			specCreator = new DataColumnSpecCreator(dataColumnOut.getDescription(), ProfileCell.TYPE);
-		else if (dataColumnOut == Parameter.DATA_COLUMN)
-			specCreator = new DataColumnSpecCreator(dataColumnOut.getDescription(), MsCell.TYPE);
-		else if (dataColumnOut == Parameter.SPECTRUM_COLUMN)
-			specCreator = new DataColumnSpecCreator(dataColumnOut.getDescription(), SpectrumCell.TYPE);
-
-		return new DataTableSpec[] { new DataTableSpec(inSpec, new DataTableSpec(specCreator.createSpec())) };
+	public DataTableSpec[] getDataTableSpec(final DataTable[] data, Parameter[] dataColumnIn, Parameter dataColumnOut,
+			boolean append) {
+		return getDataTableSpec(new DataTableSpec[] { data[0].getDataTableSpec() }, dataColumnIn, dataColumnOut, append);
 	}
 
 	public DataTableSpec[] getDataTableSpec(final DataTableSpec[] inSpecs, final Parameter dataColumnIn,
+			final Parameter dataColumnOut, final boolean append) {
+		return getDataTableSpec(inSpecs, new Parameter[] { dataColumnIn }, dataColumnOut, append);
+	}
+
+	public DataTableSpec[] getDataTableSpec(final DataTableSpec[] inSpecs, final Parameter dataColumnIn[],
 			final Parameter dataColumnOut, final boolean append) {
 
 		this.replace = !append;
@@ -153,22 +147,27 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 	 * @param inSpec the data column specification
 	 * @return the index of the requested data column
 	 */
-	private int findDataColumn(DataTableSpec inSpec) {
+	private int[] findDataColumn(DataTableSpec inSpec) {
 
-		int dataCol = inSpec.findColumnIndex(settings.getColumnName(dataColumnIn));
+		int[] dataCol = new int[dataColumnIn.length];
+		int j = 0;
+		for (Parameter columnIn : dataColumnIn) {
+			dataCol[j] = inSpec.findColumnIndex(settings.getColumnName(columnIn));
 
-		if (dataCol == -1) {
-			int i = 0;
-			for (DataColumnSpec dcs : inSpec) {
-				if (dcs.getType().isCompatible(NodeParm.columnClass.get(dataColumnIn)))
-					dataCol = i;
-				i++;
+			if (dataCol[j] == -1) {
+				int i = 0;
+				for (DataColumnSpec dcs : inSpec) {
+					if (dcs.getType().isCompatible(NodeParm.columnClass.get(dataColumnIn)))
+						dataCol[j] = i;
+					i++;
+				}
+
+				if (dataCol[j] != -1) {
+					String name = inSpec.getColumnSpec(dataCol[j]).getName();
+					settings.setColumnName(dataColumnIn[j], name);
+				}
 			}
-
-			if (dataCol != -1) {
-				String name = inSpec.getColumnSpec(dataCol).getName();
-				settings.setColumnName(dataColumnIn, name);
-			}
+			j++;
 		}
 
 		return dataCol;
@@ -181,25 +180,29 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 	protected void processRow(final DataRow inRow, final BufferedDataTable[] additionalData,
 			final RowAppender[] outputTables) throws Exception {
 
-		DataCell cell = inRow.getCell(colIndex);
-		if (cell.isMissing()) {
-			setWarningMessage("Missing cell: " + inRow.getKey() + " -- skipped");
-			skipRow(outputTables, inRow);
-			return;
-		}
-
 		ParameterMap taskParms = parameterMap.clone();
 
-		Container file = null;
-		if (dataColumnIn == Parameter.DATA_COLUMN) {
-			file = ((MsValue) cell).getMsDataValue();
-			taskParms.put(Parameter.RAW_CONTAINER, file);
-		} else if (dataColumnIn.equals(Parameter.PEAK_COLUMN)) {
-			file = ((ProfileValue) cell).getPeakDataValue();
-			taskParms.put(Parameter.PROFILE_CONTAINER, file);
-		} else if (dataColumnIn.equals(Parameter.SPECTRUM_COLUMN)) {
-			file = ((SpectrumValue) cell).getSpectrumDataValue();
-			taskParms.put(Parameter.SPECTRUM_CONTAINER, file);
+		for (int i = 0; i < colIndex.length; i++) {
+			DataCell cell = inRow.getCell(colIndex[i]);
+			if (cell.isMissing()) {
+				setWarningMessage("Missing cell: " + inRow.getKey() + " -- skipped");
+				skipRow(outputTables, inRow);
+				return;
+			}
+
+			Parameter columnIn = dataColumnIn[i];
+
+			Container file = null;
+			if (columnIn == Parameter.DATA_COLUMN) {
+				file = ((MsValue) cell).getMsDataValue();
+				taskParms.put(Parameter.RAW_CONTAINER, file);
+			} else if (columnIn.equals(Parameter.PEAK_COLUMN)) {
+				file = ((ProfileValue) cell).getPeakDataValue();
+				taskParms.put(Parameter.PROFILE_CONTAINER, file);
+			} else if (columnIn.equals(Parameter.SPECTRUM_COLUMN)) {
+				file = ((SpectrumValue) cell).getSpectrumDataValue();
+				taskParms.put(Parameter.SPECTRUM_CONTAINER, file);
+			}
 		}
 
 		Constructor<?> cstr = taskClass.getConstructor(ParameterMap.class);
@@ -224,7 +227,7 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 			outCell = DataType.getMissingCell();
 
 		if (replace)
-			outputTables[0].addRowToTable(new ReplacedColumnsDataRow(inRow, outCell, colIndex));
+			outputTables[0].addRowToTable(new ReplacedColumnsDataRow(inRow, outCell, colIndex[0]));
 		else
 			outputTables[0].addRowToTable(new AppendedColumnRow(inRow, outCell));
 	}
@@ -232,7 +235,7 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 	private void skipRow(final RowAppender[] outputTables, DataRow inRow) {
 
 		if (replace)
-			outputTables[0].addRowToTable(new ReplacedColumnsDataRow(inRow, DataType.getMissingCell(), colIndex));
+			outputTables[0].addRowToTable(new ReplacedColumnsDataRow(inRow, DataType.getMissingCell(), colIndex[0]));
 		else
 			outputTables[0].addRowToTable(new AppendedColumnRow(inRow, DataType.getMissingCell()));
 	}
@@ -274,7 +277,6 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 	 */
 	@Override
 	protected void saveSettingsTo(NodeSettingsWO settings) {
-
 		this.settings.saveSettings(settings);
 	}
 
@@ -283,7 +285,6 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 	 */
 	@Override
 	protected void loadValidatedSettingsFrom(NodeSettingsRO settings) throws InvalidSettingsException {
-
 		this.settings.loadSettings(settings);
 	}
 

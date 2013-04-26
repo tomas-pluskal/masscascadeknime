@@ -3,33 +3,34 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.visualization.profiletable.profileinfo;
 
 import info.monitorenter.gui.chart.views.ChartPanel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -60,10 +61,14 @@ import uk.ac.ebi.masscascade.interfaces.Spectrum;
 import uk.ac.ebi.masscascade.interfaces.container.SpectrumContainer;
 import uk.ac.ebi.masscascade.knime.visualization.GraphColor;
 import uk.ac.ebi.masscascade.parameters.Constants;
+import uk.ac.ebi.masscascade.parameters.Constants.MSN;
 import uk.ac.ebi.masscascade.properties.Adduct;
 import uk.ac.ebi.masscascade.properties.Isotope;
+import uk.ac.ebi.masscascade.utilities.AnnotationUtils;
 import uk.ac.ebi.masscascade.utilities.DataSet;
 import uk.ac.ebi.masscascade.utilities.math.MathUtils;
+import uk.ac.ebi.masscascade.utilities.xyz.XYList;
+import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
 
 /**
  * Class implementing a profile information frame summarising all relevant profile information in a profile-centric
@@ -85,6 +90,7 @@ public class ProfileFrame extends JFrame {
 
 	private JPanel profilePanel;
 	private SimpleSpectrum chromatrogam;
+	private SimpleSpectrum msnSpectrum;
 
 	private JTable adductTable;
 	private JTable isotopeTable;
@@ -103,6 +109,7 @@ public class ProfileFrame extends JFrame {
 		super(title);
 		this.container = container;
 		this.setLayout(new GridLayout(2, 1));
+		this.setPreferredSize(new Dimension(800, 600));
 
 		graphColorTraces = new GraphColor();
 
@@ -167,15 +174,40 @@ public class ProfileFrame extends JFrame {
 		infoPanel.add(areaLabel, c);
 		c.gridx = 0;
 		c.gridy++;
-		
+
 		infoPanel.add(new JLabel("MSn IDs: "), c);
 		c.gridx = 1;
 		msnLabel = new JComboBox<String>();
 		msnLabel.setBorder(null);
+		msnLabel.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				
+				String msnString = (String) msnLabel.getSelectedItem();
+				msnString = msnString.substring(2, 3);
+				Constants.MSN msn = Constants.MSN.get(msnString);
+				
+				if (profile.hasMsnSpectra(MSN.MS2)) {
+					
+					Spectrum msnSpec = profile.getMsnSpectra(msn).get(0);
+					XYList data = msnSpec.getData();
+					Map<XYPoint, String> annotations = AnnotationUtils.getAnnotations(msnSpec.getProfileMap().values());
+					Collections.sort(data);
+
+					msnSpectrum.clearData();
+					msnSpectrum.addData(new DataSet.Builder(data, ""
+							+ MathUtils.roundToThreeDecimals(msnSpec.getRetentionTime())).color(Color.BLUE)
+							.annotations(annotations).build());
+					msnSpectrum.updateTraceRanges(true);
+				}
+				profilePanel.repaint();
+			}
+		});
 		infoPanel.add(msnLabel, c);
 		c.gridx = 0;
 		c.gridy++;
-		
+
 		infoPanel.add(new JLabel("Spectrum: "), c);
 		c.gridx = 1;
 		spectrumLabel = new JLabel();
@@ -183,7 +215,7 @@ public class ProfileFrame extends JFrame {
 		c.gridx = 0;
 		c.gridy++;
 
-		profilePanel = new JPanel(new GridLayout(1, 1));
+		profilePanel = new JPanel(new GridLayout(1, 2));
 
 		chromatrogam = new SimpleSpectrum();
 		chromatrogam.setAxisTitle("", "");
@@ -193,6 +225,15 @@ public class ProfileFrame extends JFrame {
 		tracePainter.put(PAINTERS.DISC, false);
 		chromatrogam.setDefaultTracePainter(tracePainter);
 		profilePanel.add(chart);
+
+		msnSpectrum = new SimpleSpectrum();
+		msnSpectrum.setAxisTitle("", "");
+		ChartPanel chartSpectrum = new ChartPanel(msnSpectrum);
+		Map<SimpleSpectrum.PAINTERS, Boolean> tracePainterSpectrum = new HashMap<SimpleSpectrum.PAINTERS, Boolean>();
+		tracePainterSpectrum.put(PAINTERS.BAR, false);
+		tracePainterSpectrum.put(PAINTERS.LABEL, false);
+		msnSpectrum.setDefaultTracePainter(tracePainterSpectrum);
+		profilePanel.add(chartSpectrum);
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -294,10 +335,10 @@ public class ProfileFrame extends JFrame {
 				if (spectrum.getProfile(id) != null)
 					break;
 			}
-			Chromatogram trace = spectrum.getProfile(id).getTrace(Constants.PADDING);
+			Profile profile = spectrum.getProfile(id);
+			Chromatogram trace = profile.getTrace(Constants.PADDING);
 			Color color = graphColorTraces.nextColor();
-			DataSet dataSet = new DataSet.Builder(trace.getData(), "" + spectrum.getProfile(id).getId()).color(color)
-					.build();
+			DataSet dataSet = new DataSet.Builder(trace.getData(), "" + profile.getId()).color(color).build();
 			chromatrogam.addData(dataSet);
 		}
 
@@ -313,18 +354,20 @@ public class ProfileFrame extends JFrame {
 		mzLabel.setText(MathUtils.THREE_DECIMAL_FORMAT.format(profile.getMzIntDp().x));
 		rtLabel.setText(MathUtils.THREE_DECIMAL_FORMAT.format(profile.getRetentionTime()));
 		areaLabel.setText(MathUtils.SCIENTIFIC_FORMAT.format(profile.getArea()));
-		Map<Integer, Set<Integer>> msnMap = profile.getMsnScans();
+		Map<Constants.MSN, Set<Integer>> msnMap = profile.getMsnScans();
 		String msnIds = "";
-		for (int msn : msnMap.keySet()) {
+		for (Constants.MSN msn : msnMap.keySet()) {
 			for (int childId : msnMap.get(msn)) {
-				msnIds = "MSn:" + (msn + 2) + " = id:" + childId + " ";
+				msnIds = msn.name() + " = id:" + childId + " ";
 				msnLabel.addItem(msnIds);
 			}
 		}
 
-		if (id != null) spectrumLabel.setText(id);
+		if (id != null)
+			spectrumLabel.setText(id);
 
-		DataSet profileData = new DataSet.Builder(profile.getPaddedData(Constants.PADDING).getXZSlice(), "").color(Color.BLUE).build();
+		DataSet profileData = new DataSet.Builder(profile.getPaddedData(Constants.PADDING).getXZSlice(), "").color(
+				Color.BLUE).build();
 		chromatrogam.addData(profileData);
 		profilePanel.repaint();
 
@@ -399,7 +442,7 @@ public class ProfileFrame extends JFrame {
 			for (Property prop : specProfile.getProperty(PropertyManager.TYPE.Adduct)) {
 				if (profileAdductRefs.contains(((Adduct) prop).getParentId())
 						|| profileAdductRefs.contains(((Adduct) prop).getChildId())) {
-						aduPropList.add(prop);
+					aduPropList.add(prop);
 				}
 			}
 		}

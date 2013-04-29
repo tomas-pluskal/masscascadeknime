@@ -16,9 +16,11 @@
 
 	<fullDescription>
 		<intro>
-			Profile-based query for the
+			Profile-based query for the 
 			<a href="http://www.chemspider.com/">Chemspider</a>
-			database. The returned molecule names and InChI are stored with the matching profiles. 
+			database. The returned molecule names and InChI are stored with the matching profiles.  
+			<br />
+			The node relies on a web service and may be slow.
 		</intro>
 
 		<option name="Data column">A Spectrum data column.</option>

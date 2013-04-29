@@ -11,19 +11,29 @@
 	<name>Metlin</name>
 
 	<shortDescription>
-		Profile-based Metlin database search.
+		Spectrum-based Metlin database search.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Simple profile-based
-			<a href="http://metlin.scripps.edu/">Metlin</a>
-			database queries. The profile mass-to-charge values are used for the query to identify peaks.
+		    Simple MSn spectra-based 
+			<a href="http://metlin.scripps.edu/">Metlin</a> 
+			database queries using the "spectrum search" method. The identity of reference spectra that match the query spectra 
+			are added to the M-H or M+H peak of the precursor spectra. Note that the node only searches MS2 spectra and only takes into account 
+			up to 30 high-intensity peaks.
 		</intro>
+		
+		<option name="Data column">A Spectrum data column.</option>
+		<option name="Mass tolerance">A query m/z tolerance in ppm for the precursor ion.</option>
+		<option name="Mass tolerance">A query m/z tolerance in amu for the MSn signals.</option>
+		<option name="Collision energy">A collision energy (20, 30, 40, ...).</option>
+		<option name="Score">The Metlin query score. Query results below the given score are rejected: 0-1</option>
+		<option name="Token">A Metlin authentication token.</option>
+		<option name="Ion mode">An ion mode.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing Peak or Spectrum data.</inPort>
-		<outPort index="0" name="Retrieved hits">Table containing annotated Peak or Spectrum data.</outPort>
+		<inPort index="0" name="Data table">Table containing Spectra Data.</inPort>
+		<outPort index="0" name="Retrieved hits">Table containing annotated Spectra Data.</outPort>
 	</ports>
 </knimeNode>

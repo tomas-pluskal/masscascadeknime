@@ -97,8 +97,8 @@ public class ProfileFilterNodeModel extends DefaultModel {
 		tmpSettings.loadSettings(settings);
 		
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
-		NodeUtils.validateRange(tmpSettings, Parameter.MZ_RANGE);
-		NodeUtils.validateRange(tmpSettings, Parameter.TIME_RANGE);
-		NodeUtils.validateRange(tmpSettings, Parameter.PROFILE_RANGE);
+		NodeUtils.validateDoubleRange(tmpSettings, Parameter.MZ_RANGE);
+		NodeUtils.validateDoubleRange(tmpSettings, Parameter.TIME_RANGE);
+		NodeUtils.validateDoubleRange(tmpSettings, Parameter.PROFILE_RANGE);
 	}
 }

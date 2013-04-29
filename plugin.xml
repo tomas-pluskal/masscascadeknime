@@ -40,7 +40,7 @@
    <extension point="org.knime.workbench.repository.nodes">
 <node category-path="/community/masscascade/io" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.io.read.MsFileReaderNodeFactory" id="uk.ac.ebi.masscascade.knime.io.read.MsFileReaderNodeFactory"/>
 <node category-path="/community/masscascade/viewer/dataVisualisation" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.totalion.TicViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.totalion.TicViewerNodeFactory"/>
-<!--<node category-path="/community/masscascade/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.metlin.MetlinNodeFactory" id="uk.ac.ebi.masscascade.knime.database.metlin.MetlinNodeFactory"/>-->
+<node category-path="/community/masscascade/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.metlin.MetlinNodeFactory" id="uk.ac.ebi.masscascade.knime.database.metlin.MetlinNodeFactory"/>
 <node category-path="/community/masscascade/smoothing" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.smoothing.sg.SavitzkyGolaySmootherNodeFactory" id="uk.ac.ebi.masscascade.knime.smoothing.sg.SavitzkyGolaySmootherNodeFactory"/>
 <node category-path="/community/masscascade/binning" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.binning.mz.MsBinnerMzNodeFactory" id="uk.ac.ebi.masscascade.knime.binning.mz.MsBinnerMzNodeFactory"/>
 <node category-path="/community/masscascade/viewer/dataVisualisation" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.spectrum.SpectrumViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.spectrum.SpectrumViewerNodeFactory"/>

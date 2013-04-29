@@ -16,16 +16,19 @@
 
 	<fullDescription>
 		<intro>
-			Simple spectra-based
+			Simple spectra-based 
 			<a href="http://www.massbank.jp/?lang=en">Massbank</a>
-			databases queries using the "spectrum search" method. The identity of reference spectra that match the query spectra
-			are added to the M-H or M+H peak of the query spectra. If no M-H or M+H peak can be found, the search is assumed to 
-			be invalid.
+			database queries using the "spectrum search" method. The identity of reference spectra that match the query spectra 
+			are added to the M-H or M+H peak of the query spectra of precursor spectra. If no M-H or M+H peak can be found, the search is assumed to 
+			be invalid. 
+			<br />
+			The node relies on a web service and may be slow.
 		</intro>
 
 		<option name="Data column">A Spectrum data column.</option>
 		<option name="Mass tolerance">A query m/z tolerance in ppm.</option>
-		<option name="Score">The MassBank query score. Query results under the given score are rejected: 0-1</option>
+		<option name="MSn level">A MSn level to query.</option>
+		<option name="Score">The MassBank query score. Query results below the given score are rejected: 0-1</option>
 		<option name="Min. number of profiles">A minimum number of profiles a spectrum must have to be considered for a database query.</option>
 		<option name="Max results">A maximum number of results that are accepted.</option>
 		<option name="Ion mode">An ion mode.</option>

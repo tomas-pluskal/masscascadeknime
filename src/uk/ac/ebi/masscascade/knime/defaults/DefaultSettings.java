@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.defaults;
 
@@ -56,11 +53,12 @@ public class DefaultSettings implements Settings {
 	public void setBooleanOption(String label, boolean bool) {
 		optionMap.put(label, "" + bool);
 	}
-	
+
 	@Override
 	public void setStringArrayOption(String label, String[] array) {
 		String res = "";
-		for (String s : array) res += s + "~";
+		for (String s : array)
+			res += s + "~";
 		res.substring(0, res.length() - 1);
 		optionMap.put(label, res);
 	}
@@ -82,7 +80,11 @@ public class DefaultSettings implements Settings {
 
 	@Override
 	public int getIntOption(String label) {
-		return Integer.parseInt(optionMap.get(label));
+		try {
+			return Integer.parseInt(optionMap.get(label));
+		} catch (Exception exception) {
+			return (int) Double.parseDouble(optionMap.get(label));
+		}
 	}
 
 	@Override
@@ -94,7 +96,7 @@ public class DefaultSettings implements Settings {
 	public boolean getBooleanOption(String label) {
 		return Boolean.parseBoolean(optionMap.get(label));
 	}
-	
+
 	@Override
 	public String[] getStringArrayOption(String label) {
 		return (optionMap.get(label) == null) ? new String[0] : optionMap.get(label).split("~");
@@ -139,7 +141,7 @@ public class DefaultSettings implements Settings {
 	public boolean getBooleanOption(Parameter parameter) {
 		return getBooleanOption(parameter.getDescription());
 	}
-	
+
 	@Override
 	public String[] getStringArrayOption(Parameter parameter) {
 		return getStringArrayOption(parameter.getDescription());

@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime;
 
@@ -63,7 +60,7 @@ public class NodeUtils {
 
 		int msDataCol = -1;
 		Parameter sourceColumn = sourceColumns[0];
-		for (int j = 0; j< sourceColumns.length; j++) {
+		for (int j = 0; j < sourceColumns.length; j++) {
 			sourceColumn = sourceColumns[j];
 			msDataCol = inSpec.findColumnIndex(settings.getColumnName(sourceColumn.getDescription()));
 			String name = "";
@@ -80,7 +77,8 @@ public class NodeUtils {
 				if (msDataCol != -1) {
 					name = inSpec.getColumnSpec(msDataCol).getName();
 					settings.setColumnName(sourceColumn.getDescription(), name);
-				} else continue;
+				} else
+					continue;
 			}
 
 			if (inSpec.getColumnSpec(msDataCol).getType().isCompatible(NodeParm.columnClass.get(sourceColumn)))
@@ -207,45 +205,92 @@ public class NodeUtils {
 		return row;
 	}
 
-	/**
-	 * Validates the input column against the settings.
-	 * 
-	 * @param tmpSettings the settings.
-	 * @param column the input column
-	 * @throws InvalidSettingsException if invalid
-	 */
 	public static void validateColumnSetting(Settings tmpSettings, Parameter column) throws InvalidSettingsException {
-
 		if (tmpSettings.getColumnName(column.getDescription()) == null
 				|| tmpSettings.getColumnName(column.getDescription()).length() == 0) {
-
-			throw new InvalidSettingsException("No valid column: " + column.name());
+			throw new InvalidSettingsException("No valid column found: " + column.getDescription());
 		}
+	}
+
+	public static void validateTextNotEmpty(Settings tmpSettings, Parameter parameter) throws InvalidSettingsException {
+		if (tmpSettings.getTextOption(parameter).isEmpty())
+			throw new InvalidSettingsException("String for \"" + parameter.getDescription() + "\" must not be empty.");
 	}
 
 	public static void validateDoubleGreaterZero(Settings tmpSettings, Parameter parameter)
 			throws InvalidSettingsException {
 
-		if (tmpSettings.getDoubleOption(parameter) <= 0)
-			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be positive.");
-	}
-
-	public static void validateTextNotEmpty(Settings tmpSettings, Parameter parameter) throws InvalidSettingsException {
-
-		if (tmpSettings.getTextOption(parameter).isEmpty())
-			throw new InvalidSettingsException("Token must not be empty.");
-	}
-
-	public static void validateRange(Settings tmpSettings, Parameter parameter) throws InvalidSettingsException {
-
-		String[] elements = tmpSettings.getTextOption(parameter).split("-");
-		if (elements.length != 2) {
-			throw new InvalidSettingsException("Range format exception: Lower-Upper.");
-		} else {
-			double ll = Double.parseDouble(elements[0]);
-			double ul = Double.parseDouble(elements[1]);
-			if (ul < ll)
-				throw new InvalidSettingsException("Range format exception: Lower-Upper.");
+		double value;
+		try {
+			value = tmpSettings.getDoubleOption(parameter);
+		} catch (Exception exception) {
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive number.");
 		}
+
+		if (value <= 0)
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive number.");
+	}
+
+	public static void validateIntGreaterZero(Settings tmpSettings, Parameter parameter)
+			throws InvalidSettingsException {
+
+		int value;
+		try {
+			value = tmpSettings.getIntOption(parameter);
+		} catch (Exception exception) {
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive integer.");
+		}
+
+		if (value <= 0)
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive integer.");
+
+	}
+
+	public static void validateDoubleRange(Settings tmpSettings, Parameter parameter) throws InvalidSettingsException {
+
+		try {
+			String[] elements = tmpSettings.getTextOption(parameter).split("-");
+			if (elements.length != 2) {
+				throw new InvalidSettingsException("");
+			} else {
+				double ll = Double.parseDouble(elements[0]);
+				double ul = Double.parseDouble(elements[1]);
+				if (ul < ll)
+					throw new InvalidSettingsException("");
+			}
+		} catch (Exception exception) {
+			throw new InvalidSettingsException(parameter.getDescription()
+					+ ": Number range format exception: Lower-Upper.");
+		}
+	}
+
+	public static void validateIntervalDouble(Settings tmpSettings, Parameter parameter, double min, double max)
+			throws InvalidSettingsException {
+
+		double value;
+		try {
+			value = tmpSettings.getDoubleOption(parameter);
+		} catch (Exception exception) {
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a number.");
+		}
+
+		if (value < min || value > max)
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be greater than " + min
+					+ " and less than " + max + ".");
+	}
+
+	public static void validateIntervalInt(Settings tmpSettings, Parameter parameter, int min, int max)
+			throws InvalidSettingsException {
+
+		int value;
+		try {
+			value = tmpSettings.getIntOption(parameter);
+		} catch (Exception exception) {
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be an integer.");
+		}
+
+		if (value < min || value > max)
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be greater than " + min
+					+ " and less than " + max + ".");
 	}
 }

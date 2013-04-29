@@ -44,6 +44,7 @@ public class MassbankSettings {
 	private Constants.ION_MODE ionMode = Constants.ION_MODE.POSITIVE;
 	private int maxNumOfResults = 50;
 	private String[] instruments = DEF_INST;
+	private int msnLevel = 2;
 
 	/**
 	 * @return the spectrumColumn
@@ -130,6 +131,20 @@ public class MassbankSettings {
 	}
 
 	/**
+	 * @param msnLevel the MSn level to query
+	 */
+	public final void setMSnLevel(int msnLevel) {
+		this.msnLevel = msnLevel;
+	}
+
+	/**
+	 * @return the MSn level to query
+	 */
+	public final int getMSnLevel() {
+		return msnLevel;
+	}
+
+	/**
 	 * Saves the settings into the given node settings object.
 	 * 
 	 * @param settings a node settings object
@@ -143,6 +158,7 @@ public class MassbankSettings {
 		settings.addStringArray("instruments", instruments);
 		settings.addInt("results", maxNumOfResults);
 		settings.addInt("minProfiles", minNumOfProfiles);
+		settings.addInt("msnLevel", msnLevel);
 	}
 
 	/**
@@ -159,6 +175,7 @@ public class MassbankSettings {
 		instruments = settings.getStringArray("instruments", DEF_INST);
 		maxNumOfResults = settings.getInt("results", 50);
 		minNumOfProfiles = settings.getInt("minProfiles", 3);
+		msnLevel = settings.getInt("msnLevel", 2);
 	}
 
 	/**
@@ -176,5 +193,6 @@ public class MassbankSettings {
 		instruments = settings.getStringArray("instruments");
 		maxNumOfResults = settings.getInt("results");
 		minNumOfProfiles = settings.getInt("minProfiles");
+		msnLevel = settings.getInt("msnLevel");
 	}
 }

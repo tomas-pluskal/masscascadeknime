@@ -51,6 +51,7 @@ import uk.ac.ebi.masscascade.interfaces.container.SpectrumContainer;
 import uk.ac.ebi.masscascade.knime.NodePlugin;
 import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumCell;
 import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
+import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.parameters.ParameterMap;
 import uk.ac.ebi.masscascade.ws.massbank.MassBankBatchSearch;
@@ -72,7 +73,6 @@ public class MassbankNodeModel extends NodeModel {
 	 * Constructor for the node model.
 	 */
 	protected MassbankNodeModel() {
-
 		super(1, 1);
 	}
 
@@ -115,6 +115,7 @@ public class MassbankNodeModel extends NodeModel {
 				params.put(Parameter.RESULTS, settings.getMaxNumOfResults());
 				params.put(Parameter.MIN_PROFILES, settings.getMinNumOfProfiles());
 				params.put(Parameter.SPECTRUM_CONTAINER, container);
+				params.put(Parameter.MS_LEVEL, Constants.MSN.get(settings.getMSnLevel()));
 
 				CallableWebservice task = new MassBankBatchSearch(params);
 				tasks.add(threadPool.enqueue(task));
@@ -260,7 +261,6 @@ public class MassbankNodeModel extends NodeModel {
 	 */
 	@Override
 	protected void saveSettingsTo(final NodeSettingsWO settings) {
-
 		this.settings.saveSettings(settings);
 	}
 
@@ -269,7 +269,6 @@ public class MassbankNodeModel extends NodeModel {
 	 */
 	@Override
 	protected void loadValidatedSettingsFrom(final NodeSettingsRO settings) throws InvalidSettingsException {
-
 		this.settings.loadSettings(settings);
 	}
 
@@ -296,6 +295,10 @@ public class MassbankNodeModel extends NodeModel {
 
 		if (tmpSettings.getMinNumOfProfiles() <= 0) {
 			throw new InvalidSettingsException("Min. no. of profiles must be positive.");
+		}
+		
+		if (tmpSettings.getMSnLevel() < 1) {
+			throw new InvalidSettingsException("The MSn level must be a positive integer.");
 		}
 	}
 

@@ -157,14 +157,14 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 			if (dataCol[j] == -1) {
 				int i = 0;
 				for (DataColumnSpec dcs : inSpec) {
-					if (dcs.getType().isCompatible(NodeParm.columnClass.get(dataColumnIn)))
+					if (dcs.getType().isCompatible(NodeParm.columnClass.get(columnIn)))
 						dataCol[j] = i;
 					i++;
 				}
 
 				if (dataCol[j] != -1) {
 					String name = inSpec.getColumnSpec(dataCol[j]).getName();
-					settings.setColumnName(dataColumnIn[j], name);
+					settings.setColumnName(columnIn, name);
 				}
 			}
 			j++;
@@ -180,56 +180,63 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 	protected void processRow(final DataRow inRow, final BufferedDataTable[] additionalData,
 			final RowAppender[] outputTables) throws Exception {
 
-		ParameterMap taskParms = parameterMap.clone();
-
-		for (int i = 0; i < colIndex.length; i++) {
-			DataCell cell = inRow.getCell(colIndex[i]);
-			if (cell.isMissing()) {
-				setWarningMessage("Missing cell: " + inRow.getKey() + " -- skipped");
+		try {
+			
+			ParameterMap taskParms = parameterMap.clone();
+	
+			for (int i = 0; i < colIndex.length; i++) {
+				DataCell cell = inRow.getCell(colIndex[i]);
+				if (cell.isMissing()) {
+					setWarningMessage("Missing cell: " + inRow.getKey() + " -- skipped");
+					skipRow(outputTables, inRow);
+					return;
+				}
+	
+				Parameter columnIn = dataColumnIn[i];
+	
+				Container file = null;
+				if (columnIn == Parameter.DATA_COLUMN) {
+					file = ((MsValue) cell).getMsDataValue();
+					taskParms.put(Parameter.RAW_CONTAINER, file);
+				} else if (columnIn.equals(Parameter.PEAK_COLUMN)) {
+					file = ((ProfileValue) cell).getPeakDataValue();
+					taskParms.put(Parameter.PROFILE_CONTAINER, file);
+				} else if (columnIn.equals(Parameter.SPECTRUM_COLUMN)) {
+					file = ((SpectrumValue) cell).getSpectrumDataValue();
+					taskParms.put(Parameter.SPECTRUM_CONTAINER, file);
+				}
+			}
+	
+			Constructor<?> cstr = taskClass.getConstructor(ParameterMap.class);
+			Task task = (Task) cstr.newInstance(taskParms);
+			Container container = task.call();
+	
+			if (container == null) {
+				setWarningMessage("Process failed: " + inRow.getKey() + " -- skipped");
 				skipRow(outputTables, inRow);
 				return;
 			}
-
-			Parameter columnIn = dataColumnIn[i];
-
-			Container file = null;
-			if (columnIn == Parameter.DATA_COLUMN) {
-				file = ((MsValue) cell).getMsDataValue();
-				taskParms.put(Parameter.RAW_CONTAINER, file);
-			} else if (columnIn.equals(Parameter.PEAK_COLUMN)) {
-				file = ((ProfileValue) cell).getPeakDataValue();
-				taskParms.put(Parameter.PROFILE_CONTAINER, file);
-			} else if (columnIn.equals(Parameter.SPECTRUM_COLUMN)) {
-				file = ((SpectrumValue) cell).getSpectrumDataValue();
-				taskParms.put(Parameter.SPECTRUM_CONTAINER, file);
-			}
+	
+			ids.add(container.getDataFile());
+			DataCell outCell;
+			if (container instanceof RawContainer)
+				outCell = new MsCell((RawContainer) container);
+			else if (container instanceof ProfileContainer)
+				outCell = new ProfileCell((ProfileContainer) container);
+			else if (container instanceof SpectrumContainer)
+				outCell = new SpectrumCell((SpectrumContainer) container);
+			else
+				outCell = DataType.getMissingCell();
+	
+			if (replace)
+				outputTables[0].addRowToTable(new ReplacedColumnsDataRow(inRow, outCell, colIndex[0]));
+			else
+				outputTables[0].addRowToTable(new AppendedColumnRow(inRow, outCell));
+			
+		} catch (Exception exception) {
+			setWarningMessage("Node execution failed for \"" + taskClass.getSimpleName() + "\". Details below.");
+			throw exception;
 		}
-
-		Constructor<?> cstr = taskClass.getConstructor(ParameterMap.class);
-		Task task = (Task) cstr.newInstance(taskParms);
-		Container container = task.call();
-
-		if (container == null) {
-			setWarningMessage("Process failed: " + inRow.getKey() + " -- skipped");
-			skipRow(outputTables, inRow);
-			return;
-		}
-
-		ids.add(container.getDataFile());
-		DataCell outCell;
-		if (container instanceof RawContainer)
-			outCell = new MsCell((RawContainer) container);
-		else if (container instanceof ProfileContainer)
-			outCell = new ProfileCell((ProfileContainer) container);
-		else if (container instanceof SpectrumContainer)
-			outCell = new SpectrumCell((SpectrumContainer) container);
-		else
-			outCell = DataType.getMissingCell();
-
-		if (replace)
-			outputTables[0].addRowToTable(new ReplacedColumnsDataRow(inRow, outCell, colIndex[0]));
-		else
-			outputTables[0].addRowToTable(new AppendedColumnRow(inRow, outCell));
 	}
 
 	private void skipRow(final RowAppender[] outputTables, DataRow inRow) {

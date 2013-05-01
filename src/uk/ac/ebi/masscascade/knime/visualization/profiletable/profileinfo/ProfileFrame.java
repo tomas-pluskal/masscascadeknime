@@ -27,8 +27,6 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -66,6 +64,7 @@ import uk.ac.ebi.masscascade.properties.Adduct;
 import uk.ac.ebi.masscascade.properties.Isotope;
 import uk.ac.ebi.masscascade.utilities.AnnotationUtils;
 import uk.ac.ebi.masscascade.utilities.DataSet;
+import uk.ac.ebi.masscascade.utilities.ProfUtils;
 import uk.ac.ebi.masscascade.utilities.math.MathUtils;
 import uk.ac.ebi.masscascade.utilities.xyz.XYList;
 import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
@@ -262,18 +261,18 @@ public class ProfileFrame extends JFrame {
 
 		identityTable = new JTable(new IdentityTableModel());
 		identityTable.setFillsViewportHeight(true);
-		identityTable.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				int row = identityTable.rowAtPoint(e.getPoint());
-				int modelRow = identityTable.convertRowIndexToModel(row);
-				boolean current = (Boolean) identityTable.getModel().getValueAt(modelRow, 2);
-				identityTable.getModel().setValueAt(!current, modelRow, 2);
-				identityTable.revalidate();
-			}
-		});
+//		identityTable.addMouseListener(new MouseAdapter() {
+//
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//
+//				int row = identityTable.rowAtPoint(e.getPoint());
+//				int modelRow = identityTable.convertRowIndexToModel(row);
+//				boolean current = (Boolean) identityTable.getModel().getValueAt(modelRow, 2);
+//				identityTable.getModel().setValueAt(!current, modelRow, 2);
+//				identityTable.revalidate();
+//			}
+//		});
 		JScrollPane identitySp = new JScrollPane(identityTable);
 		identitySp.setBackground(Color.WHITE);
 		identitySp.setBorder(BorderFactory.createTitledBorder("Identities"));
@@ -372,7 +371,7 @@ public class ProfileFrame extends JFrame {
 		profilePanel.repaint();
 
 		Set<Property> identities = profile.getProperty(PropertyManager.TYPE.Identity);
-		((IdentityTableModel) identityTable.getModel()).setDataList(identities);
+		((IdentityTableModel) identityTable.getModel()).setDataList(ProfUtils.getGroupedIdentities(identities));
 
 		TableRowSorter<IdentityTableModel> sorter = new TableRowSorter<IdentityTableModel>();
 		List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();

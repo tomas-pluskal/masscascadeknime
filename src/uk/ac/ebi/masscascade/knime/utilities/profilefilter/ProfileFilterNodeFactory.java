@@ -75,7 +75,7 @@ public class ProfileFilterNodeFactory extends NodeFactory<ProfileFilterNodeModel
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.DATA_COLUMN, ProfileValue.class);
+		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class);
 		dialog.addTextOption(Parameter.TIME_RANGE, 8);
 		dialog.addTextOption(Parameter.MZ_RANGE, 8);
 		dialog.addTextOption(Parameter.PROFILE_RANGE, 8);

@@ -96,7 +96,7 @@ public class ProfileFilterNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 		
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
 		NodeUtils.validateDoubleRange(tmpSettings, Parameter.MZ_RANGE);
 		NodeUtils.validateDoubleRange(tmpSettings, Parameter.TIME_RANGE);
 		NodeUtils.validateDoubleRange(tmpSettings, Parameter.PROFILE_RANGE);

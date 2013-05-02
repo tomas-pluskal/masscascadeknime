@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.deconvolution.biehman;
 
@@ -57,7 +54,8 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.NOISE_FACTOR, settings.getIntOption(Parameter.NOISE_FACTOR));
 		parameterMap.put(Parameter.CENTER, settings.getBooleanOption(Parameter.CENTER));
 
-		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
+		return getDataTableSpec(data, new Parameter[] { Parameter.PEAK_COLUMN, Parameter.DATA_COLUMN },
+				Parameter.PEAK_COLUMN, false);
 	}
 
 	/**
@@ -72,6 +70,7 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.CENTER, "" + Parameter.CENTER.getDefaultValue());
 		}
 
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.DATA_COLUMN);
 		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
 	}
 
@@ -85,6 +84,7 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 		tmpSettings.loadSettings(settings);
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.NOISE_FACTOR);
 	}

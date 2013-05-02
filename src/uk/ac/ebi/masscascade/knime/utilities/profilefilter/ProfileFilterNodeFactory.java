@@ -20,6 +20,8 @@
  */
 package uk.ac.ebi.masscascade.knime.utilities.profilefilter;
 
+import javax.swing.JCheckBox;
+
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
@@ -80,7 +82,8 @@ public class ProfileFilterNodeFactory extends NodeFactory<ProfileFilterNodeModel
 		dialog.addTextOption(Parameter.MZ_RANGE, 8);
 		dialog.addTextOption(Parameter.PROFILE_RANGE, 8);
 		dialog.addTextOption(Parameter.MIN_PROFILE_INTENSITY, 8);
-
+		dialog.addCustomOption("Keep isotopes", new JCheckBox());
+		
 		return dialog.build();
 	}
 }

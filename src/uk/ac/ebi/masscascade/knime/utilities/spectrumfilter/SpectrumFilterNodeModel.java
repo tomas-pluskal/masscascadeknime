@@ -63,6 +63,7 @@ public class SpectrumFilterNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.MZ_RANGE, rangeM);
 		parameterMap.put(Parameter.TIME_RANGE, rangeT);
 		parameterMap.put(Parameter.MIN_PROFILE_INTENSITY, settings.getDoubleOption(Parameter.MIN_PROFILE_INTENSITY));
+		parameterMap.put(Parameter.KEEP_ISOTOPES, settings.getBooleanOption("Keep isotopes"));
 
 		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
 	}

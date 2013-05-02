@@ -67,6 +67,7 @@ public class ProfileFilterNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.PROFILE_RANGE, rangeP);
 		parameterMap.put(Parameter.TIME_RANGE, rangeT);
 		parameterMap.put(Parameter.MIN_PROFILE_INTENSITY, settings.getDoubleOption(Parameter.MIN_PROFILE_INTENSITY));
+		parameterMap.put(Parameter.KEEP_ISOTOPES, settings.getBooleanOption("Keep isotopes"));
 
 		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
 	}

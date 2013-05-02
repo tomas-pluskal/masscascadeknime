@@ -45,6 +45,7 @@ public class MassbankSettings {
 	private int maxNumOfResults = 50;
 	private String[] instruments = DEF_INST;
 	private int msnLevel = 2;
+	private double ppm;
 
 	/**
 	 * @return the spectrumColumn
@@ -143,6 +144,21 @@ public class MassbankSettings {
 	public final int getMSnLevel() {
 		return msnLevel;
 	}
+	
+	/**
+	 * @return the ppm
+	 */
+	public final double getPpm() {
+		return ppm;
+	}
+
+	
+	/**
+	 * @param ppm the ppm to set
+	 */
+	public final void setPpm(double ppm) {
+		this.ppm = ppm;
+	}
 
 	/**
 	 * Saves the settings into the given node settings object.
@@ -159,6 +175,7 @@ public class MassbankSettings {
 		settings.addInt("results", maxNumOfResults);
 		settings.addInt("minProfiles", minNumOfProfiles);
 		settings.addInt("msnLevel", msnLevel);
+		settings.addDouble("ppm", ppm);
 	}
 
 	/**
@@ -176,6 +193,7 @@ public class MassbankSettings {
 		maxNumOfResults = settings.getInt("results", 50);
 		minNumOfProfiles = settings.getInt("minProfiles", 3);
 		msnLevel = settings.getInt("msnLevel", 2);
+		ppm = settings.getDouble("ppm", 10.0);
 	}
 
 	/**
@@ -194,5 +212,6 @@ public class MassbankSettings {
 		maxNumOfResults = settings.getInt("results");
 		minNumOfProfiles = settings.getInt("minProfiles");
 		msnLevel = settings.getInt("msnLevel");
+		ppm = settings.getDouble("ppm");
 	}
 }

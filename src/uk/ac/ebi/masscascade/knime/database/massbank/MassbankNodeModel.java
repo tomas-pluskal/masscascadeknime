@@ -106,6 +106,7 @@ public class MassbankNodeModel extends NodeModel {
 
 				container = ((SpectrumValue) row.getCell(colIndex)).getSpectrumDataValue();
 				ParameterMap params = new ParameterMap();
+				params.put(Parameter.MZ_WINDOW_PPM, settings.getPpm());
 				params.put(Parameter.SCORE, settings.getScore());
 				params.put(Parameter.ION_MODE, settings.getIonMode());
 
@@ -299,6 +300,10 @@ public class MassbankNodeModel extends NodeModel {
 		
 		if (tmpSettings.getMSnLevel() < 1) {
 			throw new InvalidSettingsException("The MSn level must be a positive integer.");
+		}
+		
+		if (tmpSettings.getPpm() < 0) {
+			throw new InvalidSettingsException("The m/z window be a positive integer.");
 		}
 	}
 

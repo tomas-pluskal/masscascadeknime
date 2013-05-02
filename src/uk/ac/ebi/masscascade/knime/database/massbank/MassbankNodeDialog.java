@@ -62,6 +62,7 @@ public class MassbankNodeDialog extends NodeDialogPane {
 	private JTextField score = new JTextField(6);
 	private JTextField maxNumOfResults = new JTextField(6);
 	private JTextField msnLevel = new JTextField(6);
+	private JTextField ppm = new JTextField(6);
 	private JRadioButton positiveButton = new JRadioButton("positive");
 	private JRadioButton negativeButton = new JRadioButton("negative");
 
@@ -91,6 +92,11 @@ public class MassbankNodeDialog extends NodeDialogPane {
 		panel.add(new JLabel("Spectrum column"), c);
 		c.gridx = 1;
 		panel.add(spectrumColumn, c);
+		c.gridy++;
+		c.gridx = 0;
+		panel.add(new JLabel("m/z window [ppm]"), c);
+		c.gridx++;
+		panel.add(ppm, c);
 		c.gridy++;
 		c.gridx = 0;
 		panel.add(new JLabel("Min. number of profiles"), c);
@@ -166,6 +172,7 @@ public class MassbankNodeDialog extends NodeDialogPane {
 		minProfiles.setText("" + this.settings.getMinNumOfProfiles());
 		maxNumOfResults.setText("" + this.settings.getMaxNumOfResults());
 		msnLevel.setText("" + this.settings.getMSnLevel());
+		ppm.setText("" + this.settings.getPpm());
 
 		if (this.settings.getIonMode() == Constants.ION_MODE.POSITIVE) {
 			positiveButton.setSelected(true);
@@ -193,6 +200,7 @@ public class MassbankNodeDialog extends NodeDialogPane {
 		this.settings.setMinNumOfProfiles(Integer.parseInt(minProfiles.getText()));
 		this.settings.setMaxNumOfResults(Integer.parseInt(maxNumOfResults.getText()));
 		this.settings.setMSnLevel(Integer.parseInt(msnLevel.getText()));
+		this.settings.setPpm(Double.parseDouble(ppm.getText()));
 
 		if (positiveButton.isSelected()) {
 			this.settings.setIonMode(Constants.ION_MODE.POSITIVE);

@@ -104,8 +104,22 @@ public class NodeUtils {
 	 */
 	public static DataTableSpec[] getOptionalDataTableSpec(final DataTableSpec inSpec, Settings settings,
 			Parameter sourceColumn) throws InvalidSettingsException {
+		return getOptionalDataTableSpec(inSpec, settings, sourceColumn.getDescription());
+	}
+	
+	/**
+	 * Returns a list of optional data table specifications.
+	 * 
+	 * @param inSpecs inputs specifications
+	 * @param settings settings file
+	 * @param column source column
+	 * @return the list of data table specifications
+	 * @throws InvalidSettingsException unexpected behaviour
+	 */
+	public static DataTableSpec[] getOptionalDataTableSpec(final DataTableSpec inSpec, Settings settings,
+			String sourceColumn) throws InvalidSettingsException {
 
-		int msDataCol = inSpec.findColumnIndex(settings.getColumnName(sourceColumn.getDescription()));
+		int msDataCol = inSpec.findColumnIndex(settings.getColumnName(sourceColumn));
 		String name = "";
 
 		if (msDataCol == -1) {
@@ -119,7 +133,7 @@ public class NodeUtils {
 
 			if (msDataCol != -1) {
 				name = inSpec.getColumnSpec(msDataCol).getName();
-				settings.setColumnName(sourceColumn.getDescription(), name);
+				settings.setColumnName(sourceColumn, name);
 			}
 		}
 

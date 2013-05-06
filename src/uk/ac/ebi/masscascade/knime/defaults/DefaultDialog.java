@@ -51,6 +51,7 @@ import org.knime.core.node.util.FilesHistoryPanel;
 
 import uk.ac.ebi.masscascade.exception.MassCascadeException;
 import uk.ac.ebi.masscascade.knime.defaults.elements.BooleanTableModel;
+import uk.ac.ebi.masscascade.knime.io.reference.OptionalColumnPanel;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
@@ -77,6 +78,7 @@ public class DefaultDialog extends NodeDialogPane {
 	private final Map<String, JComponent> customField;
 	private final Map<String, JScrollPane> scrollPane;
 	private final Map<String, ColumnSelectionComboxBox> comboBox;
+	private final List<OptionalColumnPanel> columnPanels;
 	// if the column selection combo box does not refer to the first input port
 	private final Map<String, Integer> comboBoxSpec;
 
@@ -92,7 +94,8 @@ public class DefaultDialog extends NodeDialogPane {
 		this.comboBox = new LinkedHashMap<String, ColumnSelectionComboxBox>();
 		this.comboBoxSpec = new LinkedHashMap<String, Integer>();
 		this.scrollPane = new LinkedHashMap<String, JScrollPane>();
-
+		this.columnPanels = new ArrayList<>();
+		
 		this.loopTerminus = new JCheckBox();
 
 		this.c = new GridBagConstraints();
@@ -221,6 +224,10 @@ public class DefaultDialog extends NodeDialogPane {
 		scrollPane.put(label, tableScrollPane);
 	}
 
+	public void addOptionalColumnPanel(final String label, final Class<? extends DataValue> cellValue) {
+		columnPanels.add(new OptionalColumnPanel(label, cellValue));
+	}
+
 	/**
 	 * Builds a panel containing all node settings.
 	 * 
@@ -237,7 +244,7 @@ public class DefaultDialog extends NodeDialogPane {
 		columnSPane.setBorder(null);
 		JScrollPane optionSPane = new JScrollPane(optionPanel);
 		optionSPane.setBorder(null);
-		
+
 		panel.add(columnSPane);
 		panel.add(optionSPane);
 
@@ -270,7 +277,17 @@ public class DefaultDialog extends NodeDialogPane {
 			c.gridx = 0;
 			c.gridy++;
 		}
-
+		
+		c.insets = new Insets(0, 0, 2, 0);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 2;
+		for (OptionalColumnPanel singleColPanel : columnPanels) {
+			
+			columnPanel.add(singleColPanel, c);
+			c.gridy++;
+		}
+		
+		c.gridwidth = 1;
 		c.insets = new Insets(0, 0, 0, 0);
 
 		return columnPanel;
@@ -310,7 +327,7 @@ public class DefaultDialog extends NodeDialogPane {
 		c.insets = new Insets(0, 0, 0, 0);
 		c.anchor = GridBagConstraints.NORTHWEST;
 		c.fill = GridBagConstraints.BOTH;
-		
+
 		c.gridwidth = 2;
 		for (String label : scrollPane.keySet()) {
 
@@ -318,7 +335,7 @@ public class DefaultDialog extends NodeDialogPane {
 			c.gridy++;
 		}
 		c.gridwidth = 1;
-		
+
 		c.insets = new Insets(10, 0, 0, 0);
 		optionPanel.add(new JLabel("Retain Data (Loop)" + PADDING), c);
 		c.gridx++;
@@ -366,6 +383,15 @@ public class DefaultDialog extends NodeDialogPane {
 			JTable table = (JTable) scrollPane.get(label).getViewport().getView();
 			((BooleanTableModel) table.getModel()).update(selected);
 		}
+		
+		for (OptionalColumnPanel singleColPanel : columnPanels) {
+			String colName = this.settings.getTextOption(singleColPanel.getDescription());
+			if (colName != null && colName.isEmpty()) singleColPanel.setIgnore(specs[0], true);
+			else {
+				singleColPanel.setIgnore(specs[0], false);
+				singleColPanel.setColumnName(specs[0], colName);
+			}
+		}
 
 		loopTerminus.setSelected(this.settings.getBooleanOption(TERMINUS));
 	}
@@ -396,6 +422,11 @@ public class DefaultDialog extends NodeDialogPane {
 			JTable table = (JTable) scrollPane.get(label).getViewport().getView();
 			String[] selectedObjects = ((BooleanTableModel) table.getModel()).getSelected().toArray(new String[] {});
 			this.settings.setStringArrayOption(label, selectedObjects);
+		}
+		
+		for (OptionalColumnPanel singleColPan : columnPanels) {
+			if (singleColPan.isIgnore()) this.settings.setTextOption(singleColPan.getDescription(), "");
+			else this.settings.setTextOption(singleColPan.getDescription(), singleColPan.getColumnName());
 		}
 
 		this.settings.setTextOption(TERMINUS, loopTerminus.isSelected() + "");

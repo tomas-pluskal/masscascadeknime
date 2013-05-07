@@ -46,7 +46,6 @@ public class MsFastDtwNodeModel extends DefaultModel {
 	 * Constructor for the node model.
 	 */
 	protected MsFastDtwNodeModel() {
-
 		super(2, 1, CoreTasks.FAST_DTW.getCallableClass());
 	}
 

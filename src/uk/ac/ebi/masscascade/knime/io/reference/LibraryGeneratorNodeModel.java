@@ -101,6 +101,7 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 		String libName = settings.getTextOption("Library Name");
 		String libSource = settings.getTextOption("Library Source");
 		int libMsn = settings.getIntOption("Library MSn");
+		
 		ReferenceContainer referenceContainer = new ReferenceContainer(libName, libSource, Constants.MSN.get(libMsn));
 
 		for (DataRow row : inData[0]) {
@@ -119,7 +120,7 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 			Double pTypeMass = pTypeMassCol == -1 ? 0 : getDouble(row.getCell(pTypeMassCol));
 			TreeSet<XYPoint> mzIntSet = getMzIntSet(row.getCell(mzCol), row.getCell(intensityCol));
 
-			ION_MODE mode = ionMode.contains("pos") ? ION_MODE.POSITIVE : ION_MODE.NEGATIVE;
+			ION_MODE mode = ionMode.toLowerCase().contains("pos") ? ION_MODE.POSITIVE : ION_MODE.NEGATIVE;
 
 			XYPoint basePeak = mzIntSet.iterator().next();
 			for (XYPoint xp : mzIntSet) {
@@ -176,17 +177,6 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 	}
 
 	/**
-	 * Creates the table output specification.
-	 */
-	private DataColumnSpec[] createOutputTableSpecification() {
-
-		List<DataColumnSpec> dataColumnSpecs = new ArrayList<DataColumnSpec>();
-		createColumnSpec(dataColumnSpecs, "Library", LibraryCell.TYPE);
-
-		return dataColumnSpecs.toArray(new DataColumnSpec[] {});
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -207,11 +197,27 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 		configureSingle(inSpecs[0], "mz list");
 		configureSingle(inSpecs[0], "intensity list");
 		
-//		settings.getTextOption("Library Name")
+		String libName = settings.getTextOption("Library Name");
+		if (libName == null || libName.isEmpty()) settings.setTextOption("Library Name", "MyLib");
+		String libSource = settings.getTextOption("Library Source");
+		if (libSource == null || libSource.isEmpty()) settings.setTextOption("Library Source", "MySource");
+		String msn = settings.getTextOption("Library MSn");
+		if (msn == null || msn.isEmpty()) settings.setTextOption("Library MSn", "1"); 
 
 		return new DataTableSpec[] { new DataTableSpec(createOutputTableSpecification()) };
 	}
 
+	/**
+	 * Creates the table output specification.
+	 */
+	private DataColumnSpec[] createOutputTableSpecification() {
+
+		List<DataColumnSpec> dataColumnSpecs = new ArrayList<DataColumnSpec>();
+		createColumnSpec(dataColumnSpecs, "Library", LibraryCell.TYPE);
+
+		return dataColumnSpecs.toArray(new DataColumnSpec[] {});
+	}
+	
 	private void configureSingle(DataTableSpec inSpec, String description) throws InvalidSettingsException {
 		if (settings.getTextOption(description) != null && !settings.getTextOption(description).isEmpty())
 			NodeUtils.getOptionalDataTableSpec(inSpec, settings, description);
@@ -225,6 +231,23 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 		DataColumnSpec colSpec = new DataColumnSpecCreator(colName, cellType).createSpec();
 		dataColumnSpecs.add(colSpec);
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException {
+		
+		Settings tmpSettings = new DefaultSettings();
+		tmpSettings.loadSettings(settings);
+		
+		if (tmpSettings.getTextOption("Library Name").isEmpty())
+			throw new InvalidSettingsException("String for \"Library Name\" must not be empty.");
+		if (tmpSettings.getTextOption("Library Source").isEmpty())
+			throw new InvalidSettingsException("String for \"Library Source\" must not be empty.");
+		if (tmpSettings.getIntOption("Library MSn") < 1 || tmpSettings.getIntOption("Library MSn") > 5)
+			throw new InvalidSettingsException("Integer for \"Library MSn\" must be greater than 0 and less than 6");
+	}
 
 	@Override
 	protected void saveSettingsTo(NodeSettingsWO settings) {
@@ -234,14 +257,6 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 	@Override
 	protected void loadValidatedSettingsFrom(NodeSettingsRO settings) throws InvalidSettingsException {
 		this.settings.loadSettings(settings);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException {
-		// nothing to do
 	}
 
 	@Override

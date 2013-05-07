@@ -19,6 +19,8 @@ package uk.ac.ebi.masscascade.knime.datatypes.librarycell;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import org.knime.core.data.DataCell;
@@ -31,10 +33,6 @@ import org.knime.core.data.StringValue;
 import org.knime.core.data.container.BlobDataCell;
 
 import uk.ac.ebi.masscascade.reference.ReferenceContainer;
-
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
 
 /**
  * Default implementation of a reference library.
@@ -88,7 +86,9 @@ public class LibraryCell extends BlobDataCell implements StringValue, LibraryVal
 	 * {@inheritDoc}
 	 */
 	public String getStringValue() {
-		return referenceContainer.toString();
+		String stringValue = referenceContainer.getId() + " (" + referenceContainer.getSource() + "): "
+				+ referenceContainer.size() + " spectra, " + referenceContainer.getMsn().name();
+		return stringValue;
 	}
 
 	/**
@@ -132,9 +132,10 @@ public class LibraryCell extends BlobDataCell implements StringValue, LibraryVal
 		 */
 		public void serialize(final LibraryCell cell, final DataCellDataOutput output) throws IOException {
 
-			Kryo kryo = new Kryo();
-			Output kryoOutput = new Output((OutputStream) output);
-			kryo.writeObject(kryoOutput, cell.getLibraryValue());
+			ObjectOutputStream oos = new ObjectOutputStream((OutputStream) output);
+			oos.writeObject(cell.getLibraryValue());
+			oos.flush();
+			oos.close();
 		}
 
 		/**
@@ -142,9 +143,13 @@ public class LibraryCell extends BlobDataCell implements StringValue, LibraryVal
 		 */
 		public LibraryCell deserialize(final DataCellDataInput input) throws IOException {
 
-			Kryo kryo = new Kryo();
-			Input kryoInput = new Input((InputStream) input);
-			ReferenceContainer libraryContainer = kryo.readObject(kryoInput, ReferenceContainer.class);
+			ReferenceContainer libraryContainer = null;
+			try {
+				ObjectInputStream ois = new ObjectInputStream((InputStream) input);
+				libraryContainer = (ReferenceContainer) ois.readObject();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 
 			return new LibraryCell(libraryContainer);
 		}

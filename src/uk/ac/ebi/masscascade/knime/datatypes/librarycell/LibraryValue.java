@@ -26,6 +26,7 @@ import org.knime.core.data.DataColumnSpec;
 import org.knime.core.data.DataValue;
 import org.knime.core.data.renderer.DataValueRendererFamily;
 import org.knime.core.data.renderer.DefaultDataValueRendererFamily;
+import org.knime.core.data.renderer.StringValueRenderer;
 
 import uk.ac.ebi.masscascade.reference.ReferenceContainer;
 
@@ -56,13 +57,11 @@ public interface LibraryValue extends DataValue {
 		}
 
 		public Icon getIcon() {
-
 			return ICON;
 		}
 
 		protected DataValueRendererFamily getRendererFamily(final DataColumnSpec spec) {
-
-			return new DefaultDataValueRendererFamily(new LibraryRenderer("Library Renderer"));
+			return new DefaultDataValueRendererFamily(StringValueRenderer.INSTANCE);
 		}
 	}
 }

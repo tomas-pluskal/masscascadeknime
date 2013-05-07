@@ -78,8 +78,8 @@ public class LibraryRenderer extends AbstractPainterDataValueRenderer {
 		int height = getHeight();
 		int width = getWidth();
 		
-		g.drawString("Spectra: " + size, (int) (width / 4), (int) (height - height / 2));
-		g.drawString(id + ": " + msn + " - " + source, 3, getHeight() - 3);
+		g.drawString(source + " - " + size + " spectra", (int) (width / 5), (int) (height - height / 2));
+		g.drawString(id + ": " + msn, 3, getHeight() - 3);
 	}
 
 	public String getDescription() {

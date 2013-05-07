@@ -1,5 +1,6 @@
 package uk.ac.ebi.masscascade.knime.io.reference;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -47,9 +48,11 @@ public class OptionalColumnPanel extends JPanel {
 	private void init() {
 
 		this.setBorder(null);
-
+		
+		columnSelectionBox.setSize(new Dimension(35, 20));
+		
 		GridBagConstraints c = new GridBagConstraints();
-		c.anchor = GridBagConstraints.WEST;
+		c.anchor = GridBagConstraints.NORTHEAST;
 		c.fill = GridBagConstraints.HORIZONTAL;
 
 		c.gridx = 0;

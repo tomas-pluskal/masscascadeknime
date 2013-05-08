@@ -16,7 +16,7 @@
 
 	<fullDescription>
 		<intro>
-			The node takes the selected input columns and generates a reference library that can be used with nodes from the MassCascade plug-in.
+			The node takes the selected input columns and generates a reference library that can be used with nodes from the MassCascade plug-in. Every library should only contain spectra of the indicated MSn level. 
 		</intro>
 
 		<option name="id">The value for the reference spectrum (String).</option>
@@ -33,6 +33,9 @@
 		<option name="precursor mass">The value for the reference spectrum (Double).</option>
 		<option name="mz list">The value for the reference spectrum (collection).</option>
 		<option name="intensity list">The value for the reference spectrum (collection).</option>
+		<option name="Library Name">The name of the library.</option>
+		<option name="Library Source">The source of the data.</option>
+		<option name="Library MSn">The MSn level of the library.</option>
 	</fullDescription>
 
 	<ports>

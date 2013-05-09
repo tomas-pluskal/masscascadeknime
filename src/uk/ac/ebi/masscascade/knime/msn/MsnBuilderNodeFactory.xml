@@ -7,7 +7,7 @@
 	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
 	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
-<knimeNode icon="./msnbuilder.png" type="Manipulator">
+<knimeNode icon="./msnenumerator.png" type="Manipulator">
 	<name>MSn Builder</name>
 
 	<shortDescription>

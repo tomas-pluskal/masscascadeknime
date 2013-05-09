@@ -21,7 +21,7 @@ import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 
-import uk.ac.ebi.masscascade.parameters.Parameter;
+import uk.ac.ebi.masscascade.interfaces.Option;
 
 /**
  * Interface for the default settings for MassCascade nodes.
@@ -36,7 +36,7 @@ public interface Settings {
 	 * @param parameter a column name parameter
 	 * @param name a column name
 	 */
-	public void setColumnName(Parameter parameter, String name);
+	public void setColumnName(Option parameter, String name);
 
 	/**
 	 * Sets the column name.
@@ -52,7 +52,7 @@ public interface Settings {
 	 * @param parameter a parameter for the String option
 	 * @param name a String option name
 	 */
-	public void setTextOption(Parameter parameter, String name);
+	public void setTextOption(Option parameter, String name);
 
 	/**
 	 * Sets a text option (<code>JTextField</code>).
@@ -68,7 +68,7 @@ public interface Settings {
 	 * @param parameter a parameter for the boolean option
 	 * @param bool a boolean value
 	 */
-	public void setBooleanOption(Parameter parameter, boolean bool);
+	public void setBooleanOption(Option parameter, boolean bool);
 
 	/**
 	 * Sets an array of strings.
@@ -92,7 +92,7 @@ public interface Settings {
 	 * @param parameter the parameter for the string array
 	 * @return the string array
 	 */
-	String[] getStringArrayOption(Parameter parameter);
+	String[] getStringArrayOption(Option parameter);
 
 	/**
 	 * Sets a boolean option.
@@ -115,7 +115,7 @@ public interface Settings {
 	 * @param parameter a parameter identifying the column name
 	 * @return the column name
 	 */
-	public String getColumnName(Parameter parameter);
+	public String getColumnName(Option parameter);
 
 	/**
 	 * Returns a column name.
@@ -131,7 +131,7 @@ public interface Settings {
 	 * @param parameter a parameter identifying the String option
 	 * @return the String option
 	 */
-	public String getTextOption(Parameter parameter);
+	public String getTextOption(Option parameter);
 
 	/**
 	 * Returns a text option.
@@ -147,7 +147,7 @@ public interface Settings {
 	 * @param parameter a parameter identifying the integer option
 	 * @return the integer option
 	 */
-	public int getIntOption(Parameter parameter);
+	public int getIntOption(Option parameter);
 
 	/**
 	 * Returns an integer option.
@@ -163,7 +163,7 @@ public interface Settings {
 	 * @param label a label identifying the double option
 	 * @return the double option
 	 */
-	public double getDoubleOption(Parameter parameter);
+	public double getDoubleOption(Option parameter);
 
 	/**
 	 * Returns a double option.
@@ -179,7 +179,7 @@ public interface Settings {
 	 * @param parameter a parameter identifying the boolean option
 	 * @return the boolean option
 	 */
-	public boolean getBooleanOption(Parameter parameter);
+	public boolean getBooleanOption(Option parameter);
 
 	/**
 	 * Returns a boolean option.

@@ -110,4 +110,24 @@ public class IdentityTableModel extends AbstractTableModel {
 			return String.class;
 		}
 	}
+
+	/**
+	 * Returns the line notation. Either SMILES or InChI.
+	 * 
+	 * @param row the index
+	 * @return the line notation
+	 */
+	public String getNotationAt(int row) {
+		return identities.get(row).getNotation();
+	}
+	
+	/**
+	 * Returns the identity.
+	 * 
+	 * @param row the index
+	 * @return the identity
+	 */
+	public Identity getIdentityAt(int row) {
+		return identities.get(row);
+	}
 }

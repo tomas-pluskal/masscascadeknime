@@ -112,7 +112,7 @@ public class LibSearchNodeModel extends DefaultModel {
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.REFERENCE_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_AMU);
-		NodeUtils.validateIntGreaterZero(tmpSettings, Parameter.COLLISION_ENERGY);
+		NodeUtils.validateIntGreaterOrEqualZero(tmpSettings, Parameter.COLLISION_ENERGY);
 		NodeUtils.validateIntGreaterZero(tmpSettings, Parameter.MS_LEVEL);
 		NodeUtils.validateIntervalInt(tmpSettings, Parameter.SCORE, 0, 1000);
 	}

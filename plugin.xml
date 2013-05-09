@@ -85,6 +85,7 @@
 <node category-path="/community/masscascade/viewer/profileVisualisation" factory-class="uk.ac.ebi.masscascade.knime.visualization.profile.ProfileViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.profile.ProfileViewerNodeFactory"/>
 <node category-path="/community/masscascade/profilePerception" factory-class="uk.ac.ebi.masscascade.knime.profileperception.biehman.BiehmanCompilerNodeFactory" id="uk.ac.ebi.masscascade.knime.profileperception.biehman.BiehmanCompilerNodeFactory"/>
 <node category-path="/community/masscascade/profilePerception" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory"/>
+<node category-path="/community/masscascade/identification" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory"/>
 <node category-path="/community/masscascade/io" factory-class="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory" id="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory"/>
 </extension>
    <extension point="org.eclipse.ui.preferencePages">

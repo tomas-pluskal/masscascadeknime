@@ -25,7 +25,7 @@
 		<option name="Reference column">A Library data column.</option>
 		<option name="Mass tolerance">A query m/z tolerance in ppm for the precursor ion.</option>
 		<option name="Mass tolerance">A query m/z tolerance in amu for the MSn signals.</option>
-		<option name="Collision energy">A collision energy (20, 30, 40, ...).</option>
+		<option name="Collision energy">A collision energy (20, 30, 40, ...). 0 matches all spectra.</option>
 		<option name="Score">The query score. Query results below the given score are rejected: 0-1000</option>
 		<option name="MSn Level">An MSn level to be queried.</option>
 		<option name="Ion mode">An ion mode.</option>

@@ -127,7 +127,7 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 				if (xp.y >= basePeak.y)
 					basePeak = xp;
 			}
-
+			
 			ReferenceSpectrum spectrum = new ReferenceSpectrum(id, title, source, name, notation, mass, formula,
 					instrument, mode, ptype, pTypeMass, ce, mzIntSet, basePeak);
 			referenceContainer.addSpectrum(spectrum);

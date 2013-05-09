@@ -3,27 +3,22 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.visualization.profiletable.profileinfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
@@ -39,8 +34,7 @@ import uk.ac.ebi.masscascade.properties.Isotope;
 public class IsotopeTableModel extends AbstractTableModel {
 
 	private List<Property> isotopes = new ArrayList<Property>();
-	private Map<Integer, Boolean> remMap = new HashMap<Integer, Boolean>();
-	private final String[] headers = new String[] { "Id", "Parent", "Child", "Remove" };
+	private final String[] headers = new String[] { "Id", "Parent", "Child" };
 
 	/**
 	 * Sets the isotope property list.
@@ -64,20 +58,10 @@ public class IsotopeTableModel extends AbstractTableModel {
 			this.isotopes = isotopes;
 	}
 
-	@Override
-	public void setValueAt(Object aValue, int row, int col) {
-
-		if (col == 3) {
-			remMap.put(row, (Boolean) aValue);
-			this.fireTableCellUpdated(row, col);
-		}
-	}
-
 	/**
 	 * Returns the number of column headers.
 	 */
 	public int getColumnCount() {
-
 		return headers.length;
 	}
 
@@ -85,7 +69,6 @@ public class IsotopeTableModel extends AbstractTableModel {
 	 * Returns the number of rows.
 	 */
 	public int getRowCount() {
-
 		return isotopes.size();
 	}
 
@@ -95,7 +78,6 @@ public class IsotopeTableModel extends AbstractTableModel {
 	 * @param col a column index
 	 */
 	public String getColumnName(int col) {
-
 		return headers[col];
 	}
 
@@ -119,9 +101,6 @@ public class IsotopeTableModel extends AbstractTableModel {
 		case 2:
 			value = ((Isotope) isotopes.get(row)).getChildId();
 			break;
-		case 3:
-			value = remMap.containsKey(row) ? remMap.get(row) : false;
-			break;
 		default:
 			value = false;
 			break;
@@ -135,14 +114,10 @@ public class IsotopeTableModel extends AbstractTableModel {
 	public Class getColumnClass(int c) {
 
 		switch (c) {
-		case 0:
-			return String.class;
 		case 1:
 			return Integer.class;
 		case 2:
 			return Integer.class;
-		case 3:
-			return Boolean.class;
 		default:
 			return String.class;
 		}

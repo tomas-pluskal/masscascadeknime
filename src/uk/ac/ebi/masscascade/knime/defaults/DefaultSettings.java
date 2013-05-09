@@ -24,7 +24,7 @@ import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 
-import uk.ac.ebi.masscascade.parameters.Parameter;
+import uk.ac.ebi.masscascade.interfaces.Option;
 
 /**
  * Default settings for MassCascade nodes.
@@ -103,47 +103,47 @@ public class DefaultSettings implements Settings {
 	}
 
 	@Override
-	public void setColumnName(Parameter parameter, String name) {
+	public void setColumnName(Option parameter, String name) {
 		setColumnName(parameter.getDescription(), name);
 	}
 
 	@Override
-	public void setTextOption(Parameter parameter, String name) {
+	public void setTextOption(Option parameter, String name) {
 		setTextOption(parameter.getDescription(), name);
 	}
 
 	@Override
-	public void setBooleanOption(Parameter parameter, boolean bool) {
+	public void setBooleanOption(Option parameter, boolean bool) {
 		setBooleanOption(parameter.getDescription(), bool);
 	}
 
 	@Override
-	public String getColumnName(Parameter parameter) {
+	public String getColumnName(Option parameter) {
 		return getColumnName(parameter.getDescription());
 	}
 
 	@Override
-	public String getTextOption(Parameter parameter) {
+	public String getTextOption(Option parameter) {
 		return getTextOption(parameter.getDescription());
 	}
 
 	@Override
-	public int getIntOption(Parameter parameter) {
+	public int getIntOption(Option parameter) {
 		return getIntOption(parameter.getDescription());
 	}
 
 	@Override
-	public double getDoubleOption(Parameter parameter) {
+	public double getDoubleOption(Option parameter) {
 		return getDoubleOption(parameter.getDescription());
 	}
 
 	@Override
-	public boolean getBooleanOption(Parameter parameter) {
+	public boolean getBooleanOption(Option parameter) {
 		return getBooleanOption(parameter.getDescription());
 	}
 
 	@Override
-	public String[] getStringArrayOption(Parameter parameter) {
+	public String[] getStringArrayOption(Option parameter) {
 		return getStringArrayOption(parameter.getDescription());
 	}
 

@@ -18,11 +18,9 @@
 package uk.ac.ebi.masscascade.knime.visualization.profiletable.profileinfo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
@@ -37,9 +35,8 @@ import uk.ac.ebi.masscascade.properties.Adduct;
  */
 public class AdductTableModel extends AbstractTableModel {
 
-	private final String[] headers = new String[] { "Id", "Parent", "Child", "Remove" };
+	private final String[] headers = new String[] { "Id", "Parent", "Child" };
 	private List<Property> adducts = new ArrayList<Property>();
-	private Map<Integer, Boolean> remMap = new HashMap<Integer, Boolean>();
 
 	/**
 	 * Sets the data list.
@@ -77,15 +74,6 @@ public class AdductTableModel extends AbstractTableModel {
 					duplicateSet.add(propString);
 			}
 
-		}
-	}
-
-	@Override
-	public void setValueAt(Object aValue, int row, int col) {
-
-		if (col == 3) {
-			remMap.put(row, (Boolean) aValue);
-			this.fireTableCellUpdated(row, col);
 		}
 	}
 
@@ -132,8 +120,6 @@ public class AdductTableModel extends AbstractTableModel {
 		case 2:
 			value = ((Adduct) adducts.get(row)).getChildId();
 			break;
-		case 3:
-			value = remMap.containsKey(row) ? remMap.get(row) : false;
 		default:
 			value = false;
 			break;
@@ -153,8 +139,6 @@ public class AdductTableModel extends AbstractTableModel {
 			return Integer.class;
 		case 2:
 			return Integer.class;
-		case 3:
-			return Boolean.class;
 		default:
 			return String.class;
 		}

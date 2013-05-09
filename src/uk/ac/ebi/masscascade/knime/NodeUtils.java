@@ -36,6 +36,7 @@ import org.knime.core.node.BufferedDataTable;
 import org.knime.core.node.ExecutionMonitor;
 import org.knime.core.node.InvalidSettingsException;
 
+import uk.ac.ebi.masscascade.interfaces.Option;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -219,7 +220,7 @@ public class NodeUtils {
 		return row;
 	}
 
-	public static void validateColumnSetting(Settings tmpSettings, Parameter column) throws InvalidSettingsException {
+	public static void validateColumnSetting(Settings tmpSettings, Option column) throws InvalidSettingsException {
 		if (tmpSettings.getColumnName(column.getDescription()) == null
 				|| tmpSettings.getColumnName(column.getDescription()).length() == 0) {
 			throw new InvalidSettingsException("No valid column found: " + column.getDescription());
@@ -231,7 +232,7 @@ public class NodeUtils {
 			throw new InvalidSettingsException("String for \"" + parameter.getDescription() + "\" must not be empty.");
 	}
 
-	public static void validateDoubleGreaterZero(Settings tmpSettings, Parameter parameter)
+	public static void validateDoubleGreaterZero(Settings tmpSettings, Option parameter)
 			throws InvalidSettingsException {
 
 		double value;
@@ -245,7 +246,7 @@ public class NodeUtils {
 			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive number.");
 	}
 
-	public static void validateIntGreaterZero(Settings tmpSettings, Parameter parameter)
+	public static void validateIntGreaterZero(Settings tmpSettings, Option parameter)
 			throws InvalidSettingsException {
 
 		int value;
@@ -259,8 +260,23 @@ public class NodeUtils {
 			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive integer.");
 
 	}
+	
+	public static void validateIntGreaterOrEqualZero(Settings tmpSettings, Option parameter)
+			throws InvalidSettingsException {
 
-	public static void validateDoubleRange(Settings tmpSettings, Parameter parameter) throws InvalidSettingsException {
+		int value;
+		try {
+			value = tmpSettings.getIntOption(parameter);
+		} catch (Exception exception) {
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive integer or 0.");
+		}
+
+		if (value < 0)
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive integer or 0.");
+
+	}
+
+	public static void validateDoubleRange(Settings tmpSettings, Option parameter) throws InvalidSettingsException {
 
 		try {
 			String[] elements = tmpSettings.getTextOption(parameter).split("-");
@@ -278,7 +294,7 @@ public class NodeUtils {
 		}
 	}
 
-	public static void validateIntervalDouble(Settings tmpSettings, Parameter parameter, double min, double max)
+	public static void validateIntervalDouble(Settings tmpSettings, Option parameter, double min, double max)
 			throws InvalidSettingsException {
 
 		double value;
@@ -293,7 +309,7 @@ public class NodeUtils {
 					+ " and less than " + max + ".");
 	}
 
-	public static void validateIntervalInt(Settings tmpSettings, Parameter parameter, int min, int max)
+	public static void validateIntervalInt(Settings tmpSettings, Option parameter, int min, int max)
 			throws InvalidSettingsException {
 
 		int value;

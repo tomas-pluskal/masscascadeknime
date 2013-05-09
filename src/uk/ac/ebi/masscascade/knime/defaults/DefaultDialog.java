@@ -50,9 +50,9 @@ import org.knime.core.node.util.ColumnSelectionComboxBox;
 import org.knime.core.node.util.FilesHistoryPanel;
 
 import uk.ac.ebi.masscascade.exception.MassCascadeException;
+import uk.ac.ebi.masscascade.interfaces.Option;
 import uk.ac.ebi.masscascade.knime.defaults.elements.BooleanTableModel;
 import uk.ac.ebi.masscascade.knime.io.reference.OptionalColumnPanel;
-import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
  * <code>DefaultDialog</code> for MassCascade nodes.
@@ -120,7 +120,7 @@ public class DefaultDialog extends NodeDialogPane {
 	 * @param parameter a parameter enum for the selection box
 	 * @param cellValue a <code>CellValue</code> defining the selection box
 	 */
-	public void addColumnSelection(final Parameter parameter, final Class<? extends DataValue>... cellValue) {
+	public void addColumnSelection(final Option parameter, final Class<? extends DataValue>... cellValue) {
 		addColumnSelection(parameter.getDescription(), cellValue);
 	}
 
@@ -145,7 +145,7 @@ public class DefaultDialog extends NodeDialogPane {
 	 * @param tableSpec a data table specification index
 	 * @param cellValue a <code>CellValue</code> defining the selection box
 	 */
-	public void addColumnSelection(final Parameter parameter, final int tableSpec,
+	public void addColumnSelection(final Option parameter, final int tableSpec,
 			final Class<? extends DataValue>... cellValue) {
 		addColumnSelection(parameter.getDescription(), tableSpec, cellValue);
 	}
@@ -156,7 +156,7 @@ public class DefaultDialog extends NodeDialogPane {
 	 * @param parameter a parameter enum for the text field
 	 * @param width a width for the text field
 	 */
-	public void addTextOption(final Parameter parameter, final int width) {
+	public void addTextOption(final Option parameter, final int width) {
 		addTextOption(parameter.getDescription(), width);
 	}
 
@@ -176,7 +176,7 @@ public class DefaultDialog extends NodeDialogPane {
 	 * @param parameter a parameter enum for the component
 	 * @param component a component
 	 */
-	public void addCustomOption(final Parameter parameter, final JComponent component) {
+	public void addCustomOption(final Option parameter, final JComponent component) {
 		addCustomOption(parameter.getDescription(), component);
 	}
 
@@ -201,7 +201,7 @@ public class DefaultDialog extends NodeDialogPane {
 	 * @param parameter the parameter for the table
 	 * @param objects the objects and their state
 	 */
-	public void addBooleanTable(final Parameter parameter, Map<String, Boolean> objects) {
+	public void addBooleanTable(final Option parameter, Map<String, Boolean> objects) {
 		addBooleanTable(parameter.getDescription(), objects);
 	}
 

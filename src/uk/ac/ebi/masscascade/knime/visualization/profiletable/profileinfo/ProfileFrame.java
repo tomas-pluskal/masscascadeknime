@@ -27,6 +27,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -52,6 +54,7 @@ import javax.swing.table.TableRowSorter;
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum;
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum.PAINTERS;
 import uk.ac.ebi.masscascade.core.PropertyManager;
+import uk.ac.ebi.masscascade.core.PropertyManager.TYPE;
 import uk.ac.ebi.masscascade.interfaces.Chromatogram;
 import uk.ac.ebi.masscascade.interfaces.Profile;
 import uk.ac.ebi.masscascade.interfaces.Property;
@@ -61,6 +64,7 @@ import uk.ac.ebi.masscascade.knime.visualization.GraphColor;
 import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Constants.MSN;
 import uk.ac.ebi.masscascade.properties.Adduct;
+import uk.ac.ebi.masscascade.properties.Identity;
 import uk.ac.ebi.masscascade.properties.Isotope;
 import uk.ac.ebi.masscascade.utilities.AnnotationUtils;
 import uk.ac.ebi.masscascade.utilities.DataSet;
@@ -68,6 +72,9 @@ import uk.ac.ebi.masscascade.utilities.ProfUtils;
 import uk.ac.ebi.masscascade.utilities.math.MathUtils;
 import uk.ac.ebi.masscascade.utilities.xyz.XYList;
 import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 /**
  * Class implementing a profile information frame summarising all relevant profile information in a profile-centric
@@ -93,7 +100,10 @@ public class ProfileFrame extends JFrame {
 
 	private JTable adductTable;
 	private JTable isotopeTable;
+	private JTable fragmentTable;
 	private JTable identityTable;
+	
+	private MoleculePanel moleculePanel;
 
 	private GraphColor graphColorTraces;
 
@@ -261,18 +271,48 @@ public class ProfileFrame extends JFrame {
 
 		identityTable = new JTable(new IdentityTableModel());
 		identityTable.setFillsViewportHeight(true);
-//		identityTable.addMouseListener(new MouseAdapter() {
-//
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//
-//				int row = identityTable.rowAtPoint(e.getPoint());
-//				int modelRow = identityTable.convertRowIndexToModel(row);
-//				boolean current = (Boolean) identityTable.getModel().getValueAt(modelRow, 2);
-//				identityTable.getModel().setValueAt(!current, modelRow, 2);
-//				identityTable.revalidate();
-//			}
-//		});
+		identityTable.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				int row = identityTable.rowAtPoint(e.getPoint());
+				int modelRow = identityTable.convertRowIndexToModel(row);
+				Identity tmpIdentity = ((IdentityTableModel) identityTable.getModel()).getIdentityAt(modelRow);
+				String notation = tmpIdentity.getNotation();
+				moleculePanel.drawMolecule(notation);
+				moleculePanel.revalidate();
+				
+				String msnString = (String) msnLabel.getSelectedItem();
+				msnString = msnString.substring(2, 3);
+				Constants.MSN msn = Constants.MSN.get(msnString);
+				
+				Multimap<Double, Identity> msnMassToIdentity = HashMultimap.create();
+				Set<String> duplicates = new HashSet<>();
+				for (Profile msnProfile : profile.getMsnSpectra(msn).get(0)) {
+					if (!msnProfile.hasProperty(TYPE.Identity)) continue;
+					
+					for (Property property : msnProfile.getProperty(TYPE.Identity)) {
+						Identity identity = (Identity) property;
+						if (tmpIdentity.getId().contains(identity.getSource())) {
+							String dupString = msnProfile.getMz() + "-" + identity.getNotation();
+							if (duplicates.contains(dupString)) continue;
+							duplicates.add(dupString);
+							msnMassToIdentity.put(msnProfile.getMz(), (Identity) identity);
+						}
+					}
+				}
+
+				((FragmentTableModel) fragmentTable.getModel()).setDataList(msnMassToIdentity);
+				TableRowSorter<FragmentTableModel> sorter = new TableRowSorter<FragmentTableModel>();
+				List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+				sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+				sorter.setModel((FragmentTableModel) fragmentTable.getModel());
+				sorter.setSortKeys(sortKeys);
+				fragmentTable.setRowSorter(sorter);
+				fragmentTable.revalidate();
+			}
+		});
 		JScrollPane identitySp = new JScrollPane(identityTable);
 		identitySp.setBackground(Color.WHITE);
 		identitySp.setBorder(BorderFactory.createTitledBorder("Identities"));
@@ -292,7 +332,29 @@ public class ProfileFrame extends JFrame {
 		JScrollPane isotopeSp = new JScrollPane(isotopeTable);
 		isotopeSp.setBackground(Color.WHITE);
 		isotopeSp.setBorder(BorderFactory.createTitledBorder("Isotopes"));
-		southPanel.add(isotopeSp);
+		
+		fragmentTable = new JTable(new FragmentTableModel());
+		fragmentTable.setFillsViewportHeight(true);
+		fragmentTable.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				int row = fragmentTable.rowAtPoint(e.getPoint());
+				String notation = (String) fragmentTable.getValueAt(row, 1);
+				moleculePanel.drawMolecule(notation);
+				moleculePanel.revalidate();
+			}
+		});
+		JScrollPane fragmentSp = new JScrollPane(fragmentTable);
+		fragmentSp.setBackground(Color.WHITE);
+		fragmentSp.setBorder(BorderFactory.createTitledBorder("Fragments"));
+		
+		JPanel middleSplitPanel = new JPanel(new GridLayout(2, 1));
+		middleSplitPanel.add(isotopeSp);
+		middleSplitPanel.add(fragmentSp);
+		
+		southPanel.add(middleSplitPanel);
 
 		adductTable = new JTable(new AdductTableModel());
 		adductTable.setFillsViewportHeight(true);
@@ -308,7 +370,14 @@ public class ProfileFrame extends JFrame {
 		JScrollPane adductSp = new JScrollPane(adductTable);
 		adductSp.setBackground(Color.WHITE);
 		adductSp.setBorder(BorderFactory.createTitledBorder("Adducts"));
-		southPanel.add(adductSp);
+		
+		JPanel splitPanel = new JPanel(new GridLayout(2, 1));
+		moleculePanel = new MoleculePanel();
+		moleculePanel.setBorder(BorderFactory.createTitledBorder("Molecule"));
+		splitPanel.add(adductSp);
+		splitPanel.add(moleculePanel);
+		
+		southPanel.add(splitPanel);
 
 		add(southPanel);
 	}
@@ -381,7 +450,7 @@ public class ProfileFrame extends JFrame {
 		sorter.setSortKeys(sortKeys);
 		identityTable.setRowSorter(sorter);
 		identityTable.revalidate();
-
+		
 		if (container != null) {
 
 			Iterator<Spectrum> spectrumIterator = container.iterator();
@@ -397,7 +466,7 @@ public class ProfileFrame extends JFrame {
 		} else {
 			Set<Property> isotopes = profile.getProperty(PropertyManager.TYPE.Isotope);
 			((IsotopeTableModel) isotopeTable.getModel()).setDataList(isotopes);
-
+			
 			Set<Property> adducts = profile.getProperty(PropertyManager.TYPE.Adduct);
 			((AdductTableModel) adductTable.getModel()).setDataList(adducts);
 		}
@@ -447,6 +516,14 @@ public class ProfileFrame extends JFrame {
 		}
 
 		((IsotopeTableModel) isotopeTable.getModel()).setDataList(isoPropList);
+		TableRowSorter<IsotopeTableModel> isoSorter = new TableRowSorter<IsotopeTableModel>();
+		List<RowSorter.SortKey> isoSortKeys = new ArrayList<RowSorter.SortKey>();
+		isoSortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+		isoSorter.setModel((IsotopeTableModel) isotopeTable.getModel());
+		isoSorter.setSortKeys(isoSortKeys);
+		isotopeTable.setRowSorter(isoSorter);
+		isotopeTable.revalidate();
+		
 		((AdductTableModel) adductTable.getModel()).setDataList(aduPropList);
 	}
 }

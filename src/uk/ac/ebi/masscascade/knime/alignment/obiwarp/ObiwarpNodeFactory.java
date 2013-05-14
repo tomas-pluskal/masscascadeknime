@@ -82,8 +82,8 @@ public class ObiwarpNodeFactory extends NodeFactory<ObiwarpNodeModel> {
 		dialog.addTextOption(Parameter.GAP_INIT, 5);
 		dialog.addTextOption(Parameter.GAP_EXTEND, 5);
 		dialog.addTextOption(Parameter.RESPONSE, 5);
-		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 5);
-		dialog.addTextOption(Parameter.TIME_WINDOW, 5);
+		dialog.addTextOption(Parameter.BIN_WIDTH_MZ, 5);
+		dialog.addTextOption(Parameter.BIN_WIDTH_RT, 5);
 
 		return dialog.build();
 	}

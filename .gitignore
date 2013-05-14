@@ -178,3 +178,6 @@ pip-log.txt
 
 # Icons
 icons/archive
+
+# Lib
+lib/

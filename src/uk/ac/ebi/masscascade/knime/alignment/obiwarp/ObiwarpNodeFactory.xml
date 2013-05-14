@@ -16,11 +16,11 @@
 
 	<fullDescription>
 		<intro>
-			The node calls the referenced
-			<a href="http://obi-warp.sourceforge.net/">Obiwarp</a>
-			binary with the given parameters. The reference MS Data cell is taken from the first row in the reference table.
-			<br />
-			Note that only the first row of the reference is read.
+			The node calls the referenced 
+			<a href="http://obi-warp.sourceforge.net/">Obiwarp</a> 
+			binary with the given parameters. The reference MS Data cell is taken from the first row in the reference table. 
+			<br /> 
+			Note that only the first row of the reference is read. 
 		</intro>
 		<option name="Data column">A Profile data column.</option>
 		<option name="Reference column">A reference Profile column.</option>
@@ -28,7 +28,8 @@
 		<option name="Gap init">A gap penalty for initiating a gap.</option>
 		<option name="Gap ext">A gap penalty for extending a gap.</option>
 		<option name="Response">A responsiveness value for the warping [0 - 100].</option>
-		<option name="Mass window">A size for the m/z bins in ppm to group profiles across references.</option>
+		<option name="Mass window">A width for m/z bins in amu.</option>
+		<option name="Time window">A width for time bins in seconds.</option>
 	</fullDescription>
 
 	<ports>

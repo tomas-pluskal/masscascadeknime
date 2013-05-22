@@ -30,26 +30,19 @@ import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.vecmath.Point3f;
 
-import org.freehep.j3d.plot.Binned2DData;
 import org.knime.core.data.DataRow;
 import org.knime.core.node.NodeView;
 import org.knime.core.node.tableview.TableContentModel;
 import org.knime.core.node.tableview.TableView;
 
-import uk.ac.ebi.masscascade.chartsthreed.Plot3DSurface;
-import uk.ac.ebi.masscascade.chartsthreed.data.Unbinned3DDataImpl;
-import uk.ac.ebi.masscascade.interfaces.Scan;
 import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsCell;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Parameter;
-import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
 
 /**
  * <code>NodeView</code> for the "MsViewer" Node. Visualises the data (scans and meta information) of the selected mass
@@ -62,12 +55,12 @@ public class Spectrum3DNodeView extends NodeView<Spectrum3DNodeModel> {
 	private TableView tableView;
 	private int msDataCol;
 	private JSplitPane graphicsPanel;
-	private JScrollPane tablePane;
+//	private JScrollPane tablePane;
 	private JMenu msnMenu;
 	private List<JMenuItem> msnLevelItems;
-	private int xRes, yRes;
+//	private int xRes, yRes;
 	private int lastSelected;
-	private Plot3DSurface display;
+//	private Ploót3DSurface display;
 	private RawContainer rawContainer;
 	private final Settings settings;
 
@@ -86,9 +79,9 @@ public class Spectrum3DNodeView extends NodeView<Spectrum3DNodeModel> {
 		layoutTableView(nodeModel);
 		layoutMenuBar();
 
-		display = new Plot3DSurface();
+//		display = new Plot3DSurface();
 
-		graphicsPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, display, tablePane);
+//		graphicsPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, display, tablePane);
 		graphicsPanel.setEnabled(false);
 		graphicsPanel.setResizeWeight(0.75);
 		graphicsPanel.setDividerLocation(350);
@@ -121,7 +114,7 @@ public class Spectrum3DNodeView extends NodeView<Spectrum3DNodeModel> {
 			}
 		});
 
-		tablePane = new JScrollPane(tableView);
+//		tablePane = new JScrollPane(tableView);
 	}
 
 	/**
@@ -151,10 +144,10 @@ public class Spectrum3DNodeView extends NodeView<Spectrum3DNodeModel> {
 
 		updateMsnLevelItems();
 
-		xRes = settings.getIntOption(Parameter.TIME_RESOLUTION);
-		yRes = settings.getIntOption(Parameter.MASS_RESOLUTION);
+//		xRes = settings.getIntOption(Parameter.TIME_RESOLUTION);
+//		yRes = settings.getIntOption(Parameter.MASS_RESOLUTION);
 
-		display.setData(getBinnedData(level));
+//		display.setData(getBinnedData(level));
 
 		graphicsPanel.validate();
 		graphicsPanel.repaint();
@@ -163,23 +156,23 @@ public class Spectrum3DNodeView extends NodeView<Spectrum3DNodeModel> {
 	/**
 	 * Returns the binned data needed for the 3D plot.
 	 */
-	private Binned2DData getBinnedData(Constants.MSN level) {
+//	private Binned2DData getBinnedData(Constants.MSN level) {
 
-		Unbinned3DDataImpl unbinned3DData = new Unbinned3DDataImpl();
+//		Unbinned3DDataImpl unbinned3DData = new Unbinned3DDataImpl();
 
-		for (Scan scan : rawContainer) {
-			for (XYPoint dataPoint : scan.getData()) {
-				unbinned3DData.addDataPoint(new Point3f((float) scan.getRetentionTime(), (float) dataPoint.x,
-						(float) dataPoint.y));
-			}
-			scan = null;
-		}
-
-		Binned2DData binned2dData = unbinned3DData.getBinned2DData(xRes, yRes);
-		unbinned3DData = null;
-
-		return binned2dData;
-	}
+//		for (Scan scan : rawContainer) {
+//			for (XYPoint dataPoint : scan.getData()) {
+//				unbinned3DData.addDataPoint(new Point3f((float) scan.getRetentionTime(), (float) dataPoint.x,
+//						(float) dataPoint.y));
+//			}
+//			scan = null;
+//		}
+//
+//		Binned2DData binned2dData = unbinned3DData.getBinned2DData(xRes, yRes);
+//		unbinned3DData = null;
+//
+//		return binned2dData;
+//	}
 
 	/**
 	 * Updates the MSn Menu items based on the raw data.

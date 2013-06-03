@@ -77,7 +77,7 @@ public class IonSearchNodeModel extends DefaultModel {
 			if (row.getCell(labelIndex).isMissing() || row.getCell(massIndex).isMissing()) continue;
 			String name = ((StringValue) row.getCell(labelIndex)).getStringValue();
 			double mass = ((DoubleValue) row.getCell(massIndex)).getDoubleValue() + delta;
-
+			
 			adductMap.put(mass, name);
 		}
 		parameterMap.put(Parameter.ION_LIST, adductMap);

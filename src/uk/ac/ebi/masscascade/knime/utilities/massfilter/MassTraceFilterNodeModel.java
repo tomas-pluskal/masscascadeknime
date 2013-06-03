@@ -20,8 +20,7 @@
  */
 package uk.ac.ebi.masscascade.knime.utilities.massfilter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.TreeSet;
 
 import org.knime.core.data.DataRow;
 import org.knime.core.data.DataTable;
@@ -59,7 +58,7 @@ public class MassTraceFilterNodeModel extends DefaultModel {
 	@Override
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
-		List<Double> massesForRemoval = new ArrayList<Double>();
+		TreeSet<Double> massesForRemoval = new TreeSet<Double>();
 		final int massIndex = data[1].getDataTableSpec()
 				.findColumnIndex(settings.getColumnName(Parameter.VALUE_COLUMN));
 

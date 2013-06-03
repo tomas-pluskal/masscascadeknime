@@ -101,7 +101,7 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 		String libName = settings.getTextOption("Library Name");
 		String libSource = settings.getTextOption("Library Source");
 		int libMsn = settings.getIntOption("Library MSn");
-		
+
 		ReferenceContainer referenceContainer = new ReferenceContainer(libName, libSource, Constants.MSN.get(libMsn));
 
 		for (DataRow row : inData[0]) {
@@ -127,7 +127,7 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 				if (xp.y >= basePeak.y)
 					basePeak = xp;
 			}
-			
+
 			ReferenceSpectrum spectrum = new ReferenceSpectrum(id, title, source, name, notation, mass, formula,
 					instrument, mode, ptype, pTypeMass, ce, mzIntSet, basePeak);
 			referenceContainer.addSpectrum(spectrum);
@@ -196,13 +196,16 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 		configureSingle(inSpecs[0], "precursor mass");
 		configureSingle(inSpecs[0], "mz list");
 		configureSingle(inSpecs[0], "intensity list");
-		
+
 		String libName = settings.getTextOption("Library Name");
-		if (libName == null || libName.isEmpty()) settings.setTextOption("Library Name", "MyLib");
+		if (libName == null || libName.isEmpty())
+			settings.setTextOption("Library Name", "MyLib");
 		String libSource = settings.getTextOption("Library Source");
-		if (libSource == null || libSource.isEmpty()) settings.setTextOption("Library Source", "MySource");
+		if (libSource == null || libSource.isEmpty())
+			settings.setTextOption("Library Source", "MySource");
 		String msn = settings.getTextOption("Library MSn");
-		if (msn == null || msn.isEmpty()) settings.setTextOption("Library MSn", "1"); 
+		if (msn == null || msn.isEmpty())
+			settings.setTextOption("Library MSn", "1");
 
 		return new DataTableSpec[] { new DataTableSpec(createOutputTableSpecification()) };
 	}
@@ -217,7 +220,7 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 
 		return dataColumnSpecs.toArray(new DataColumnSpec[] {});
 	}
-	
+
 	private void configureSingle(DataTableSpec inSpec, String description) throws InvalidSettingsException {
 		if (settings.getTextOption(description) != null && !settings.getTextOption(description).isEmpty())
 			NodeUtils.getOptionalDataTableSpec(inSpec, settings, description);
@@ -231,16 +234,16 @@ public class LibraryGeneratorNodeModel extends NodeModel {
 		DataColumnSpec colSpec = new DataColumnSpecCreator(colName, cellType).createSpec();
 		dataColumnSpecs.add(colSpec);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException {
-		
+
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
-		
+
 		if (tmpSettings.getTextOption("Library Name").isEmpty())
 			throw new InvalidSettingsException("String for \"Library Name\" must not be empty.");
 		if (tmpSettings.getTextOption("Library Source").isEmpty())

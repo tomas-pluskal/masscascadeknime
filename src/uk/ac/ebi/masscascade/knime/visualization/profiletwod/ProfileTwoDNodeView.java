@@ -3,30 +3,22 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.visualization.profiletwod;
 
-import info.monitorenter.gui.chart.ZoomableChart;
-import info.monitorenter.gui.chart.views.ChartPanel;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.JFrame;
 
 import org.knime.core.data.DataRow;
 
@@ -43,8 +35,6 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.utilities.DataSet;
 import uk.ac.ebi.masscascade.utilities.Labels.LABELS;
 import uk.ac.ebi.masscascade.utilities.xyz.XYList;
-import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
-import uk.ac.ebi.masscascade.utilities.xyz.XYZList;
 
 /**
  * <code>NodeView</code> for the "TicViewer" Node. Visualises the total ion chromatogram (TIC) of the selected mass
@@ -72,10 +62,11 @@ public class ProfileTwoDNodeView extends DefaultView {
 		getJMenuBar().remove(spectrumMenu);
 
 		Map<SimpleSpectrum.PAINTERS, Boolean> tracePainter = new HashMap<SimpleSpectrum.PAINTERS, Boolean>();
-		tracePainter.put(PAINTERS.DISC_ONLY, false);
+		tracePainter.put(PAINTERS.POINT_ONLY, false);
 		chart.setDefaultTracePainter(tracePainter);
 
 		chart.getAxisY().setPaintGrid(false);
+		chart.setUseAntialiasing(false);
 	}
 
 	/**
@@ -121,25 +112,12 @@ public class ProfileTwoDNodeView extends DefaultView {
 		ProfileContainer profileContainer = ((ProfileValue) row.getCell(column)).getPeakDataValue();
 
 		XYList trace = new XYList();
-		for (Profile profile : profileContainer) {
-			XYZList data = profile.getData();
-			
-			for (int i = 1; i < data.size() - 1; i++) trace.add(new XYPoint(data.get(i).x, data.get(i).y));
-			
-		}
+		for (Profile profile : profileContainer) trace.addAll(profile.getData().getXYSlice());
 		chart.addData(new DataSet.Builder(trace, profileContainer.getId()).color(graphColor.nextColor()).build());
-		
-		ZoomableChart s = new ZoomableChart();
-		ChartPanel cp = new ChartPanel(s);
-		
-		JFrame frame = new JFrame();
-		frame.setSize(600, 600);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.add(cp);
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Returns a list of file identifiers.
 	 * 

@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.visualization.totalionprofile;
 
@@ -38,9 +35,12 @@ import org.knime.core.data.DataRow;
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum;
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum.PAINTERS;
 import uk.ac.ebi.masscascade.interfaces.Profile;
-import uk.ac.ebi.masscascade.interfaces.container.ProfileContainer;
+import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
+import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileCell;
 import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumCell;
+import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultView;
 import uk.ac.ebi.masscascade.knime.defaults.ViewerModel;
 import uk.ac.ebi.masscascade.knime.visualization.GraphColor;
@@ -62,7 +62,7 @@ import uk.ac.ebi.masscascade.utilities.xyz.XYZPoint;
  */
 public class TicProfileViewerNodeView extends DefaultView {
 
-	private ProfileContainer profiles;
+	private Map<Integer, Profile> profiles;
 	private DataSet ticDataSet;
 
 	private GraphColor graphColor;
@@ -95,12 +95,16 @@ public class TicProfileViewerNodeView extends DefaultView {
 
 		selectedRun = rowNumber.length != 0 ? rowNumber[0] : selectedRun;
 		DataRow row = NodeUtils.getDataRow(getNodeModel().getInternalTables()[0], selectedRun);
-		profiles = ((ProfileValue) row.getCell(column)).getPeakDataValue();
+		Container profileContainer = null;
+		if (row.getCell(column).getType() == ProfileCell.TYPE)
+			profileContainer = ((ProfileValue) row.getCell(column)).getPeakDataValue();
+		else if (row.getCell(column).getType() == SpectrumCell.TYPE)
+			profileContainer = ((SpectrumValue) row.getCell(column)).getSpectrumDataValue();
 
-		Object[][] tableData = new Object[profiles.size()][4];
+		List<Object[]> tableDataList = new ArrayList<>();
 		Map<Double, Double> ticMap = new HashMap<Double, Double>();
-		int i = 0;
-		for (Profile profile : profiles) {
+		profiles = new HashMap<>();
+		for (Profile profile : profileContainer.profileIterator()) {
 
 			for (XYZPoint dp : profile.getData()) {
 				if (ticMap.containsKey(dp.x))
@@ -109,11 +113,18 @@ public class TicProfileViewerNodeView extends DefaultView {
 					ticMap.put(dp.x, dp.z);
 			}
 
-			tableData[i][0] = profile.getId();
-			tableData[i][1] = profile.getMz();
-			tableData[i][2] = profile.getRetentionTime();
-			tableData[i][3] = profile.getIntensity();
+			tableDataList.add(new Object[] { profile.getId(), profile.getMz(), profile.getRetentionTime(),
+					profile.getIntensity() });
+			profiles.put(profile.getId(), profile);
+		}
 
+		Object[][] tableData = new Object[tableDataList.size()][4];
+		int i = 0;
+		for (Object[] o : tableDataList) {
+			tableData[i][0] = o[0];
+			tableData[i][1] = o[1];
+			tableData[i][2] = o[2];
+			tableData[i][3] = o[3];
 			i++;
 		}
 
@@ -171,8 +182,7 @@ public class TicProfileViewerNodeView extends DefaultView {
 		int profileIndex = Integer.parseInt(""
 				+ listTable.getModel().getValueAt(listTable.convertRowIndexToModel(selectedRow), 0));
 
-		Profile profile = profiles.getProfile(profileIndex);
-		XYList data = profile.getTrace().getData();
+		XYList data = profiles.get(profileIndex).getTrace().getData();
 
 		Color color = graphColor.nextColor();
 		return new DataSet.Builder(data, "" + profileIndex).color(color).build();

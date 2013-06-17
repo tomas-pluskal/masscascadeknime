@@ -11,20 +11,27 @@
 	<name>Bless</name>
 
 	<shortDescription>
-		
+		Iterative node to curate annotated profiles before they are written out as generic KNIME table.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			
+			The node displays the profiles of one sample after another for curation. After all samples have been curated, 
+			the records are written out in generic KNIME table format. For every profile, all annotations are shown - see 
+			dropdown box compounds. Only the selected compound will be written out. Redundant rows can be removed via "X". A 
+			missingness value of 100% indicates that no grouping should be performed. If the value is below 100%, a profile is 
+			only shown for a particular sample, if it is present in at least x% of all samples. 
 		</intro>
 
 		<option name="Data column">A Spectrum column.</option>
-		<option name="Select profile">.</option>
+		<option name="m/z window">A m/z window for matching profiles across samples [ppm].</option>
+		<option name="Time window">A time window for matching profiles across samples [s].</option>
+		<option name="Missingness">A percentage indicating the maximum number of allowed missing profiles across samples [%].
+		</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Spectrum Data.</inPort>
-		<outPort index="0" name="Extracted profile table">Table containing .</outPort>
+		<inPort index="0" name="Spectrum table">Table containing Spectrum Data.</inPort>
+		<outPort index="0" name="Extracted spectrum table">Table containing the curated results.</outPort>
 	</ports>
 </knimeNode>

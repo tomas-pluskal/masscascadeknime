@@ -25,7 +25,9 @@
 		<option name="Data column">A Profile or Spectrum data column.</option>
 		<option name="m/z window">A m/z window for matching profiles across samples [ppm].</option>
 		<option name="Time window">A time window for matching profiles across samples [s].</option>
-		<option name="Classic matrix">Whether a simple sample to m/z matrix is preferred.</option>
+		<option name="Missingness">A percentage indicating the maximum number of allowed missing profiles across samples [%].</option>
+		<option name="Gap fill">Whether missing profiles should be filled with background values.</option>
+<!-- 		<option name="Classic matrix">Whether a simple sample to m/z matrix is preferred.</option> -->
 	</fullDescription>
 
 	<ports>

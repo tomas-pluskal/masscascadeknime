@@ -77,6 +77,9 @@ public class BlessTableNodeFactory extends NodeFactory<BlessTableNodeModel> {
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.SPECTRUM_COLUMN, SpectrumValue.class);
+		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
+		dialog.addTextOption(Parameter.TIME_WINDOW, 8);
+		dialog.addTextOption(Parameter.MISSINGNESS, 8);
 
 		return dialog.build();
 	}

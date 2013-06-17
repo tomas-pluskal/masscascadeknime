@@ -3,20 +3,17 @@
  * 
  * All rights reserved. This file is part of the MassCascade feature for KNIME.
  * 
- * The feature is free software: you can redistribute it and/or modify it under 
- * the terms of the GNU General Public License as published by the Free 
- * Software Foundation, either version 3 of the License, or (at your option) 
- * any later version.
+ * The feature is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  * 
- * The feature is distributed in the hope that it will be useful, but WITHOUT 
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * The feature is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * 
- * You should have received a copy of the GNU General Public License along with 
- * the feature. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with the feature. If not, see
+ * <http://www.gnu.org/licenses/>.
  * 
- * Contributors:
- *    Stephan Beisken - initial API and implementation
+ * Contributors: Stephan Beisken - initial API and implementation
  */
 package uk.ac.ebi.masscascade.knime.io.convert;
 
@@ -45,8 +42,8 @@ import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 
-import uk.ac.ebi.masscascade.alignment.ProfileBin;
 import uk.ac.ebi.masscascade.alignment.ProfileBinTableModel;
+import uk.ac.ebi.masscascade.alignment.profilebins.ProfileBin;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
@@ -84,20 +81,23 @@ public class ProfileMatrixNodeModel extends NodeModel {
 		String colName = settings.getColumnName(Parameter.PEAK_COLUMN) == null ? settings
 				.getColumnName(Parameter.SPECTRUM_COLUMN) : settings.getColumnName(Parameter.PEAK_COLUMN);
 		int colIndex = inData[0].getDataTableSpec().findColumnIndex(colName);
-		
+
 		for (DataRow row : inData[0]) {
 			DataCell cell = row.getCell(colIndex);
 			if (cell.isMissing())
 				continue;
-			
-			if (cell instanceof ProfileValue) profileContainers.add(((ProfileValue) cell).getPeakDataValue());
-			else profileContainers.add(((SpectrumValue) cell).getSpectrumDataValue());
+
+			if (cell instanceof ProfileValue)
+				profileContainers.add(((ProfileValue) cell).getPeakDataValue());
+			else
+				profileContainers.add(((SpectrumValue) cell).getSpectrumDataValue());
 		}
 
 		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);
 		double sec = settings.getDoubleOption(Parameter.TIME_WINDOW);
+		double missing = settings.getDoubleOption(Parameter.MISSINGNESS);
 
-		ProfileBinTableModel model = new ProfileBinTableModel(profileContainers, ppm, sec);
+		ProfileBinTableModel model = new ProfileBinTableModel(profileContainers, ppm, sec, missing);
 		BufferedDataContainer dataContainer = exec.createDataContainer(new DataTableSpec(
 				createOutputTableSpecification(profileContainers, model.getRows())));
 
@@ -105,37 +105,43 @@ public class ProfileMatrixNodeModel extends NodeModel {
 		DataCell[] cellRow;
 		List<ProfileBin> rows = model.getRows();
 
-//		if (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX)) {
-//			cellRow = new DataCell[rows.size() + 1];
-//			int mzIndex = 0;
-//			cellRow[mzIndex++] = new StringCell("Sample");
-//			for (ProfileBin row : rows)
-//				cellRow[mzIndex++] = new DoubleCell(row.getMz());
-//			dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
-//			for (int i = 0; i < profileContainers.size(); i++) {
-//				mzIndex = 0;
-//				cellRow[mzIndex++] = new StringCell(TextUtils.cleanId(profileContainers.get(i).getId()));
-//				for (ProfileBin row : rows) {
-//					double intensity = row.isPresent(i);
-//					cellRow[mzIndex++] = intensity > 0 ? new DoubleCell(intensity) : DataType.getMissingCell();
-//				}
-//				dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
-//			}
-//		} else {
-			for (ProfileBin row : rows) {
-				cellRow = new DataCell[model.getColumnCount() - 1];
-				cellRow[0] = new DoubleCell(row.getMz());
-				cellRow[1] = new DoubleCell(row.getRt());
-				cellRow[2] = new DoubleCell(row.getArea());
-				cellRow[3] = new StringCell(row.getLabel());
-				cellRow[4] = new DoubleCell(row.getMzDev());
-				for (int i = 6; i < model.getColumnCount(); i++) {
-					double intensity = row.isPresent(i - ProfileBin.COLUMNS);
-					cellRow[i - 1] = intensity > 0 ? new DoubleCell(intensity) : DataType.getMissingCell();
+		// if (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX)) {
+		// cellRow = new DataCell[rows.size() + 1];
+		// int mzIndex = 0;
+		// cellRow[mzIndex++] = new StringCell("Sample");
+		// for (ProfileBin row : rows)
+		// cellRow[mzIndex++] = new DoubleCell(row.getMz());
+		// dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
+		// for (int i = 0; i < profileContainers.size(); i++) {
+		// mzIndex = 0;
+		// cellRow[mzIndex++] = new StringCell(TextUtils.cleanId(profileContainers.get(i).getId()));
+		// for (ProfileBin row : rows) {
+		// double intensity = row.isPresent(i);
+		// cellRow[mzIndex++] = intensity > 0 ? new DoubleCell(intensity) : DataType.getMissingCell();
+		// }
+		// dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
+		// }
+		// } else {
+		for (ProfileBin row : rows) {
+			cellRow = new DataCell[model.getColumnCount() - 1];
+			cellRow[0] = new DoubleCell(row.getMz());
+			cellRow[1] = new DoubleCell(row.getRt());
+			cellRow[2] = new DoubleCell(row.getArea());
+			cellRow[3] = new StringCell(row.getLabel());
+			cellRow[4] = new DoubleCell(row.getMzDev());
+			
+			for (int i = 6; i < model.getColumnCount(); i++) {
+				double intensity = row.isPresent(i - ProfileBin.COLUMNS);
+				if (intensity > 0) {
+					cellRow[i - 1] = new DoubleCell(intensity);
+				} else {
+					cellRow[i - 1] = DataType.getMissingCell();
 				}
-				dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
 			}
-//		}
+			
+			dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
+		}
+		// }
 		dataContainer.close();
 
 		return new BufferedDataTable[] { dataContainer.getTable() };
@@ -148,19 +154,19 @@ public class ProfileMatrixNodeModel extends NodeModel {
 
 		List<DataColumnSpec> dataColumnSpecs = new ArrayList<DataColumnSpec>();
 
-//		if (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX)) {
-//			createColumnSpec(dataColumnSpecs, "Sample", StringCell.TYPE);
-//			for (int i = 1; i <= rows.size(); i++)
-//				createColumnSpec(dataColumnSpecs, i + "", DoubleCell.TYPE);
-//		} else {
-			createColumnSpec(dataColumnSpecs, "m/z", DoubleCell.TYPE);
-			createColumnSpec(dataColumnSpecs, "rt", DoubleCell.TYPE);
-			createColumnSpec(dataColumnSpecs, "area", DoubleCell.TYPE);
-			createColumnSpec(dataColumnSpecs, "label", StringCell.TYPE);
-			createColumnSpec(dataColumnSpecs, "m/z dev", DoubleCell.TYPE);
-			for (int i = 0; i < container.size(); i++)
-				createColumnSpec(dataColumnSpecs, TextUtils.cleanId(container.get(i).getId()), DoubleCell.TYPE);
-//		}
+		// if (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX)) {
+		// createColumnSpec(dataColumnSpecs, "Sample", StringCell.TYPE);
+		// for (int i = 1; i <= rows.size(); i++)
+		// createColumnSpec(dataColumnSpecs, i + "", DoubleCell.TYPE);
+		// } else {
+		createColumnSpec(dataColumnSpecs, "m/z", DoubleCell.TYPE);
+		createColumnSpec(dataColumnSpecs, "rt", DoubleCell.TYPE);
+		createColumnSpec(dataColumnSpecs, "area", DoubleCell.TYPE);
+		createColumnSpec(dataColumnSpecs, "label", StringCell.TYPE);
+		createColumnSpec(dataColumnSpecs, "m/z dev", DoubleCell.TYPE);
+		for (int i = 0; i < container.size(); i++)
+			createColumnSpec(dataColumnSpecs, TextUtils.cleanId(container.get(i).getId()), DoubleCell.TYPE);
+		// }
 		return dataColumnSpecs.toArray(new DataColumnSpec[] {});
 	}
 
@@ -182,6 +188,8 @@ public class ProfileMatrixNodeModel extends NodeModel {
 		if (settings.getOptionMapSize() == 0) {
 			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
 			settings.setTextOption(Parameter.TIME_WINDOW, "" + Parameter.TIME_WINDOW.getDefaultValue());
+			settings.setTextOption(Parameter.MISSINGNESS, "" + Parameter.MISSINGNESS.getDefaultValue());
+			settings.setTextOption(Parameter.GAP_FILL, "" + Parameter.GAP_FILL.getDefaultValue());
 		}
 
 		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN, Parameter.SPECTRUM_COLUMN);
@@ -199,10 +207,11 @@ public class ProfileMatrixNodeModel extends NodeModel {
 
 		if (tmpSettings.getColumnName(Parameter.PEAK_COLUMN) == null)
 			NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
-		else 
+		else
 			NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.TIME_WINDOW);
+		NodeUtils.validateDoubleGreaterOrEqualZero(tmpSettings, Parameter.MISSINGNESS);
 	}
 
 	@Override

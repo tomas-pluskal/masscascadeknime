@@ -83,7 +83,7 @@ public class ProfileViewerNodeModel extends NodeModel {
 		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);
 		double sec = settings.getDoubleOption(Parameter.TIME_WINDOW);
 		
-		model = new ProfileBinTableModel(profileContainers, ppm, sec);
+		model = new ProfileBinTableModel(profileContainers, ppm, sec, 0);
 		
 		return null;
 	}

@@ -45,6 +45,7 @@ import org.knime.core.node.NodeSettingsWO;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.knime.type.CDKCell;
 
+import uk.ac.ebi.masscascade.alignment.profilebins.ProfileBinGenerator;
 import uk.ac.ebi.masscascade.compound.CompoundEntity;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrum;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrumAdapter;
@@ -54,7 +55,10 @@ import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
+import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Parameter;
+
+import com.google.common.collect.HashMultimap;
 
 /**
  * This is the model implementation of BlessTable.
@@ -90,6 +94,26 @@ public class BlessTableNodeModel extends NodeModel {
 		BufferedDataContainer dataContainer = exec.createDataContainer(new DataTableSpec(
 				createOutputTableSpecification()));
 
+		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);
+		double sec = settings.getDoubleOption(Parameter.TIME_WINDOW);
+		double missing = settings.getDoubleOption(Parameter.MISSINGNESS);
+
+		HashMultimap<Integer, Integer> cToPIdMap = null;
+		if (missing != 100) {
+			List<SpectrumContainer> spectraContainer = new ArrayList<>();
+			for (DataRow row : inData[0]) {
+				DataCell spectrumCell = row.getCell(colIndex);
+				if (spectrumCell.isMissing())
+					continue;
+
+				exec.checkCanceled();
+				spectraContainer.add(((SpectrumValue) spectrumCell).getSpectrumDataValue());
+			}
+
+			cToPIdMap = ProfileBinGenerator.createContainerToProfileMap(spectraContainer, ppm, sec, missing);
+		}
+
+		int index = 0;
 		for (DataRow row : inData[0]) {
 			DataCell spectrumCell = row.getCell(colIndex);
 
@@ -101,18 +125,18 @@ public class BlessTableNodeModel extends NodeModel {
 			SpectrumContainer container = ((SpectrumValue) spectrumCell).getSpectrumDataValue();
 
 			CompoundSpectrumAdapter adapter = new CompoundSpectrumAdapter();
-			List<CompoundSpectrum> css = adapter.getSpectra(container);
+			List<CompoundSpectrum> css = adapter.getSpectra(cToPIdMap, index++, container);
 
 			BlessFrame frame = new BlessFrame(css, container.getId());
 			frame.setVisible();
 
 			Map<Integer, Integer> idToEntityId = frame.getIdToEntity();
 			for (CompoundSpectrum cs : css) {
-				DataCell[] resultCells = new DataCell[7];
+				DataCell[] resultCells = new DataCell[8];
 				if (idToEntityId.containsKey(cs.getId()))
-					addSpectrum(cs, idToEntityId.get(cs.getId()), resultCells);
+					addSpectrum(cs, idToEntityId.get(cs.getId()), resultCells, container.getId());
 				else
-					addSpectrum(cs, 0, resultCells);
+					addSpectrum(cs, 0, resultCells, container.getId());
 				dataContainer.addRowToTable(new DefaultRow(new RowKey(gid++ + ""), resultCells));
 			}
 		}
@@ -121,27 +145,28 @@ public class BlessTableNodeModel extends NodeModel {
 		return new BufferedDataTable[] { dataContainer.getTable() };
 	}
 
-	private void addSpectrum(CompoundSpectrum spectrum, int entityIndex, DataCell[] resultCells) {
+	private void addSpectrum(CompoundSpectrum spectrum, int entityIndex, DataCell[] resultCells, String id) {
 
 		int majorPeak = spectrum.getMajorPeak() - 1;
 		CompoundEntity ce = spectrum.getCompound(entityIndex);
 
-		resultCells[0] = new DoubleCell(spectrum.getPeakList().get(majorPeak).x);
-		resultCells[1] = new DoubleCell(spectrum.getRetentionTime());
-		resultCells[2] = new DoubleCell(spectrum.getPeakList().get(majorPeak).y);
-		resultCells[3] = new StringCell(ce.getName());
+		resultCells[0] = new StringCell(id.substring(0, id.indexOf(Constants.DELIMITER)));
+		resultCells[1] = new DoubleCell(spectrum.getPeakList().get(majorPeak).x);
+		resultCells[2] = new DoubleCell(spectrum.getRetentionTime());
+		resultCells[3] = new DoubleCell(spectrum.getPeakList().get(majorPeak).y);
+		resultCells[4] = new StringCell(ce.getName());
 
 		if (ce.getNotation(majorPeak + 1) == null)
-			resultCells[4] = DataType.getMissingCell();
+			resultCells[5] = DataType.getMissingCell();
 		else {
 			IAtomContainer molecule = NotationUtil.getMoleculeTyped(ce.getNotation(majorPeak + 1));
 			if (molecule == null)
-				resultCells[4] = DataType.getMissingCell();
+				resultCells[5] = DataType.getMissingCell();
 			else
-				resultCells[4] = new CDKCell(molecule);
+				resultCells[5] = new CDKCell(molecule);
 		}
-		resultCells[5] = new DoubleCell(ce.getScore());
-		resultCells[6] = new StringCell(ce.getStatus().name());
+		resultCells[6] = new DoubleCell(ce.getScore());
+		resultCells[7] = new StringCell(ce.getStatus().name());
 	}
 
 	/**
@@ -151,6 +176,7 @@ public class BlessTableNodeModel extends NodeModel {
 
 		List<DataColumnSpec> dataColumnSpecs = new ArrayList<DataColumnSpec>();
 
+		createColumnSpec(dataColumnSpecs, "id", StringCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "mz", DoubleCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "rt", DoubleCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "intensity", DoubleCell.TYPE);
@@ -177,6 +203,11 @@ public class BlessTableNodeModel extends NodeModel {
 	@Override
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 
+		if (settings.getOptionMapSize() == 0) {
+			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
+			settings.setTextOption(Parameter.TIME_WINDOW, "" + Parameter.TIME_WINDOW.getDefaultValue());
+			settings.setTextOption(Parameter.MISSINGNESS, "" + Parameter.MISSINGNESS.getDefaultValue());
+		}
 		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
 		return new DataTableSpec[] { new DataTableSpec(createOutputTableSpecification()) };
 	}
@@ -189,6 +220,10 @@ public class BlessTableNodeModel extends NodeModel {
 
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
+
+		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
+		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.TIME_WINDOW);
+		NodeUtils.validateDoubleGreaterOrEqualZero(tmpSettings, Parameter.MISSINGNESS);
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
 	}

@@ -245,6 +245,20 @@ public class NodeUtils {
 		if (value <= 0)
 			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive number.");
 	}
+	
+	public static void validateDoubleGreaterOrEqualZero(Settings tmpSettings, Option parameter)
+			throws InvalidSettingsException {
+
+		double value;
+		try {
+			value = tmpSettings.getDoubleOption(parameter);
+		} catch (Exception exception) {
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive number.");
+		}
+
+		if (value < 0)
+			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive number.");
+	}
 
 	public static void validateIntGreaterZero(Settings tmpSettings, Option parameter)
 			throws InvalidSettingsException {

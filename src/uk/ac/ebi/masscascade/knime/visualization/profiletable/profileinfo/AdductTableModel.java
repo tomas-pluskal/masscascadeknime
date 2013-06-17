@@ -43,7 +43,7 @@ public class AdductTableModel extends AbstractTableModel {
 	 * 
 	 * @param adducts the set of adduct properties
 	 */
-	public void setDataList(Set<Property> adducts) {
+	public void setDataList(Set<? extends Property> adducts) {
 
 		if (adducts != null)
 			setDataList(new ArrayList<Property>(adducts));

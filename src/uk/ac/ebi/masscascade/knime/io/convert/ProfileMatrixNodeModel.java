@@ -105,23 +105,23 @@ public class ProfileMatrixNodeModel extends NodeModel {
 		DataCell[] cellRow;
 		List<ProfileBin> rows = model.getRows();
 
-		if (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX)) {
-			cellRow = new DataCell[rows.size() + 1];
-			int mzIndex = 0;
-			cellRow[mzIndex++] = new StringCell("Sample");
-			for (ProfileBin row : rows)
-				cellRow[mzIndex++] = new DoubleCell(row.getMz());
-			dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
-			for (int i = 0; i < profileContainers.size(); i++) {
-				mzIndex = 0;
-				cellRow[mzIndex++] = new StringCell(TextUtils.cleanId(profileContainers.get(i).getId()));
-				for (ProfileBin row : rows) {
-					double intensity = row.isPresent(i);
-					cellRow[mzIndex++] = intensity > 0 ? new DoubleCell(intensity) : DataType.getMissingCell();
-				}
-				dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
-			}
-		} else {
+//		if (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX)) {
+//			cellRow = new DataCell[rows.size() + 1];
+//			int mzIndex = 0;
+//			cellRow[mzIndex++] = new StringCell("Sample");
+//			for (ProfileBin row : rows)
+//				cellRow[mzIndex++] = new DoubleCell(row.getMz());
+//			dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
+//			for (int i = 0; i < profileContainers.size(); i++) {
+//				mzIndex = 0;
+//				cellRow[mzIndex++] = new StringCell(TextUtils.cleanId(profileContainers.get(i).getId()));
+//				for (ProfileBin row : rows) {
+//					double intensity = row.isPresent(i);
+//					cellRow[mzIndex++] = intensity > 0 ? new DoubleCell(intensity) : DataType.getMissingCell();
+//				}
+//				dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
+//			}
+//		} else {
 			for (ProfileBin row : rows) {
 				cellRow = new DataCell[model.getColumnCount() - 1];
 				cellRow[0] = new DoubleCell(row.getMz());
@@ -135,7 +135,7 @@ public class ProfileMatrixNodeModel extends NodeModel {
 				}
 				dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
 			}
-		}
+//		}
 		dataContainer.close();
 
 		return new BufferedDataTable[] { dataContainer.getTable() };
@@ -148,11 +148,11 @@ public class ProfileMatrixNodeModel extends NodeModel {
 
 		List<DataColumnSpec> dataColumnSpecs = new ArrayList<DataColumnSpec>();
 
-		if (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX)) {
-			createColumnSpec(dataColumnSpecs, "Sample", StringCell.TYPE);
-			for (int i = 1; i <= rows.size(); i++)
-				createColumnSpec(dataColumnSpecs, i + "", DoubleCell.TYPE);
-		} else {
+//		if (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX)) {
+//			createColumnSpec(dataColumnSpecs, "Sample", StringCell.TYPE);
+//			for (int i = 1; i <= rows.size(); i++)
+//				createColumnSpec(dataColumnSpecs, i + "", DoubleCell.TYPE);
+//		} else {
 			createColumnSpec(dataColumnSpecs, "m/z", DoubleCell.TYPE);
 			createColumnSpec(dataColumnSpecs, "rt", DoubleCell.TYPE);
 			createColumnSpec(dataColumnSpecs, "area", DoubleCell.TYPE);
@@ -160,7 +160,7 @@ public class ProfileMatrixNodeModel extends NodeModel {
 			createColumnSpec(dataColumnSpecs, "m/z dev", DoubleCell.TYPE);
 			for (int i = 0; i < container.size(); i++)
 				createColumnSpec(dataColumnSpecs, TextUtils.cleanId(container.get(i).getId()), DoubleCell.TYPE);
-		}
+//		}
 		return dataColumnSpecs.toArray(new DataColumnSpec[] {});
 	}
 

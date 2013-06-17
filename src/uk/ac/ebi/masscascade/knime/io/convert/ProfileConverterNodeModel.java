@@ -49,10 +49,9 @@ import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 
-import uk.ac.ebi.masscascade.core.PropertyManager;
+import uk.ac.ebi.masscascade.core.PropertyType;
 import uk.ac.ebi.masscascade.core.chromatogram.MassChromatogram;
 import uk.ac.ebi.masscascade.interfaces.Profile;
-import uk.ac.ebi.masscascade.interfaces.Property;
 import uk.ac.ebi.masscascade.interfaces.Spectrum;
 import uk.ac.ebi.masscascade.interfaces.container.ProfileContainer;
 import uk.ac.ebi.masscascade.interfaces.container.SpectrumContainer;
@@ -64,6 +63,7 @@ import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Parameter;
+import uk.ac.ebi.masscascade.properties.Score;
 import uk.ac.ebi.masscascade.utilities.ProfUtils;
 
 /**
@@ -178,7 +178,7 @@ public class ProfileConverterNodeModel extends ThreadedTableBuilderNodeModel {
 		resultCells[8] = new StringCell(profileInfo);
 
 		List<DoubleCell> res = new ArrayList<DoubleCell>();
-		for (Property prop : profile.getProperty(PropertyManager.TYPE.Score))
+		for (Score prop : profile.getProperty(PropertyType.Score, Score.class))
 			res.add(new DoubleCell(prop.getValue(Double.class)));
 		resultCells[9] = CollectionCellFactory.createListCell(res);
 

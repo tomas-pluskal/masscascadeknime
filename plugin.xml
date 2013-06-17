@@ -26,6 +26,8 @@
       </category>
       <category icon="icons/blank.png" level-id="profileBuilder" name="Profile Builder" path="/community/masscascade">
       </category>
+      <category icon="icons/blank.png" level-id="curation" name="Curation" path="/community/masscascade">
+      </category>
       <category icon="icons/blank.png" level-id="gapFilling" name="Gap Filling" path="/community/masscascade">
       </category>
       <category icon="icons/blank.png" level-id="identification" name="Identification" path="/community/masscascade">
@@ -87,6 +89,7 @@
 <node category-path="/community/masscascade/profilePerception" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory"/>
 <node category-path="/community/masscascade/identification" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory"/>
 <node category-path="/community/masscascade/io" factory-class="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory" id="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory"/>
+<node category-path="/community/masscascade/curation" factory-class="uk.ac.ebi.masscascade.knime.curation.bless.BlessTableNodeFactory" id="uk.ac.ebi.masscascade.knime.curation.bless.BlessTableNodeFactory"/>
 </extension>
    <extension point="org.eclipse.ui.preferencePages">
       <page category="org.knime.workbench.ui.preferences" class="uk.ac.ebi.masscascade.knime.preferences.PreferencePage" id="uk.ac.ebi.masscascade.knime.MassCascadePreferencePage" name="MassCascade">

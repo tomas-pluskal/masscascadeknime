@@ -41,7 +41,7 @@ public class IsotopeTableModel extends AbstractTableModel {
 	 * 
 	 * @param isotopes the property set
 	 */
-	public void setDataList(Set<Property> isotopes) {
+	public void setDataList(Set<? extends Property> isotopes) {
 
 		if (isotopes != null && isotopes.size() > 0)
 			this.isotopes = new ArrayList<Property>(isotopes);

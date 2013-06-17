@@ -53,8 +53,7 @@ import javax.swing.table.TableRowSorter;
 
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum;
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum.PAINTERS;
-import uk.ac.ebi.masscascade.core.PropertyManager;
-import uk.ac.ebi.masscascade.core.PropertyManager.TYPE;
+import uk.ac.ebi.masscascade.core.PropertyType;
 import uk.ac.ebi.masscascade.interfaces.Chromatogram;
 import uk.ac.ebi.masscascade.interfaces.Profile;
 import uk.ac.ebi.masscascade.interfaces.Property;
@@ -102,7 +101,7 @@ public class ProfileFrame extends JFrame {
 	private JTable isotopeTable;
 	private JTable fragmentTable;
 	private JTable identityTable;
-	
+
 	private MoleculePanel moleculePanel;
 
 	private GraphColor graphColorTraces;
@@ -189,16 +188,16 @@ public class ProfileFrame extends JFrame {
 		msnLabel = new JComboBox<String>();
 		msnLabel.setBorder(null);
 		msnLabel.addItemListener(new ItemListener() {
-			
+
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				
+
 				String msnString = (String) msnLabel.getSelectedItem();
 				msnString = msnString.substring(2, 3);
 				Constants.MSN msn = Constants.MSN.get(msnString);
-				
+
 				if (profile.hasMsnSpectra(MSN.MS2)) {
-					
+
 					Spectrum msnSpec = profile.getMsnSpectra(msn).get(0);
 					XYList data = msnSpec.getData();
 					Map<XYPoint, String> annotations = AnnotationUtils.getAnnotations(msnSpec.getProfileMap().values());
@@ -282,21 +281,22 @@ public class ProfileFrame extends JFrame {
 				String notation = tmpIdentity.getNotation();
 				moleculePanel.drawMolecule(notation);
 				moleculePanel.revalidate();
-				
+
 				String msnString = (String) msnLabel.getSelectedItem();
 				msnString = msnString.substring(2, 3);
 				Constants.MSN msn = Constants.MSN.get(msnString);
-				
+
 				Multimap<Double, Identity> msnMassToIdentity = HashMultimap.create();
 				Set<String> duplicates = new HashSet<>();
 				for (Profile msnProfile : profile.getMsnSpectra(msn).get(0)) {
-					if (!msnProfile.hasProperty(TYPE.Identity)) continue;
-					
-					for (Property property : msnProfile.getProperty(TYPE.Identity)) {
-						Identity identity = (Identity) property;
+					if (!msnProfile.hasProperty(PropertyType.Identity))
+						continue;
+
+					for (Identity identity : msnProfile.getProperty(PropertyType.Identity, Identity.class)) {
 						if (tmpIdentity.getId().contains(identity.getSource())) {
 							String dupString = msnProfile.getMz() + "-" + identity.getNotation();
-							if (duplicates.contains(dupString)) continue;
+							if (duplicates.contains(dupString))
+								continue;
 							duplicates.add(dupString);
 							msnMassToIdentity.put(msnProfile.getMz(), (Identity) identity);
 						}
@@ -332,7 +332,7 @@ public class ProfileFrame extends JFrame {
 		JScrollPane isotopeSp = new JScrollPane(isotopeTable);
 		isotopeSp.setBackground(Color.WHITE);
 		isotopeSp.setBorder(BorderFactory.createTitledBorder("Isotopes"));
-		
+
 		fragmentTable = new JTable(new FragmentTableModel());
 		fragmentTable.setFillsViewportHeight(true);
 		fragmentTable.addMouseListener(new MouseAdapter() {
@@ -349,11 +349,11 @@ public class ProfileFrame extends JFrame {
 		JScrollPane fragmentSp = new JScrollPane(fragmentTable);
 		fragmentSp.setBackground(Color.WHITE);
 		fragmentSp.setBorder(BorderFactory.createTitledBorder("Fragments"));
-		
+
 		JPanel middleSplitPanel = new JPanel(new GridLayout(2, 1));
 		middleSplitPanel.add(isotopeSp);
 		middleSplitPanel.add(fragmentSp);
-		
+
 		southPanel.add(middleSplitPanel);
 
 		adductTable = new JTable(new AdductTableModel());
@@ -364,19 +364,19 @@ public class ProfileFrame extends JFrame {
 			public void valueChanged(ListSelectionEvent e) {
 
 				if (adductTable.getSelectedRow() != -1 || adductTable.getSelectedRow() < adductTable.getRowCount())
-					loadData(adductTable, adductTable.getSelectedRows());
+					loadAdductData(adductTable, adductTable.getSelectedRows());
 			}
 		});
 		JScrollPane adductSp = new JScrollPane(adductTable);
 		adductSp.setBackground(Color.WHITE);
 		adductSp.setBorder(BorderFactory.createTitledBorder("Adducts"));
-		
+
 		JPanel splitPanel = new JPanel(new GridLayout(2, 1));
 		moleculePanel = new MoleculePanel();
 		moleculePanel.setBorder(BorderFactory.createTitledBorder("Molecule"));
 		splitPanel.add(adductSp);
 		splitPanel.add(moleculePanel);
-		
+
 		southPanel.add(splitPanel);
 
 		add(southPanel);
@@ -412,6 +412,44 @@ public class ProfileFrame extends JFrame {
 
 		profilePanel.repaint();
 	}
+	
+	/**
+	 * Loads the selected profiles into the chart.
+	 * 
+	 * @param table the currently selected table
+	 * @param selectedRows the selected rows in the table
+	 */
+	private void loadAdductData(JTable table, int... selectedRows) {
+
+		chromatrogam.clearData();
+		graphColorTraces.reset();
+
+		for (int selectedRow : selectedRows) {
+			int pid = Integer.parseInt("" + table.getModel().getValueAt(table.convertRowIndexToModel(selectedRow), 1));
+			int did = Integer.parseInt("" + table.getModel().getValueAt(table.convertRowIndexToModel(selectedRow), 2));
+
+			Iterator<Spectrum> spectrumIterator = container.iterator();
+			Spectrum spectrum = null;
+			while (spectrumIterator.hasNext()) {
+				spectrum = spectrumIterator.next();
+				if (spectrum.getProfile(pid) != null)
+					break;
+			}
+			Profile pProfile = spectrum.getProfile(pid);
+			Chromatogram pTrace = pProfile.getTrace(Constants.PADDING);
+			Color pColor = graphColorTraces.nextColor();
+			DataSet pDataSet = new DataSet.Builder(pTrace.getData(), "" + pProfile.getId()).color(pColor).build();
+			chromatrogam.addData(pDataSet);
+			
+			Profile dProfile = spectrum.getProfile(did);
+			Chromatogram dTrace = dProfile.getTrace(Constants.PADDING);
+			Color dColor = graphColorTraces.nextColor();
+			DataSet dDataSet = new DataSet.Builder(dTrace.getData(), "" + dProfile.getId()).color(dColor).build();
+			chromatrogam.addData(dDataSet);
+		}
+
+		profilePanel.repaint();
+	}
 
 	/**
 	 * Updates the window content when a new instance of the frame is called.
@@ -439,7 +477,7 @@ public class ProfileFrame extends JFrame {
 		chromatrogam.addData(profileData);
 		profilePanel.repaint();
 
-		Set<Property> identities = profile.getProperty(PropertyManager.TYPE.Identity);
+		Set<Identity> identities = profile.getProperty(PropertyType.Identity, Identity.class);
 		((IdentityTableModel) identityTable.getModel()).setDataList(ProfUtils.getGroupedIdentities(identities));
 
 		TableRowSorter<IdentityTableModel> sorter = new TableRowSorter<IdentityTableModel>();
@@ -450,7 +488,7 @@ public class ProfileFrame extends JFrame {
 		sorter.setSortKeys(sortKeys);
 		identityTable.setRowSorter(sorter);
 		identityTable.revalidate();
-		
+
 		if (container != null) {
 
 			Iterator<Spectrum> spectrumIterator = container.iterator();
@@ -464,10 +502,10 @@ public class ProfileFrame extends JFrame {
 				loadSpectrumInfo(spectrum);
 			}
 		} else {
-			Set<Property> isotopes = profile.getProperty(PropertyManager.TYPE.Isotope);
+			Set<Isotope> isotopes = profile.getProperty(PropertyType.Isotope, Isotope.class);
 			((IsotopeTableModel) isotopeTable.getModel()).setDataList(isotopes);
-			
-			Set<Property> adducts = profile.getProperty(PropertyManager.TYPE.Adduct);
+
+			Set<Adduct> adducts = profile.getProperty(PropertyType.Adduct, Adduct.class);
 			((AdductTableModel) adductTable.getModel()).setDataList(adducts);
 		}
 	}
@@ -479,37 +517,35 @@ public class ProfileFrame extends JFrame {
 	 */
 	private void loadSpectrumInfo(Spectrum spectrum) {
 
-		Set<Property> isotopes = profile.getProperty(PropertyManager.TYPE.Isotope);
+		Set<Isotope> isotopes = profile.getProperty(PropertyType.Isotope, Isotope.class);
 		Set<Integer> profileIsoParents = new HashSet<Integer>();
-		for (Property prop : isotopes) {
-			profileIsoParents.add(((Isotope) prop).getParentId());
+		for (Isotope prop : isotopes) {
+			profileIsoParents.add(prop.getParentId());
 		}
 
-		Set<Property> adducts = profile.getProperty(PropertyManager.TYPE.Adduct);
+		Set<Adduct> adducts = profile.getProperty(PropertyType.Adduct, Adduct.class);
 		Set<Integer> profileAdductRefs = new HashSet<Integer>();
-		profileAdductRefs.add(profile.getId());
-		for (Property prop : adducts) {
-			profileAdductRefs.add(((Adduct) prop).getParentId());
-			profileAdductRefs.add(((Adduct) prop).getChildId());
+
+		for (Adduct prop : adducts) {
+			int pi = prop.getParentId();
+			profileAdductRefs.add(pi);
 		}
 
 		Profile specProfile;
-		List<Property> isoPropList = new ArrayList<Property>();
-		List<Property> aduPropList = new ArrayList<Property>();
+		List<Property> isoPropList = new ArrayList<>();
+		List<Property> aduPropList = new ArrayList<>();
 
 		for (int profileId : spectrum.getProfileMap().keySet()) {
 
 			specProfile = spectrum.getProfile(profileId);
-			for (Property prop : specProfile.getProperty(PropertyManager.TYPE.Isotope)) {
-				if (((Isotope) prop).getParentId() == profile.getId()
-						|| profileIsoParents.contains(((Isotope) prop).getParentId())) {
+			if (profileIsoParents.contains(profileId)) {
+				for (Isotope prop : specProfile.getProperty(PropertyType.Isotope, Isotope.class)) {
 					isoPropList.add(prop);
 				}
 			}
 
-			for (Property prop : specProfile.getProperty(PropertyManager.TYPE.Adduct)) {
-				if (profileAdductRefs.contains(((Adduct) prop).getParentId())
-						|| profileAdductRefs.contains(((Adduct) prop).getChildId())) {
+			if (profileAdductRefs.contains(specProfile.getId())) {
+				for (Adduct prop : specProfile.getProperty(PropertyType.Adduct, Adduct.class)) {
 					aduPropList.add(prop);
 				}
 			}
@@ -523,7 +559,7 @@ public class ProfileFrame extends JFrame {
 		isoSorter.setSortKeys(isoSortKeys);
 		isotopeTable.setRowSorter(isoSorter);
 		isotopeTable.revalidate();
-		
+
 		((AdductTableModel) adductTable.getModel()).setDataList(aduPropList);
 	}
 }

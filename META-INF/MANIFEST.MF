@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: KNIME MassCascade Integration
 Bundle-SymbolicName: uk.ac.ebi.masscascade.knime;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: MassCascadeKnime.jar,
  lib/MassCascade.jar
@@ -13,6 +13,7 @@ Require-Bundle: org.knime.base;bundle-version="2.4.1",
  org.knime.workbench;bundle-version="2.4.0",
  org.knime.workbench.repository;bundle-version="2.4.1",
  org.knime.product,
+ org.knime.chem.types;bundle-version="2.7.0",
  org.openscience.cdk.knime;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: uk.ac.ebi.masscascade.knime,

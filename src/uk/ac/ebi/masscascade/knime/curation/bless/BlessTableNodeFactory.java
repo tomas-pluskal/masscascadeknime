@@ -18,30 +18,29 @@
  * Contributors:
  *    Stephan Beisken - initial API and implementation
  */
-package uk.ac.ebi.masscascade.knime.io.convert;
+package uk.ac.ebi.masscascade.knime.curation.bless;
 
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
 import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
- * <code>NodeFactory</code> for the "ProfileMatrix" node to build the m/z to sample matrix.
+ * <code>NodeFactory</code> for the "BlessTable" Node.
  * 
  * @author Stephan Beisken
  */
-public class ProfileMatrixNodeFactory extends NodeFactory<ProfileMatrixNodeModel> {
+public class BlessTableNodeFactory extends NodeFactory<BlessTableNodeModel> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ProfileMatrixNodeModel createNodeModel() {
-		return new ProfileMatrixNodeModel();
+	public BlessTableNodeModel createNodeModel() {
+		return new BlessTableNodeModel();
 	}
 
 	/**
@@ -56,8 +55,8 @@ public class ProfileMatrixNodeFactory extends NodeFactory<ProfileMatrixNodeModel
 	 * {@inheritDoc}
 	 */
 	@Override
-	public NodeView<ProfileMatrixNodeModel> createNodeView(final int viewIndex,
-			final ProfileMatrixNodeModel nodeModel) {
+	public NodeView<BlessTableNodeModel> createNodeView(final int viewIndex,
+			final BlessTableNodeModel nodeModel) {
 		return null;
 	}
 
@@ -69,8 +68,6 @@ public class ProfileMatrixNodeFactory extends NodeFactory<ProfileMatrixNodeModel
 		return true;
 	}
 
-//	public static final String CLASSIC_MATRIX = "Sample to m/z matrix only";
-	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -78,12 +75,9 @@ public class ProfileMatrixNodeFactory extends NodeFactory<ProfileMatrixNodeModel
 	public NodeDialogPane createNodeDialogPane() {
 
 		DefaultDialog dialog = new DefaultDialog();
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class, SpectrumValue.class);
-		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
-		dialog.addTextOption(Parameter.TIME_WINDOW, 8);
-		
-//		dialog.addCustomOption(CLASSIC_MATRIX, new JCheckBox());
-		
+
+		dialog.addColumnSelection(Parameter.SPECTRUM_COLUMN, SpectrumValue.class);
+
 		return dialog.build();
 	}
 }

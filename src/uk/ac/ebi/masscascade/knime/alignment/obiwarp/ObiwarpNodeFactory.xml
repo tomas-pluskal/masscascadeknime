@@ -19,8 +19,11 @@
 			The node calls the referenced 
 			<a href="http://obi-warp.sourceforge.net/">Obiwarp</a> 
 			binary with the given parameters. The reference MS Data cell is taken from the first row in the reference table. 
-			<br /> 
+			<br />
 			Note that only the first row of the reference is read. 
+			<br />
+			The second output contains the profile time shifts for every sample. These are required whenever profiles need to be 
+			mapped back to raw containers.
 		</intro>
 		<option name="Data column">A Profile data column.</option>
 		<option name="Reference column">A reference Profile column.</option>
@@ -36,5 +39,6 @@
 		<inPort index="0" name="Profile table">Table containing Profile data.</inPort>
 		<inPort index="1" name="Reference profile table">Table containing a Profile data reference.</inPort>
 		<outPort index="0" name="Aligned profiles">Table containing aligned Profile data.</outPort>
+		<outPort index="1" name="Time shifts">Table containing time shifts of aligned profiles.</outPort>
 	</ports>
 </knimeNode>

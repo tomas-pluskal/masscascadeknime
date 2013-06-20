@@ -8,7 +8,7 @@
 	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./bless.png" type="Sink">
-	<name>Bless</name>
+	<name>Bless (row-wise)</name>
 
 	<shortDescription>
 		Iterative node to curate annotated profiles before they are written out as generic KNIME table.

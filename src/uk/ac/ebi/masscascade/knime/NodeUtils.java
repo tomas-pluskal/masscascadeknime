@@ -35,6 +35,7 @@ import org.knime.core.data.def.DefaultRow;
 import org.knime.core.node.BufferedDataTable;
 import org.knime.core.node.ExecutionMonitor;
 import org.knime.core.node.InvalidSettingsException;
+import org.knime.core.node.port.PortType;
 
 import uk.ac.ebi.masscascade.interfaces.Option;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
@@ -107,7 +108,7 @@ public class NodeUtils {
 			Parameter sourceColumn) throws InvalidSettingsException {
 		return getOptionalDataTableSpec(inSpec, settings, sourceColumn.getDescription());
 	}
-	
+
 	/**
 	 * Returns a list of optional data table specifications.
 	 * 
@@ -195,6 +196,28 @@ public class NodeUtils {
 	}
 
 	/**
+	 * Creates an array of ports where optional input ports can be specified by index.
+	 * 
+	 * @param nrDataPorts the total number of data ports
+	 * @param optionalPortsIds the indices of the optional data ports
+	 * @return the array of ports
+	 */
+	public static PortType[] createOPOs(final int nrDataPorts, final int... optionalPortsIds) {
+
+		PortType[] portTypes = new PortType[nrDataPorts];
+		Arrays.fill(portTypes, BufferedDataTable.TYPE);
+
+		if (optionalPortsIds.length > 0) {
+			for (int portId : optionalPortsIds) {
+				if ((portId - 1) < nrDataPorts) {
+					portTypes[portId - 1] = new PortType(BufferedDataTable.class, true);
+				}
+			}
+		}
+		return portTypes;
+	}
+
+	/**
 	 * Gets a specific data row.
 	 * 
 	 * @param dataTable the data table containing all rows
@@ -245,7 +268,7 @@ public class NodeUtils {
 		if (value <= 0)
 			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive number.");
 	}
-	
+
 	public static void validateDoubleGreaterOrEqualZero(Settings tmpSettings, Option parameter)
 			throws InvalidSettingsException {
 
@@ -260,8 +283,7 @@ public class NodeUtils {
 			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive number.");
 	}
 
-	public static void validateIntGreaterZero(Settings tmpSettings, Option parameter)
-			throws InvalidSettingsException {
+	public static void validateIntGreaterZero(Settings tmpSettings, Option parameter) throws InvalidSettingsException {
 
 		int value;
 		try {
@@ -274,7 +296,7 @@ public class NodeUtils {
 			throw new InvalidSettingsException(parameter.getDescription() + ": Value must be a positive integer.");
 
 	}
-	
+
 	public static void validateIntGreaterOrEqualZero(Settings tmpSettings, Option parameter)
 			throws InvalidSettingsException {
 

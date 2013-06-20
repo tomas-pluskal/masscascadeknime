@@ -26,6 +26,7 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
+import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
 import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
 import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
@@ -81,10 +82,12 @@ public class ProfileMatrixNodeFactory extends NodeFactory<ProfileMatrixNodeModel
 
 		DefaultDialog dialog = new DefaultDialog();
 		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class, SpectrumValue.class);
+		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
 		dialog.addTextOption(Parameter.TIME_WINDOW, 8);
 		dialog.addTextOption(Parameter.MISSINGNESS, 8);
 		dialog.addCustomOption(Parameter.GAP_FILL, new JCheckBox());
+		dialog.addTextOption(Parameter.DEFAULT, 8);
 		
 //		dialog.addCustomOption(CLASSIC_MATRIX, new JCheckBox());
 		

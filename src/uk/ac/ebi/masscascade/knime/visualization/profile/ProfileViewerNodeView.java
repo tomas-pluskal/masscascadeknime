@@ -117,13 +117,17 @@ public class ProfileViewerNodeView extends NodeView<ProfileViewerNodeModel> {
 		chart.clearData();
 		graphColor.reset();
 
+		Color color = null;
+		
 		for (int selectedRow : selectedRows) {
+			
+			if (selectedRows.length > 1) color = graphColor.nextColor();
 			int index = table.convertRowIndexToModel(selectedRow);
 
 			Map<String, Profile> profiles = getNodeModel().getModel().getProfilesForRow(index);
 			for (Map.Entry<String, Profile> entry : profiles.entrySet()) {
+				if (selectedRows.length == 1) color = graphColor.nextColor();
 				XYList data = entry.getValue().getTrace().getData();
-				Color color = graphColor.nextColor();
 				chart.addData(new DataSet.Builder(data, entry.getKey()).color(color).build());
 			}
 		}

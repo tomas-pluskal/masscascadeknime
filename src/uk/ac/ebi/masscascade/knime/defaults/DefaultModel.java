@@ -89,6 +89,8 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 
 		this.taskClass = taskClass;
 
+		// KNIMEKNIMEConstants.GLOBAL_THREAD_POOL
+
 		parameterMap = new ParameterMap();
 	}
 

@@ -54,9 +54,10 @@ public class IsotopeRemoverNodeModel extends DefaultModel {
 	@Override
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
-		if (settings.getBooleanOption(Parameter.KEEP_ISOTOPES))
+		if (settings.getBooleanOption(Parameter.KEEP_ISOTOPES)) {
+			System.out.println("really");
 			setTaskClass(CoreTasks.ISOTOPE_KEEPER.getCallableClass());
-		else if (settings.getBooleanOption(Parameter.REMOVE_ISOTOPES))
+		} else if (settings.getBooleanOption(Parameter.REMOVE_ISOTOPES))
 			setTaskClass(CoreTasks.ISOTOPE_REMOVER.getCallableClass());
 		
 		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);

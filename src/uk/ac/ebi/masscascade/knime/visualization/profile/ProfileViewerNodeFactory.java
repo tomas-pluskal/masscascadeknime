@@ -79,6 +79,7 @@ public class ProfileViewerNodeFactory extends NodeFactory<ProfileViewerNodeModel
 		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
 		dialog.addTextOption(Parameter.TIME_WINDOW, 8);
+		dialog.addTextOption(Parameter.MISSINGNESS, 8);
 
 		return dialog.build();
 	}

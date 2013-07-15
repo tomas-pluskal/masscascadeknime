@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.knime.base.data.replace.ReplacedColumnsDataRow;
 import org.knime.base.node.parallel.builder.ThreadedTableBuilderNodeModel;
@@ -76,7 +77,7 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 	private final Settings settings = new DefaultSettings();
 	private final ParameterMap parameterMap;
 
-	private int rowId;
+	private AtomicInteger rowId;
 	private int colIndex;
 
 	/**
@@ -95,7 +96,7 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
 		DataTableSpec inSpec = data[1].getDataTableSpec();
-		rowId = 0;
+		rowId = new AtomicInteger(1);
 		colIndex = inSpec.findColumnIndex(settings.getColumnName(Parameter.REFERENCE_PROFILE_COLUMN));
 		ProfileContainer refContainer = null;
 		for (DataRow row : data[1]) {
@@ -204,8 +205,8 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 				cells[0] = new StringCell(TextUtils.cleanId(file.getId()));
 				cells[1] = new IntCell(entry.getKey());
 				cells[2] = new DoubleCell(entry.getValue()[0]);
-				cells[3] = new DoubleCell(entry.getValue()[1]);
-				outputTables[1].addRowToTable(new DefaultRow(RowKey.createRowKey(rowId++), cells));
+				cells[3] = new DoubleCell(entry.getValue()[1]); 
+				outputTables[1].addRowToTable(new DefaultRow(RowKey.createRowKey(rowId.incrementAndGet()), cells));
 			}	
 
 

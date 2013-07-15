@@ -217,13 +217,13 @@ public class TicViewerNodeView extends DefaultView {
 		XYList data = new XYList();
 		for (DataRow row : this.getNodeModel().getInternalTables()[0]) {
 
-			int totalIntensity = 0;
+			double totalIntensity = 0;
 			tic = ((MsValue) row.getCell(column)).getMsDataValue().getTicChromatogram(globalLevel);
 			for (XYPoint ticDp : tic.getData()) {
 				totalIntensity += ticDp.y;
 			}
-			data.add(new XYPoint(counter, totalIntensity));
-			counter++;
+			data.add(new XYPoint(counter++, totalIntensity));
+			System.out.println(totalIntensity);
 		}
 
 		XYList meanData = new XYList();

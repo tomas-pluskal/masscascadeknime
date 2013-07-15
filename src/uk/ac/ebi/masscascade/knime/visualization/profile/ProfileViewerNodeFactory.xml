@@ -23,7 +23,7 @@
 		<option name="Data column">A Profile column.</option>
 		<option name="m/z tolerance">A m/z tolerance used for the profile matching in ppm.</option>
 		<option name="Time tolerance">A time window in seconds.</option>
-		<option name="Matrix">If a sample to m/z matrix should be created instead.</option>
+		<option name="Missingness">A percentage indicating the maximum number of allowed missing profiles across samples [%].</option>
 	</fullDescription>
 
 	<ports>

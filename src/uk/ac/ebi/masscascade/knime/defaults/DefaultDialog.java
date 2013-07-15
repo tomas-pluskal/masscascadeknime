@@ -22,12 +22,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -41,6 +44,7 @@ import javax.swing.border.Border;
 
 import org.knime.core.data.DataTableSpec;
 import org.knime.core.data.DataValue;
+import org.knime.core.node.BufferedDataTable;
 import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeSettingsRO;
@@ -52,6 +56,7 @@ import org.knime.core.node.util.FilesHistoryPanel;
 import uk.ac.ebi.masscascade.exception.MassCascadeException;
 import uk.ac.ebi.masscascade.interfaces.Option;
 import uk.ac.ebi.masscascade.knime.defaults.elements.BooleanTableModel;
+import uk.ac.ebi.masscascade.knime.defaults.preview.PreviewFrame;
 import uk.ac.ebi.masscascade.knime.io.reference.OptionalColumnPanel;
 
 /**
@@ -72,6 +77,9 @@ public class DefaultDialog extends NodeDialogPane {
 
 	private final GridBagConstraints c;
 	private final JCheckBox loopTerminus;
+	private final JButton previewButton;
+	
+	private BufferedDataTable[] input;
 
 	private final Settings settings;
 	private final Map<String, JTextField> textField;
@@ -97,6 +105,7 @@ public class DefaultDialog extends NodeDialogPane {
 		this.columnPanels = new ArrayList<>();
 		
 		this.loopTerminus = new JCheckBox();
+		this.previewButton = new JButton("Preview");
 
 		this.c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.NORTHWEST;
@@ -300,7 +309,7 @@ public class DefaultDialog extends NodeDialogPane {
 	 */
 	private JPanel buildTextandCustomOption() {
 
-		JPanel optionPanel = new JPanel(new GridBagLayout());
+		final JPanel optionPanel = new JPanel(new GridBagLayout());
 		optionPanel.setBorder(BorderFactory.createTitledBorder("Parameters"));
 
 		c.gridx = 0;
@@ -340,12 +349,84 @@ public class DefaultDialog extends NodeDialogPane {
 		optionPanel.add(new JLabel("Retain Data (Loop)" + PADDING), c);
 		c.gridx++;
 		optionPanel.add(loopTerminus, c);
+		c.gridy++;
+		
+		optionPanel.add(previewButton, c);
 		c.gridx = 0;
 		c.gridy++;
 
+		previewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				PreviewFrame frame = new PreviewFrame(input, settings);
+				frame.setLocationRelativeTo(optionPanel);
+				frame.setVisible(true);
+			}
+		});
+		
 		return optionPanel;
 	}
 
+//	/**
+//	 * {@inheritDoc}
+//	 */
+//	@Override
+//	protected void loadSettingsFrom(final NodeSettingsRO settings,
+//            final BufferedDataTable[] input) throws NotConfigurableException {
+//		
+//		System.out.println("A");
+//		this.input = input;
+//		
+//		List<DataTableSpec> specs = new ArrayList<>();
+//		for (BufferedDataTable table : input) {
+//			specs.add(table.getDataTableSpec());
+//		}
+//		
+//		try {
+//			this.settings.loadSettings(settings);
+//		} catch (InvalidSettingsException exception) {
+//			// do nothing
+//		}
+//
+//		for (String label : comboBox.keySet())
+//			comboBox.get(label).update(specs.get(comboBoxSpec.get(label)), this.settings.getColumnName(label));
+//
+//		for (String label : textField.keySet())
+//			textField.get(label).setText(this.settings.getTextOption(label));
+//
+//		for (String label : customField.keySet()) {
+//			if (customField.get(label) instanceof JRadioButton) {
+//				((JRadioButton) customField.get(label)).setSelected(this.settings.getBooleanOption(label));
+//			} else if (customField.get(label) instanceof FilesHistoryPanel) {
+//				((FilesHistoryPanel) customField.get(label)).setSelectedFile(this.settings.getTextOption(label));
+//			} else if (customField.get(label) instanceof JCheckBox) {
+//				((JCheckBox) customField.get(label)).setSelected(this.settings.getBooleanOption(label));
+//			}
+//		}
+//
+//		for (String label : scrollPane.keySet()) {
+//			List<String> selected = new ArrayList<>();
+//			for (String object : this.settings.getStringArrayOption(label))
+//				selected.add(object);
+//
+//			JTable table = (JTable) scrollPane.get(label).getViewport().getView();
+//			((BooleanTableModel) table.getModel()).update(selected);
+//		}
+//		
+//		for (OptionalColumnPanel singleColPanel : columnPanels) {
+//			String colName = this.settings.getTextOption(singleColPanel.getDescription());
+//			if (colName != null && colName.isEmpty()) singleColPanel.setIgnore(specs.get(0), true);
+//			else {
+//				singleColPanel.setIgnore(specs.get(0), false);
+//				singleColPanel.setColumnName(specs.get(0), colName);
+//			}
+//		}
+//
+//		loopTerminus.setSelected(this.settings.getBooleanOption(TERMINUS));
+//    }
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -395,6 +476,33 @@ public class DefaultDialog extends NodeDialogPane {
 
 		loopTerminus.setSelected(this.settings.getBooleanOption(TERMINUS));
 	}
+	
+//	/**
+//	 * {@inheritDoc}
+//	 */
+//	@Override
+//	protected void loadSettingsFrom(final NodeSettingsRO settings,
+//            final PortObjectSpec[] specs) throws NotConfigurableException {
+//        // default implementation: the standard version needs to hold: all
+//        // ports are data ports!
+//
+//		System.out.println("C");
+//		
+//        // (1) case PortObjectSpecs to DataTableSpecs
+//        DataTableSpec[] inDataSpecs = new DataTableSpec[specs.length];
+//        for (int i = 0; i < specs.length; i++) {
+//            try {
+//                inDataSpecs[i] = (DataTableSpec)specs[i];
+//            } catch (ClassCastException cce) {
+//                throw new NotConfigurableException("Input Port " + i
+//                        + " does not hold data table specs. "
+//                        + "Likely reason: wrong version"
+//                        + " of loadSettingsFrom() overwritten!");
+//            }
+//        }
+//        // (2) call old-fashioned, data-only loadSettingsFrom
+//        loadSettingsFrom(settings, inDataSpecs);
+//    }
 
 	/**
 	 * {@inheritDoc}

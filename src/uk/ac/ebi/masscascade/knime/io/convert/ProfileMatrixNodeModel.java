@@ -45,6 +45,7 @@ import org.knime.core.node.CanceledExecutionException;
 import org.knime.core.node.ExecutionContext;
 import org.knime.core.node.ExecutionMonitor;
 import org.knime.core.node.InvalidSettingsException;
+import org.knime.core.node.NodeLogger;
 import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
@@ -103,14 +104,14 @@ public class ProfileMatrixNodeModel extends NodeModel {
 
 		String colNamRaw = settings.getColumnName(Parameter.DATA_COLUMN);
 		int colIndexRaw = inData[0].getDataTableSpec().findColumnIndex(colNamRaw);
-		
+
 		profileContainerIds = new ArrayList<>();
 		for (DataRow row : inData[0]) {
 			DataCell cell = row.getCell(colIndex);
 			DataCell cellRaw = row.getCell(colIndexRaw);
 			if (cell.isMissing() || cellRaw.isMissing())
 				continue;
-			
+
 			if (cell instanceof ProfileValue)
 				profileContainers.add(((ProfileValue) cell).getPeakDataValue());
 			else
@@ -188,7 +189,7 @@ public class ProfileMatrixNodeModel extends NodeModel {
 				String containerId = ((StringValue) row.getCell(0)).getStringValue();
 				double shift = ((DoubleCell) row.getCell(2)).getDoubleValue();
 				double time = ((DoubleCell) row.getCell(3)).getDoubleValue();
-				
+
 				if (containerToTimeToShift.containsKey(containerId)) {
 					containerToTimeToShift.get(containerId).put(time, shift);
 				} else {
@@ -198,8 +199,7 @@ public class ProfileMatrixNodeModel extends NodeModel {
 				}
 			}
 		}
-		
-		
+
 		ProfileBinFiller filler = new ProfileBinFiller(DEFAULT_RT_DELTA, DEFAULT_PPM_DELTA, defaultValue);
 		for (Integer containerId : containerToRowId.keySet()) {
 			String rawContainerId = TextUtils.cleanId(rawContainers.get(containerId).getId());
@@ -210,6 +210,8 @@ public class ProfileMatrixNodeModel extends NodeModel {
 
 		int currentI = 0;
 		Set<Integer> indices = new HashSet<>(containerToRowId.values());
+		int defaultGaps = 0;
+		int unfilledGaps = 0;
 		for (ProfileBin row : rows) {
 
 			if (!indices.contains(currentI++))
@@ -225,19 +227,23 @@ public class ProfileMatrixNodeModel extends NodeModel {
 			for (int i = 6; i < model.getColumnCount(); i++) {
 				double intensity = row.isPresent(i - ProfileBin.COLUMNS);
 				if (intensity == defaultValue) {
-					setWarningMessage("Could not fill gap at " + row.getMz() + " m/z and " + row.getRt()
-							+ " with 500 ppm and 5 s tolerance. Using default value.");
+					// setWarningMessage("Could not fill gap at " + row.getMz() + " m/z and " + row.getRt()
+					// + " with 500 ppm and 5 s tolerance. Using default value.");
 					cellRow[i - 1] = new DoubleCell(intensity);
+					defaultGaps++;
 				} else if (intensity > 0) {
 					cellRow[i - 1] = new DoubleCell(intensity);
 				} else {
 					cellRow[i - 1] = new DoubleCell(defaultValue);
-					setWarningMessage("Unfilled trace at: " + row.getMz() + " m/z - " + row.getRt() + " s");
+					// setWarningMessage("Unfilled trace at: " + row.getMz() + " m/z - " + row.getRt() + " s");
+					unfilledGaps++;
 				}
 			}
 
 			dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
 		}
+		NodeLogger.getLogger(this.getClass()).info(
+				"Gap filling: " + defaultGaps + " default gaps, " + unfilledGaps + " missing gaps.");
 
 		dataContainer.close();
 

@@ -82,8 +82,9 @@ public class ProfileViewerNodeModel extends NodeModel {
 		
 		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);
 		double sec = settings.getDoubleOption(Parameter.TIME_WINDOW);
+		double missingness = settings.getDoubleOption(Parameter.MISSINGNESS);
 		
-		model = new ProfileBinTableModel(profileContainers, ppm, sec, 0);
+		model = new ProfileBinTableModel(profileContainers, ppm, sec, missingness);
 		
 		return null;
 	}
@@ -101,6 +102,7 @@ public class ProfileViewerNodeModel extends NodeModel {
 		if (settings.getOptionMapSize() == 0) {
 			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
 			settings.setTextOption(Parameter.TIME_WINDOW, "" + Parameter.TIME_WINDOW.getDefaultValue());
+			settings.setTextOption(Parameter.MISSINGNESS, "" + Parameter.MISSINGNESS.getDefaultValue());
 		}
 		
 		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
@@ -119,6 +121,7 @@ public class ProfileViewerNodeModel extends NodeModel {
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.TIME_WINDOW);
+		NodeUtils.validateDoubleGreaterOrEqualZero(tmpSettings, Parameter.MISSINGNESS);
 	}
 	
 	/**

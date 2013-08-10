@@ -62,7 +62,7 @@ public class SpectrumFilterNodeModel extends DefaultModel {
 
 		parameterMap.put(Parameter.MZ_RANGE, rangeM);
 		parameterMap.put(Parameter.TIME_RANGE, rangeT);
-		parameterMap.put(Parameter.MIN_PROFILE_INTENSITY, settings.getDoubleOption(Parameter.MIN_PROFILE_INTENSITY));
+		parameterMap.put(Parameter.DIF_PROFILE_INTENSITY, settings.getDoubleOption(Parameter.MIN_PROFILE_INTENSITY));
 		parameterMap.put(Parameter.KEEP_ISOTOPES, settings.getBooleanOption("Keep isotopes"));
 
 		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
@@ -77,7 +77,7 @@ public class SpectrumFilterNodeModel extends DefaultModel {
 		if (settings.getOptionMapSize() == 0) {
 			settings.setTextOption(Parameter.MZ_RANGE, "" + Parameter.MZ_RANGE.getDefaultValue());
 			settings.setTextOption(Parameter.TIME_RANGE, "" + Parameter.TIME_RANGE.getDefaultValue());
-			settings.setTextOption(Parameter.MIN_PROFILE_INTENSITY, "" + Parameter.MIN_PROFILE_INTENSITY.getDefaultValue());
+			settings.setTextOption(Parameter.DIF_PROFILE_INTENSITY, "" + Parameter.DIF_PROFILE_INTENSITY.getDefaultValue());
 		}
 
 		return getDataTableSpec(inSpecs, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
@@ -95,6 +95,6 @@ public class SpectrumFilterNodeModel extends DefaultModel {
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
 		NodeUtils.validateDoubleRange(tmpSettings, Parameter.MZ_RANGE);
 		NodeUtils.validateDoubleRange(tmpSettings, Parameter.TIME_RANGE);
-		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MIN_PROFILE_INTENSITY);
+		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.DIF_PROFILE_INTENSITY);
 	}
 }

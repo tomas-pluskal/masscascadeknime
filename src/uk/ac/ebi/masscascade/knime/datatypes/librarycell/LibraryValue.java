@@ -61,7 +61,7 @@ public interface LibraryValue extends DataValue {
 		}
 
 		protected DataValueRendererFamily getRendererFamily(final DataColumnSpec spec) {
-			return new DefaultDataValueRendererFamily(StringValueRenderer.INSTANCE);
+			return new DefaultDataValueRendererFamily(new StringValueRenderer());
 		}
 	}
 }

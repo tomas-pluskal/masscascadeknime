@@ -15,13 +15,12 @@
  * 
  * Contributors: Stephan Beisken - initial API and implementation
  */
-package uk.ac.ebi.masscascade.knime.curation.bless;
+package uk.ac.ebi.masscascade.knime.curation.brush;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.knime.core.data.DataCell;
 import org.knime.core.data.DataColumnSpec;
@@ -29,6 +28,7 @@ import org.knime.core.data.DataColumnSpecCreator;
 import org.knime.core.data.DataRow;
 import org.knime.core.data.DataTableSpec;
 import org.knime.core.data.DataType;
+import org.knime.core.data.IntValue;
 import org.knime.core.data.RowKey;
 import org.knime.core.data.def.DefaultRow;
 import org.knime.core.data.def.DoubleCell;
@@ -46,6 +46,7 @@ import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.knime.type.CDKCell;
 
 import uk.ac.ebi.masscascade.alignment.profilebins.ProfileBinGenerator;
+import uk.ac.ebi.masscascade.brush.SpectrumCourt;
 import uk.ac.ebi.masscascade.compound.CompoundEntity;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrum;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrumAdapter;
@@ -57,25 +58,28 @@ import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Parameter;
+import uk.ac.ebi.masscascade.parameters.ParameterMap;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 /**
  * This is the model implementation of BlessTable.
  * 
  * @author Stephan Beisken
  */
-public class BlessTableNodeModel extends NodeModel {
+public class BrushNodeModel extends NodeModel {
 
 	private final Settings settings = new DefaultSettings();
 
 	private int gid;
 	private int colIndex;
+	private int groupIndex;
 
 	/**
 	 * Constructor for the node model.
 	 */
-	protected BlessTableNodeModel() {
+	protected BrushNodeModel() {
 		super(1, 1);
 	}
 
@@ -86,58 +90,62 @@ public class BlessTableNodeModel extends NodeModel {
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
 
-		String colName = settings.getColumnName(Parameter.PEAK_COLUMN) == null ? settings
-				.getColumnName(Parameter.SPECTRUM_COLUMN) : settings.getColumnName(Parameter.PEAK_COLUMN);
+		String colName = settings.getColumnName(Parameter.SPECTRUM_COLUMN);
 		colIndex = inData[0].getSpec().findColumnIndex(colName);
+		String groupName = settings.getColumnName(Parameter.LABEL_COLUMN);
+		groupIndex = inData[0].getSpec().findColumnIndex(groupName);
 		gid = 0;
+
+		ParameterMap params = new ParameterMap();
+		params.put(Parameter.ELEMENT_FILTER, settings.getBooleanOption(Parameter.ELEMENT_FILTER));
+		params.put(Parameter.ISOTOPE_FILTER, settings.getBooleanOption(Parameter.ISOTOPE_FILTER));
+		params.put(Parameter.FRAGMENTATION_FILTER, settings.getBooleanOption(Parameter.FRAGMENTATION_FILTER));
+		params.put(Parameter.RELATION_FILTER, settings.getBooleanOption(Parameter.RELATION_FILTER));
 
 		BufferedDataContainer dataContainer = exec.createDataContainer(new DataTableSpec(
 				createOutputTableSpecification()));
+
+		Multimap<Integer, DataCell> groupToDataCells = HashMultimap.create();
+		for (DataRow row : inData[0]) {
+			DataCell groupCell = row.getCell(groupIndex);
+			if (groupCell.isMissing()) {
+				continue;
+			}
+			groupToDataCells.put(((IntValue) groupCell).getIntValue(), row.getCell(colIndex));
+		}
 
 		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);
 		double sec = settings.getDoubleOption(Parameter.TIME_WINDOW);
 		double missing = settings.getDoubleOption(Parameter.MISSINGNESS);
 
 		HashMultimap<Integer, Integer> cToPIdMap = null; // container to profile id map
-		if (missing != 100) {
+		for (int group : groupToDataCells.keySet()) {
 			List<SpectrumContainer> spectraContainer = new ArrayList<>();
-			for (DataRow row : inData[0]) {
-				DataCell spectrumCell = row.getCell(colIndex);
-				if (spectrumCell.isMissing())
+			for (DataCell spectrumCell : groupToDataCells.get(group)) {
+				if (spectrumCell.isMissing()) {
 					continue;
-
+				}
 				exec.checkCanceled();
 				spectraContainer.add(((SpectrumValue) spectrumCell).getSpectrumDataValue());
 			}
-
 			cToPIdMap = ProfileBinGenerator.createContainerToProfileMap(spectraContainer, ppm, sec, missing);
-		}
-
-		int index = 0;
-		for (DataRow row : inData[0]) {
-			DataCell spectrumCell = row.getCell(colIndex);
-
-			if (spectrumCell.isMissing())
-				continue;
-
-			exec.checkCanceled();
-
-			SpectrumContainer container = ((SpectrumValue) spectrumCell).getSpectrumDataValue();
-
-			CompoundSpectrumAdapter adapter = new CompoundSpectrumAdapter();
-			List<CompoundSpectrum> css = adapter.getSpectra(cToPIdMap, index++, container);
-
-			BlessFrame frame = new BlessFrame(css, container.getId());
-			frame.setVisible();
-
-			Map<Integer, Integer> idToEntityId = frame.getIdToEntity();
-			for (CompoundSpectrum cs : css) {
-				DataCell[] resultCells = new DataCell[8];
-				if (idToEntityId.containsKey(cs.getId()))
-					addSpectrum(cs, idToEntityId.get(cs.getId()), resultCells, container.getId());
-				else
-					addSpectrum(cs, 0, resultCells, container.getId());
-				dataContainer.addRowToTable(new DefaultRow(new RowKey(gid++ + ""), resultCells));
+			int index = 0;
+			for (DataCell spectrumCell : groupToDataCells.get(group)) {
+				if (spectrumCell.isMissing()) {
+					continue;
+				}
+				exec.checkCanceled();
+				CompoundSpectrumAdapter adapter = new CompoundSpectrumAdapter();
+				List<CompoundSpectrum> css = adapter.getSpectra(cToPIdMap, index++,
+						((SpectrumValue) spectrumCell).getSpectrumDataValue());
+				SpectrumCourt court = new SpectrumCourt(css);
+				court.setParameters(params);
+				css = court.call();
+				for (CompoundSpectrum cs : css) {
+					DataCell[] resultCells = new DataCell[8];
+					addSpectrum(cs, 0, resultCells, ((SpectrumValue) spectrumCell).getSpectrumDataValue().getId());
+					dataContainer.addRowToTable(new DefaultRow(new RowKey(gid++ + ""), resultCells));
+				}
 			}
 		}
 
@@ -207,6 +215,7 @@ public class BlessTableNodeModel extends NodeModel {
 			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
 			settings.setTextOption(Parameter.TIME_WINDOW, "" + Parameter.TIME_WINDOW.getDefaultValue());
 			settings.setTextOption(Parameter.MISSINGNESS, "" + Parameter.MISSINGNESS.getDefaultValue());
+			settings.setBooleanOption(Parameter.ELEMENT_FILTER, true);
 		}
 		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
 		return new DataTableSpec[] { new DataTableSpec(createOutputTableSpecification()) };
@@ -226,6 +235,7 @@ public class BlessTableNodeModel extends NodeModel {
 		NodeUtils.validateDoubleGreaterOrEqualZero(tmpSettings, Parameter.MISSINGNESS);
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.LABEL_COLUMN);
 	}
 
 	@Override

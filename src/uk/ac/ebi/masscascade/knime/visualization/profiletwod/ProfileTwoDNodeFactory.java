@@ -25,6 +25,7 @@ import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
 import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.knime.defaults.ViewerModel;
 import uk.ac.ebi.masscascade.parameters.Parameter;
@@ -41,7 +42,7 @@ public class ProfileTwoDNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public ViewerModel createNodeModel() {
-		return new ViewerModel(Parameter.PEAK_COLUMN);
+		return new ViewerModel(Parameter.PEAK_COLUMN, Parameter.SPECTRUM_COLUMN);
 	}
 
 	/**
@@ -76,7 +77,7 @@ public class ProfileTwoDNodeFactory extends NodeFactory<ViewerModel> {
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class);
+		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class, SpectrumValue.class);
 
 		return dialog.build();
 	}

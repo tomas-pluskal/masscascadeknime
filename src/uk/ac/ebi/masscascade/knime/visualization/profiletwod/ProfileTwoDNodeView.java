@@ -25,9 +25,12 @@ import org.knime.core.data.DataRow;
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum;
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum.PAINTERS;
 import uk.ac.ebi.masscascade.interfaces.Profile;
-import uk.ac.ebi.masscascade.interfaces.container.ProfileContainer;
+import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
+import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileCell;
 import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumCell;
+import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultView;
 import uk.ac.ebi.masscascade.knime.defaults.ViewerModel;
 import uk.ac.ebi.masscascade.knime.visualization.GraphColor;
@@ -109,10 +112,14 @@ public class ProfileTwoDNodeView extends DefaultView {
 	private DataSet getDataSet(int rowIndex) {
 
 		DataRow row = NodeUtils.getDataRow(getNodeModel().getInternalTables()[0], rowIndex);
-		ProfileContainer profileContainer = ((ProfileValue) row.getCell(column)).getPeakDataValue();
-
+		Container profileContainer;
+		if (row.getCell(column).getType() == ProfileCell.TYPE)
+			profileContainer = ((ProfileCell) row.getCell(column)).getPeakDataValue();
+		else
+			profileContainer = ((SpectrumCell) row.getCell(column)).getSpectrumDataValue();
+		
 		XYList trace = new XYList();
-		for (Profile profile : profileContainer) trace.addAll(profile.getData().getXYSlice());
+		for (Profile profile : profileContainer.profileIterator()) trace.addAll(profile.getData().getXYSlice());
 		chart.addData(new DataSet.Builder(trace, profileContainer.getId()).color(graphColor.nextColor()).build());
 
 		return null;
@@ -133,7 +140,10 @@ public class ProfileTwoDNodeView extends DefaultView {
 			for (DataRow row : getNodeModel().getInternalTables()[0]) {
 
 				if (rowIndex == selectedRowIndex) {
-					titles[titleIndex] = (((ProfileValue) row.getCell(column)).getPeakDataValue().getId());
+					if (row.getCell(column).getType() == ProfileCell.TYPE)
+						titles[titleIndex] =(((ProfileValue) row.getCell(column)).getPeakDataValue().getId());
+					else
+						titles[titleIndex] =(((SpectrumValue) row.getCell(column)).getSpectrumDataValue().getId());
 					titleIndex++;
 				}
 				rowIndex++;

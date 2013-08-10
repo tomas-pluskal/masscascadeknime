@@ -50,7 +50,6 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 	@Override
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
-		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
 		parameterMap.put(Parameter.NOISE_FACTOR, settings.getIntOption(Parameter.NOISE_FACTOR));
 		parameterMap.put(Parameter.CENTER, settings.getBooleanOption(Parameter.CENTER));
 
@@ -65,7 +64,6 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 
 		if (settings.getOptionMapSize() == 0) {
-			settings.setTextOption(Parameter.SCAN_WINDOW, "" + Parameter.SCAN_WINDOW.getDefaultValue());
 			settings.setTextOption(Parameter.NOISE_FACTOR, "" + Parameter.NOISE_FACTOR.getDefaultValue());
 			settings.setTextOption(Parameter.CENTER, "" + Parameter.CENTER.getDefaultValue());
 		}
@@ -85,7 +83,6 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
-		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.NOISE_FACTOR);
 	}
 }

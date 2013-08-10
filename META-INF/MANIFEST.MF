@@ -8,13 +8,12 @@ Bundle-ClassPath: MassCascadeKnime.jar,
  lib/MassCascade.jar
 Bundle-Activator: uk.ac.ebi.masscascade.knime.NodePlugin
 Bundle-Vendor: Stephan Beisken
-Require-Bundle: org.knime.base;bundle-version="2.4.1",
- org.eclipse.ui;bundle-version="3.6.1",
- org.knime.workbench;bundle-version="2.4.0",
- org.knime.workbench.repository;bundle-version="2.4.1",
- org.knime.product,
- org.knime.chem.types;bundle-version="2.7.0",
- org.openscience.cdk.knime;bundle-version="1.0.0"
+Require-Bundle: org.eclipse.ui;bundle-version="3.6.1",
+ org.knime.base;bundle-version="[2.5.0,3.0.0)",
+ org.knime.workbench;bundle-version="[2.5.0,3.0.0)",
+ org.knime.workbench.repository;bundle-version="[2.5.0,3.0.0)",
+ org.knime.chem.types;bundle-version="[2.7.0,3.0.0)",
+ org.openscience.cdk.knime;bundle-version="[1.0.0,3.0.0)"
 Bundle-ActivationPolicy: lazy
 Export-Package: uk.ac.ebi.masscascade.knime,
  uk.ac.ebi.masscascade.knime.alignment.fastdtw,

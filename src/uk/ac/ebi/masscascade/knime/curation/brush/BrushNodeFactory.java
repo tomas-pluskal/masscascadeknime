@@ -18,10 +18,11 @@
  * Contributors:
  *    Stephan Beisken - initial API and implementation
  */
-package uk.ac.ebi.masscascade.knime.utilities.spectrumfilter;
+package uk.ac.ebi.masscascade.knime.curation.brush;
 
 import javax.swing.JCheckBox;
 
+import org.knime.core.data.IntValue;
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
@@ -31,18 +32,18 @@ import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
- * <code>NodeFactory</code> for the "PeakFilter" Node. Filters and trims a collection of peak by various criteria.
+ * <code>NodeFactory</code> for the "BlessTable" Node.
  * 
  * @author Stephan Beisken
  */
-public class SpectrumFilterNodeFactory extends NodeFactory<SpectrumFilterNodeModel> {
+public class BrushNodeFactory extends NodeFactory<BrushNodeModel> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public SpectrumFilterNodeModel createNodeModel() {
-		return new SpectrumFilterNodeModel();
+	public BrushNodeModel createNodeModel() {
+		return new BrushNodeModel();
 	}
 
 	/**
@@ -57,7 +58,8 @@ public class SpectrumFilterNodeFactory extends NodeFactory<SpectrumFilterNodeMod
 	 * {@inheritDoc}
 	 */
 	@Override
-	public NodeView<SpectrumFilterNodeModel> createNodeView(final int viewIndex, final SpectrumFilterNodeModel nodeModel) {
+	public NodeView<BrushNodeModel> createNodeView(final int viewIndex,
+			final BrushNodeModel nodeModel) {
 		return null;
 	}
 
@@ -78,10 +80,14 @@ public class SpectrumFilterNodeFactory extends NodeFactory<SpectrumFilterNodeMod
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.SPECTRUM_COLUMN, SpectrumValue.class);
-		dialog.addTextOption(Parameter.TIME_RANGE, 8);
-		dialog.addTextOption(Parameter.MZ_RANGE, 8);
-		dialog.addTextOption(Parameter.DIF_PROFILE_INTENSITY, 8);
-		dialog.addCustomOption("Keep isotopes", new JCheckBox());
+		dialog.addColumnSelection(Parameter.LABEL_COLUMN, IntValue.class);
+		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
+		dialog.addTextOption(Parameter.TIME_WINDOW, 8);
+		dialog.addTextOption(Parameter.MISSINGNESS, 8);
+		dialog.addCustomOption(Parameter.ELEMENT_FILTER, new JCheckBox("", true));
+		dialog.addCustomOption(Parameter.ISOTOPE_FILTER, new JCheckBox("", true));
+		dialog.addCustomOption(Parameter.FRAGMENTATION_FILTER, new JCheckBox("", true));
+		dialog.addCustomOption(Parameter.RELATION_FILTER, new JCheckBox("", true));
 
 		return dialog.build();
 	}

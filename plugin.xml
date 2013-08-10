@@ -90,6 +90,7 @@
 <node category-path="/community/masscascade/identification" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory"/>
 <node category-path="/community/masscascade/io" factory-class="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory" id="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory"/>
 <node category-path="/community/masscascade/curation" factory-class="uk.ac.ebi.masscascade.knime.curation.bless.BlessTableNodeFactory" id="uk.ac.ebi.masscascade.knime.curation.bless.BlessTableNodeFactory"/>
+<node category-path="/community/masscascade/curation" factory-class="uk.ac.ebi.masscascade.knime.curation.brush.BrushNodeFactory" id="uk.ac.ebi.masscascade.knime.curation.brush.BrushNodeFactory"/>
 </extension>
    <extension point="org.eclipse.ui.preferencePages">
       <page category="org.knime.workbench.ui.preferences" class="uk.ac.ebi.masscascade.knime.preferences.PreferencePage" id="uk.ac.ebi.masscascade.knime.MassCascadePreferencePage" name="MassCascade">

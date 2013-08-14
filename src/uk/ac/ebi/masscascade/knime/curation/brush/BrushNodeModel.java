@@ -90,21 +90,30 @@ public class BrushNodeModel extends NodeModel {
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
 
+		// retrieve column names and indices
 		String colName = settings.getColumnName(Parameter.SPECTRUM_COLUMN);
 		colIndex = inData[0].getSpec().findColumnIndex(colName);
 		String groupName = settings.getColumnName(Parameter.LABEL_COLUMN);
 		groupIndex = inData[0].getSpec().findColumnIndex(groupName);
 		gid = 0;
 
+		// build parameter map
 		ParameterMap params = new ParameterMap();
 		params.put(Parameter.ELEMENT_FILTER, settings.getBooleanOption(Parameter.ELEMENT_FILTER));
 		params.put(Parameter.ISOTOPE_FILTER, settings.getBooleanOption(Parameter.ISOTOPE_FILTER));
 		params.put(Parameter.FRAGMENTATION_FILTER, settings.getBooleanOption(Parameter.FRAGMENTATION_FILTER));
 		params.put(Parameter.RELATION_FILTER, settings.getBooleanOption(Parameter.RELATION_FILTER));
 
+		// define settings
+		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);
+		double sec = settings.getDoubleOption(Parameter.TIME_WINDOW);
+		double missing = settings.getDoubleOption(Parameter.MISSINGNESS);
+
+		// build the output data container
 		BufferedDataContainer dataContainer = exec.createDataContainer(new DataTableSpec(
 				createOutputTableSpecification()));
 
+		// group input samples by their group
 		Multimap<Integer, DataCell> groupToDataCells = HashMultimap.create();
 		for (DataRow row : inData[0]) {
 			DataCell groupCell = row.getCell(groupIndex);
@@ -114,11 +123,9 @@ public class BrushNodeModel extends NodeModel {
 			groupToDataCells.put(((IntValue) groupCell).getIntValue(), row.getCell(colIndex));
 		}
 
-		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);
-		double sec = settings.getDoubleOption(Parameter.TIME_WINDOW);
-		double missing = settings.getDoubleOption(Parameter.MISSINGNESS);
-
-		HashMultimap<Integer, Integer> cToPIdMap = null; // container to profile id map
+		// container id to profile id map
+		HashMultimap<Integer, Integer> cToPIdMap = null;
+		// iterate over every group and process
 		for (int group : groupToDataCells.keySet()) {
 			List<SpectrumContainer> spectraContainer = new ArrayList<>();
 			for (DataCell spectrumCell : groupToDataCells.get(group)) {
@@ -128,19 +135,29 @@ public class BrushNodeModel extends NodeModel {
 				exec.checkCanceled();
 				spectraContainer.add(((SpectrumValue) spectrumCell).getSpectrumDataValue());
 			}
+
+			// bin profiles across spectrum containers
 			cToPIdMap = ProfileBinGenerator.createContainerToProfileMap(spectraContainer, ppm, sec, missing);
 			int index = 0;
+
+			// process spectrum cells of a group one by one using the
+			// "cToPIdMap" from above
 			for (DataCell spectrumCell : groupToDataCells.get(group)) {
 				if (spectrumCell.isMissing()) {
 					continue;
 				}
 				exec.checkCanceled();
-				CompoundSpectrumAdapter adapter = new CompoundSpectrumAdapter();
+				CompoundSpectrumAdapter adapter = new CompoundSpectrumAdapter((int) (100 - missing) * 2);
 				List<CompoundSpectrum> css = adapter.getSpectra(cToPIdMap, index++,
 						((SpectrumValue) spectrumCell).getSpectrumDataValue());
+
+				// define filter criteria and run
 				SpectrumCourt court = new SpectrumCourt(css);
 				court.setParameters(params);
 				css = court.call();
+
+				// convert and add remaining compound spectrum to the output
+				// data container
 				for (CompoundSpectrum cs : css) {
 					DataCell[] resultCells = new DataCell[8];
 					addSpectrum(cs, 0, resultCells, ((SpectrumValue) spectrumCell).getSpectrumDataValue().getId());
@@ -153,6 +170,14 @@ public class BrushNodeModel extends NodeModel {
 		return new BufferedDataTable[] { dataContainer.getTable() };
 	}
 
+	/**
+	 * Converts a compound spectrum into a data cell array.
+	 * 
+	 * @param spectrum the compound spectrum
+	 * @param entityIndex the index of the associated chemical entity
+	 * @param resultCells the data cell array
+	 * @param id the id of the sample to which the compound spectrum belongs
+	 */
 	private void addSpectrum(CompoundSpectrum spectrum, int entityIndex, DataCell[] resultCells, String id) {
 
 		int majorPeak = spectrum.getMajorPeak() - 1;

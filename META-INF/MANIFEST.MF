@@ -5,7 +5,7 @@ Bundle-SymbolicName: uk.ac.ebi.masscascade.knime;singleton:=true
 Bundle-Version: 1.1.6.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: MassCascadeKnime.jar,
- lib/MassCascade.jar
+ lib/masscascade-1.1.0.jar
 Bundle-Activator: uk.ac.ebi.masscascade.knime.NodePlugin
 Bundle-Vendor: Stephan Beisken
 Require-Bundle: org.eclipse.ui;bundle-version="3.6.1",
@@ -20,6 +20,8 @@ Export-Package: uk.ac.ebi.masscascade.knime,
  uk.ac.ebi.masscascade.knime.alignment.obiwarp,
  uk.ac.ebi.masscascade.knime.binning.mz,
  uk.ac.ebi.masscascade.knime.binning.rt,
+ uk.ac.ebi.masscascade.knime.curation.bless,
+ uk.ac.ebi.masscascade.knime.curation.brush,
  uk.ac.ebi.masscascade.knime.database.chemspider,
  uk.ac.ebi.masscascade.knime.database.local,
  uk.ac.ebi.masscascade.knime.database.massbank,

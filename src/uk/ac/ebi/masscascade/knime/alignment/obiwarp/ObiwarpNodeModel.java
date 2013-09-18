@@ -107,15 +107,17 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 		Range mzRange = new ExtendableRange(refContainer.iterator().next().getMz());
 		Range timeRange = new ExtendableRange(refContainer.getTimes().keySet().first(), refContainer.getTimes()
 				.keySet().last());
-		for (Profile profile : refContainer)
+		for (Profile profile : refContainer) {
+			timeRange.extendRange(profile.getRtRange());
 			mzRange.extendRange(profile.getMzRange());
+		}
 
 		for (DataRow row : data[0]) {
 			ProfileContainer inContainer = ((ProfileValue) row.getCell(colIndex)).getPeakDataValue();
-			timeRange.extendRange(inContainer.getTimes().keySet().first());
-			timeRange.extendRange(inContainer.getTimes().keySet().last());
-			for (Profile profile : inContainer)
+			for (Profile profile : inContainer) {
+				timeRange.extendRange(profile.getRtRange());
 				mzRange.extendRange(profile.getMzRange());
+			}
 		}
 
 		// take boundaries into account

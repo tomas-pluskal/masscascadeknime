@@ -159,9 +159,12 @@ public class BrushNodeModel extends NodeModel {
 				// convert and add remaining compound spectrum to the output
 				// data container
 				for (CompoundSpectrum cs : css) {
-					DataCell[] resultCells = new DataCell[8];
-					addSpectrum(cs, 0, resultCells, ((SpectrumValue) spectrumCell).getSpectrumDataValue().getId());
-					dataContainer.addRowToTable(new DefaultRow(new RowKey(gid++ + ""), resultCells));
+					for (CompoundEntity ce : cs.getBest(100)) {
+						DataCell[] resultCells = new DataCell[8];
+						addSpectrum(cs, ce, resultCells, ((SpectrumValue) spectrumCell)
+								.getSpectrumDataValue().getId());
+						dataContainer.addRowToTable(new DefaultRow(new RowKey(gid++ + ""), resultCells));
+					}
 				}
 			}
 		}
@@ -178,10 +181,9 @@ public class BrushNodeModel extends NodeModel {
 	 * @param resultCells the data cell array
 	 * @param id the id of the sample to which the compound spectrum belongs
 	 */
-	private void addSpectrum(CompoundSpectrum spectrum, int entityIndex, DataCell[] resultCells, String id) {
+	private void addSpectrum(CompoundSpectrum spectrum, CompoundEntity ce, DataCell[] resultCells, String id) {
 
 		int majorPeak = spectrum.getMajorPeak() - 1;
-		CompoundEntity ce = spectrum.getCompound(entityIndex);
 
 		resultCells[0] = new StringCell(id.substring(0, id.indexOf(Constants.DELIMITER)));
 		resultCells[1] = new DoubleCell(spectrum.getPeakList().get(majorPeak).x);

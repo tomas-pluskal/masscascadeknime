@@ -29,6 +29,7 @@ import org.knime.core.data.DataColumnSpecCreator;
 import org.knime.core.data.DataRow;
 import org.knime.core.data.DataTableSpec;
 import org.knime.core.data.DataType;
+import org.knime.core.data.IntValue;
 import org.knime.core.data.RowKey;
 import org.knime.core.data.def.DefaultRow;
 import org.knime.core.data.def.DoubleCell;
@@ -50,6 +51,7 @@ import uk.ac.ebi.masscascade.compound.CompoundEntity;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrum;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrumAdapter;
 import uk.ac.ebi.masscascade.compound.NotationUtil;
+import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.interfaces.container.SpectrumContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
@@ -59,6 +61,7 @@ import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 /**
  * This is the model implementation of BlessTable.
@@ -89,6 +92,7 @@ public class BlessTableNodeModel extends NodeModel {
 		String colName = settings.getColumnName(Parameter.PEAK_COLUMN) == null ? settings
 				.getColumnName(Parameter.SPECTRUM_COLUMN) : settings.getColumnName(Parameter.PEAK_COLUMN);
 		colIndex = inData[0].getSpec().findColumnIndex(colName);
+		int groupIndex = inData[0].getSpec().findColumnIndex(settings.getColumnName(Parameter.LABEL_COLUMN));
 		gid = 0;
 
 		BufferedDataContainer dataContainer = exec.createDataContainer(new DataTableSpec(
@@ -98,16 +102,19 @@ public class BlessTableNodeModel extends NodeModel {
 		double sec = settings.getDoubleOption(Parameter.TIME_WINDOW);
 		double missing = settings.getDoubleOption(Parameter.MISSINGNESS);
 
-		HashMultimap<Integer, Integer> cToPIdMap = null; // container to profile id map
+		HashMultimap<Integer, Integer> cToPIdMap = null; // container to profile
+															// id map
 		if (missing != 100) {
-			List<SpectrumContainer> spectraContainer = new ArrayList<>();
+			Multimap<Integer, Container> spectraContainer = HashMultimap.create();
 			for (DataRow row : inData[0]) {
 				DataCell spectrumCell = row.getCell(colIndex);
+				DataCell groupCell = row.getCell(groupIndex);
 				if (spectrumCell.isMissing())
 					continue;
 
 				exec.checkCanceled();
-				spectraContainer.add(((SpectrumValue) spectrumCell).getSpectrumDataValue());
+				spectraContainer.put(((IntValue) groupCell).getIntValue(),
+						((SpectrumValue) spectrumCell).getSpectrumDataValue());
 			}
 
 			cToPIdMap = ProfileBinGenerator.createContainerToProfileMap(spectraContainer, ppm, sec, missing);

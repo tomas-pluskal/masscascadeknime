@@ -20,6 +20,7 @@
  */
 package uk.ac.ebi.masscascade.knime.visualization.profile;
 
+import org.knime.core.data.IntValue;
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
@@ -77,6 +78,7 @@ public class ProfileViewerNodeFactory extends NodeFactory<ProfileViewerNodeModel
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class);
+		dialog.addColumnSelection(Parameter.LABEL_COLUMN, IntValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
 		dialog.addTextOption(Parameter.TIME_WINDOW, 8);
 		dialog.addTextOption(Parameter.MISSINGNESS, 8);

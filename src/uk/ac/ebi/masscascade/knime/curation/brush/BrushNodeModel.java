@@ -51,7 +51,7 @@ import uk.ac.ebi.masscascade.compound.CompoundEntity;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrum;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrumAdapter;
 import uk.ac.ebi.masscascade.compound.NotationUtil;
-import uk.ac.ebi.masscascade.interfaces.container.SpectrumContainer;
+import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
@@ -127,13 +127,13 @@ public class BrushNodeModel extends NodeModel {
 		HashMultimap<Integer, Integer> cToPIdMap = null;
 		// iterate over every group and process
 		for (int group : groupToDataCells.keySet()) {
-			List<SpectrumContainer> spectraContainer = new ArrayList<>();
+			Multimap<Integer, Container> spectraContainer = HashMultimap.create();
 			for (DataCell spectrumCell : groupToDataCells.get(group)) {
 				if (spectrumCell.isMissing()) {
 					continue;
 				}
 				exec.checkCanceled();
-				spectraContainer.add(((SpectrumValue) spectrumCell).getSpectrumDataValue());
+				spectraContainer.put(group, ((SpectrumValue) spectrumCell).getSpectrumDataValue());
 			}
 
 			// bin profiles across spectrum containers

@@ -22,12 +22,11 @@ package uk.ac.ebi.masscascade.knime.visualization.profile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.knime.core.data.DataCell;
 import org.knime.core.data.DataRow;
 import org.knime.core.data.DataTableSpec;
+import org.knime.core.data.IntValue;
 import org.knime.core.node.BufferedDataTable;
 import org.knime.core.node.CanceledExecutionException;
 import org.knime.core.node.ExecutionContext;
@@ -44,6 +43,9 @@ import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Parameter;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 /**
  * This is the model implementation of MzFileReader. File reader node for Thermo RAW and PSI mzML mass spectrometry
@@ -71,13 +73,15 @@ public class ProfileViewerNodeModel extends NodeModel {
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
 
-		List<Container> profileContainers = new ArrayList<Container>();
+		Multimap<Integer, Container> profileContainers = HashMultimap.create();
 		
 		int colIndex = inData[0].getDataTableSpec().findColumnIndex(settings.getColumnName(Parameter.PEAK_COLUMN));
+		int colGroupIndex = inData[0].getDataTableSpec().findColumnIndex(settings.getColumnName(Parameter.LABEL_COLUMN));
 		for (DataRow row : inData[0]) {
 			DataCell cell = row.getCell(colIndex);
+			DataCell groupCell = row.getCell(colGroupIndex);
 			if (cell.isMissing()) continue;
-			profileContainers.add(((ProfileValue) cell).getPeakDataValue());
+			profileContainers.put(((IntValue) groupCell).getIntValue() ,((ProfileValue) cell).getPeakDataValue());
 		}
 		
 		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);

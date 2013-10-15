@@ -34,6 +34,7 @@ import org.knime.core.data.DataColumnSpecCreator;
 import org.knime.core.data.DataRow;
 import org.knime.core.data.DataTableSpec;
 import org.knime.core.data.DataType;
+import org.knime.core.data.IntValue;
 import org.knime.core.data.RowKey;
 import org.knime.core.data.StringValue;
 import org.knime.core.data.def.DefaultRow;
@@ -69,7 +70,8 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 /**
- * This is the model implementation of the "ProfileMatrix" node to build the m/z to sample matrix.
+ * This is the model implementation of the "ProfileMatrix" node to build the m/z
+ * to sample matrix.
  * 
  * @author Stephan Beisken
  */
@@ -95,7 +97,7 @@ public class ProfileMatrixNodeModel extends NodeModel {
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
 
-		List<Container> profileContainers = new ArrayList<Container>();
+		Multimap<Integer, Container> profileContainers = HashMultimap.create();
 		List<RawContainer> rawContainers = new ArrayList<RawContainer>();
 
 		String colName = settings.getColumnName(Parameter.PEAK_COLUMN) == null ? settings
@@ -105,19 +107,28 @@ public class ProfileMatrixNodeModel extends NodeModel {
 		String colNamRaw = settings.getColumnName(Parameter.DATA_COLUMN);
 		int colIndexRaw = inData[0].getDataTableSpec().findColumnIndex(colNamRaw);
 
-		profileContainerIds = new ArrayList<>();
+		String colLabel = settings.getColumnName(Parameter.LABEL_COLUMN);
+		int colIndexLabel = inData[0].getDataTableSpec().findColumnIndex(colLabel);
+		
 		for (DataRow row : inData[0]) {
 			DataCell cell = row.getCell(colIndex);
 			DataCell cellRaw = row.getCell(colIndexRaw);
+			DataCell groupCell = row.getCell(colIndexLabel);
 			if (cell.isMissing() || cellRaw.isMissing())
 				continue;
 
-			if (cell instanceof ProfileValue)
-				profileContainers.add(((ProfileValue) cell).getPeakDataValue());
-			else
-				profileContainers.add(((SpectrumValue) cell).getSpectrumDataValue());
-			profileContainerIds.add(profileContainers.get(profileContainers.size() - 1).getId());
+			if (cell instanceof ProfileValue) {
+				profileContainers.put(((IntValue) groupCell).getIntValue(), ((ProfileValue) cell).getPeakDataValue());
+			} else {
+				profileContainers.put(((IntValue) groupCell).getIntValue(), ((SpectrumValue) cell).getSpectrumDataValue());
+			}
 			rawContainers.add(((MsCell) cellRaw).getMsDataValue());
+		}
+		profileContainerIds = new ArrayList<>();
+		for (int groupId : profileContainers.keySet()) {
+			for (Container orderedContainer : profileContainers.get(groupId)) {
+				profileContainerIds.add(orderedContainer.getId());
+			}
 		}
 
 		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);
@@ -135,21 +146,27 @@ public class ProfileMatrixNodeModel extends NodeModel {
 		List<ProfileBin> rows = model.getRows();
 		Collections.sort(rows, new ProfileBinTimeComparator());
 
-		// if (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX)) {
+		// if
+		// (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX))
+		// {
 		// cellRow = new DataCell[rows.size() + 1];
 		// int mzIndex = 0;
 		// cellRow[mzIndex++] = new StringCell("Sample");
 		// for (ProfileBin row : rows)
 		// cellRow[mzIndex++] = new DoubleCell(row.getMz());
-		// dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
+		// dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""),
+		// cellRow));
 		// for (int i = 0; i < profileContainers.size(); i++) {
 		// mzIndex = 0;
-		// cellRow[mzIndex++] = new StringCell(TextUtils.cleanId(profileContainers.get(i).getId()));
+		// cellRow[mzIndex++] = new
+		// StringCell(TextUtils.cleanId(profileContainers.get(i).getId()));
 		// for (ProfileBin row : rows) {
 		// double intensity = row.isPresent(i);
-		// cellRow[mzIndex++] = intensity > 0 ? new DoubleCell(intensity) : DataType.getMissingCell();
+		// cellRow[mzIndex++] = intensity > 0 ? new DoubleCell(intensity) :
+		// DataType.getMissingCell();
 		// }
-		// dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
+		// dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""),
+		// cellRow));
 		// }
 		// } else {
 		Multimap<Integer, Integer> containerToRowId = HashMultimap.create();
@@ -227,15 +244,18 @@ public class ProfileMatrixNodeModel extends NodeModel {
 			for (int i = 6; i < model.getColumnCount(); i++) {
 				double intensity = row.isPresent(i - ProfileBin.COLUMNS);
 				if (intensity == defaultValue) {
-					// setWarningMessage("Could not fill gap at " + row.getMz() + " m/z and " + row.getRt()
-					// + " with 500 ppm and 5 s tolerance. Using default value.");
+					// setWarningMessage("Could not fill gap at " + row.getMz()
+					// + " m/z and " + row.getRt()
+					// +
+					// " with 500 ppm and 5 s tolerance. Using default value.");
 					cellRow[i - 1] = new DoubleCell(intensity);
 					defaultGaps++;
 				} else if (intensity > 0) {
 					cellRow[i - 1] = new DoubleCell(intensity);
 				} else {
 					cellRow[i - 1] = new DoubleCell(defaultValue);
-					// setWarningMessage("Unfilled trace at: " + row.getMz() + " m/z - " + row.getRt() + " s");
+					// setWarningMessage("Unfilled trace at: " + row.getMz() +
+					// " m/z - " + row.getRt() + " s");
 					unfilledGaps++;
 				}
 			}
@@ -257,7 +277,9 @@ public class ProfileMatrixNodeModel extends NodeModel {
 
 		List<DataColumnSpec> dataColumnSpecs = new ArrayList<DataColumnSpec>();
 
-		// if (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX)) {
+		// if
+		// (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX))
+		// {
 		// createColumnSpec(dataColumnSpecs, "Sample", StringCell.TYPE);
 		// for (int i = 1; i <= rows.size(); i++)
 		// createColumnSpec(dataColumnSpecs, i + "", DoubleCell.TYPE);

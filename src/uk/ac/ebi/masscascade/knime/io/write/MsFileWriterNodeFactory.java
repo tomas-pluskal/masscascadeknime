@@ -27,8 +27,8 @@ import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 import org.knime.core.node.util.FilesHistoryPanel;
 
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -79,7 +79,7 @@ public class MsFileWriterNodeFactory extends NodeFactory<MsFileWriterNodeModel> 
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class, SpectrumValue.class);
+		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class, FeatureSetValue.class);
 
 		FilesHistoryPanel fileName = new FilesHistoryPanel(this.getClass().getPackage().toString());
 		fileName.setSelectMode(JFileChooser.DIRECTORIES_ONLY);

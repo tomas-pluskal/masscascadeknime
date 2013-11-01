@@ -26,8 +26,8 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -80,7 +80,7 @@ public class BiehmanDeconvolutionNodeFactory extends NodeFactory<BiehmanDeconvol
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class);
+		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
 		dialog.addTextOption(Parameter.NOISE_FACTOR, 5);
 		dialog.addCustomOption(Parameter.CENTER, new JCheckBox("", true));

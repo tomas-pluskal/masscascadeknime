@@ -54,7 +54,7 @@ public class IsotopeFinderNodeModel extends DefaultModel {
 
 		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
 
-		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class IsotopeFinderNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
 		}
 
-		return getDataTableSpec(inSpecs, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
+		return getDataTableSpec(inSpecs, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class IsotopeFinderNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 	}
 }

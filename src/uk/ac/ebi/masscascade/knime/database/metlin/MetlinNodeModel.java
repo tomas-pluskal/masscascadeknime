@@ -66,7 +66,7 @@ public class MetlinNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.SCORE_METLIN, settings.getIntOption(Parameter.SCORE_METLIN));
 		parameterMap.put(Parameter.ION_MODE, ionMode);
 
-		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class MetlinNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.SCORE_METLIN, "" + Parameter.SCORE_METLIN.getDefaultValue());
 		}
 
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class MetlinNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		NodeUtils.validateTextNotEmpty(tmpSettings, Parameter.SECURITY_TOKEN);
 		NodeUtils.validateIntervalInt(tmpSettings, Parameter.MZ_WINDOW_PPM, 1, 100);
 		NodeUtils.validateIntervalDouble(tmpSettings, Parameter.MZ_WINDOW_AMU, 0.001, 0.5);

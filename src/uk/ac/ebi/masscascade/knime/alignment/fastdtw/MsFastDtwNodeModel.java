@@ -26,7 +26,7 @@ import org.knime.core.data.DataTableSpec;
 import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeSettingsRO;
 
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultModel;
@@ -40,6 +40,7 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class MsFastDtwNodeModel extends DefaultModel {
 
 	/**
@@ -57,13 +58,13 @@ public class MsFastDtwNodeModel extends DefaultModel {
 
 		DataTableSpec inSpec = data[0].getDataTableSpec();
 		final int colIndex = inSpec.findColumnIndex(settings.getColumnName(Parameter.REFERENCE_COLUMN));
-		RawContainer refFile = null;
+		ScanContainer refFile = null;
 		for (DataRow row : data[1]) {
 			refFile = ((MsValue) row.getCell(colIndex)).getMsDataValue();
 			break;
 		}
 		
-		parameterMap.put(Parameter.REFERENCE_RAW_CONTAINER, refFile);
+		parameterMap.put(Parameter.REFERENCE_SCAN_CONTAINER, refFile);
 		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
 		
 		return getDataTableSpec(data, Parameter.DATA_COLUMN, Parameter.DATA_COLUMN, false);

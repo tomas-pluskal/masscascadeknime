@@ -29,7 +29,7 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -81,7 +81,7 @@ public class IonSearchNodeFactory extends NodeFactory<IonSearchNodeModel> {
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.SPECTRUM_COLUMN, SpectrumValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
 		dialog.addColumnSelection(Parameter.LABEL_COLUMN, 1, StringValue.class);
 		dialog.addColumnSelection(Parameter.VALUE_COLUMN, 1, DoubleValue.class);
 

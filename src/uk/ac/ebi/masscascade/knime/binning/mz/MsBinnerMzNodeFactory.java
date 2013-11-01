@@ -36,6 +36,7 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class MsBinnerMzNodeFactory extends NodeFactory<MsBinnerMzNodeModel> {
 
 	/**

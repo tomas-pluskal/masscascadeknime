@@ -28,7 +28,7 @@ import java.awt.Graphics;
 import org.knime.core.data.renderer.AbstractPainterDataValueRenderer;
 
 import uk.ac.ebi.masscascade.interfaces.Chromatogram;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.utilities.DataSet;
 import uk.ac.ebi.masscascade.utilities.Labels;
@@ -39,16 +39,16 @@ public final class MsRenderer extends AbstractPainterDataValueRenderer {
 
 	private static final long serialVersionUID = 4834950347364477370L;
 
-	private RawContainer rawContainer;
+	private ScanContainer scanContainer;
 	private Font currentFont;
 
 	public void setValue(final Object value) {
 
 		if (value instanceof MsValue) {
-			setRawFile(((MsValue) value).getMsDataValue());
+			setScanFile(((MsValue) value).getMsDataValue());
 			return;
 		} else {
-			setRawFile(null);
+			setScanFile(null);
 		}
 	}
 
@@ -57,9 +57,8 @@ public final class MsRenderer extends AbstractPainterDataValueRenderer {
 	 * 
 	 * @param sample the new mass spec sample to be rendered (<code>null</code> is ok)
 	 */
-	protected void setRawFile(final RawContainer sample) {
-
-		rawContainer = sample;
+	protected void setScanFile(final ScanContainer sample) {
+		scanContainer = sample;
 	}
 
 	/**
@@ -70,15 +69,15 @@ public final class MsRenderer extends AbstractPainterDataValueRenderer {
 
 		super.paintComponent(g);
 
-		if (rawContainer == null) {
+		if (scanContainer == null) {
 			g.drawString("Object missing", 3, getHeight() - 3);
 			return;
 		}
 
-		Chromatogram chromatogram = rawContainer.getTicChromatogram(Constants.MSN.MS1);
+		Chromatogram chromatogram = scanContainer.getTicChromatogram(Constants.MSN.MS1);
 		if (chromatogram == null || chromatogram.getData().size() == 0) {
 			g.drawString("Container empty", 3, getHeight() - 15);
-			g.drawString(rawContainer.getId(), 3, getHeight() - 3);
+			g.drawString(scanContainer.getId(), 3, getHeight() - 3);
 			return;
 		}
 
@@ -104,7 +103,7 @@ public final class MsRenderer extends AbstractPainterDataValueRenderer {
 			g.drawString(".", (int) eqX.getY(point.x), (int) eqY.getY(point.y));
 		}
 
-		g.drawString(rawContainer.getId(), 3, getHeight() - 3);
+		g.drawString(scanContainer.getId(), 3, getHeight() - 3);
 	}
 
 	public String getDescription() {
@@ -135,7 +134,6 @@ public final class MsRenderer extends AbstractPainterDataValueRenderer {
 	 */
 	@Override
 	public Dimension getPreferredSize() {
-
 		return new Dimension(150, 100);
 	}
 }

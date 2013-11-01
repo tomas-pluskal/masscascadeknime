@@ -24,8 +24,8 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.datatypes.librarycell.LibraryValue;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -76,14 +76,14 @@ public class LibSearchNodeFactory extends NodeFactory<LibSearchNodeModel> {
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.SPECTRUM_COLUMN, SpectrumValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
 		dialog.addColumnSelection(Parameter.REFERENCE_COLUMN, 1, LibraryValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
 		dialog.addTextOption(Parameter.MZ_WINDOW_AMU, 8);
 		dialog.addTextOption(Parameter.COLLISION_ENERGY, 8);
 		dialog.addTextOption(Parameter.MS_LEVEL, 8);
 		dialog.addTextOption(Parameter.SCORE, 8);
-		
+
 		JRadioButton positiveMode = new JRadioButton("", true);
 		JRadioButton negativeMode = new JRadioButton("");
 
@@ -93,7 +93,7 @@ public class LibSearchNodeFactory extends NodeFactory<LibSearchNodeModel> {
 
 		dialog.addCustomOption(Parameter.POSITIVE_MODE, positiveMode);
 		dialog.addCustomOption(Parameter.NEGATIVE_MODE, negativeMode);
-		
+
 		return dialog.build();
 	}
 }

@@ -28,7 +28,7 @@ import org.knime.core.data.renderer.DataValueRendererFamily;
 import org.knime.core.data.renderer.DefaultDataValueRendererFamily;
 import org.knime.core.data.renderer.MultiLineStringValueRenderer;
 
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 
 /**
  * Mass spectrometry data value interface.
@@ -49,7 +49,7 @@ public interface MsValue extends DataValue {
 	 * 
 	 * @return a string value
 	 */
-	public RawContainer getMsDataValue();
+	public ScanContainer getMsDataValue();
 
 	/** Implementations of the meta information of this value class. */
 	public static class MsDataUtilityFactory extends UtilityFactory {
@@ -62,7 +62,6 @@ public interface MsValue extends DataValue {
 		}
 
 		public Icon getIcon() {
-
 			return ICON;
 		}
 
@@ -71,7 +70,6 @@ public interface MsValue extends DataValue {
 		 */
 		@Override
 		protected DataValueRendererFamily getRendererFamily(final DataColumnSpec spec) {
-
 			return new DefaultDataValueRendererFamily(new MsRenderer(), new MultiLineStringValueRenderer("String"));
 		}
 	}

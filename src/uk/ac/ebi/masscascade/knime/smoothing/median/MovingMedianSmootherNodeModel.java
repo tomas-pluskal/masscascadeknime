@@ -34,11 +34,12 @@ import uk.ac.ebi.masscascade.parameters.CoreTasks;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
- * This is the model implementation of MovingMedianSmoother. Corrects the baseline of the run using a simple moving
- * median.
+ * This is the model implementation of MovingMedianSmoother. Corrects the
+ * baseline of the run using a simple moving median.
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class MovingMedianSmootherNodeModel extends DefaultModel {
 
 	/**
@@ -56,7 +57,7 @@ public class MovingMedianSmootherNodeModel extends DefaultModel {
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
 		parameterMap.put(Parameter.MS_LEVEL, Constants.MSN.MS1);
-		parameterMap.put(Parameter.DATA_WINDOW, settings.getIntOption(Parameter.DATA_WINDOW));
+		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
 
 		return getDataTableSpec(data, Parameter.DATA_COLUMN, Parameter.DATA_COLUMN, false);
 	}
@@ -68,7 +69,7 @@ public class MovingMedianSmootherNodeModel extends DefaultModel {
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 
 		if (settings.getOptionMapSize() == 0) {
-			settings.setTextOption(Parameter.DATA_WINDOW, "" + Parameter.DATA_WINDOW.getDefaultValue());
+			settings.setTextOption(Parameter.SCAN_WINDOW, "" + Parameter.SCAN_WINDOW.getDefaultValue());
 		}
 
 		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.DATA_COLUMN);
@@ -84,6 +85,6 @@ public class MovingMedianSmootherNodeModel extends DefaultModel {
 		tmpSettings.loadSettings(settings);
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
-		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.DATA_WINDOW);
+		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
 	}
 }

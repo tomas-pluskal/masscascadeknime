@@ -51,13 +51,13 @@ import org.knime.core.node.NodeSettingsWO;
 
 import uk.ac.ebi.masscascade.alignment.Obiwarp;
 import uk.ac.ebi.masscascade.alignment.ObiwarpHelper;
-import uk.ac.ebi.masscascade.interfaces.Profile;
+import uk.ac.ebi.masscascade.interfaces.Feature;
 import uk.ac.ebi.masscascade.interfaces.Range;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
-import uk.ac.ebi.masscascade.interfaces.container.ProfileContainer;
+import uk.ac.ebi.masscascade.interfaces.container.FeatureContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileCell;
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureCell;
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
@@ -67,7 +67,8 @@ import uk.ac.ebi.masscascade.utilities.TextUtils;
 import uk.ac.ebi.masscascade.utilities.range.ExtendableRange;
 
 /**
- * This is the model implementation of MsFastDtw. Fast dynamic time warp for mass spectrometry sample alignment.
+ * This is the model implementation of MsFastDtw. Fast dynamic time warp for
+ * mass spectrometry sample alignment.
  * 
  * @author Stephan Beisken
  */
@@ -97,26 +98,26 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 
 		DataTableSpec inSpec = data[1].getDataTableSpec();
 		rowId = new AtomicInteger(1);
-		colIndex = inSpec.findColumnIndex(settings.getColumnName(Parameter.REFERENCE_PROFILE_COLUMN));
-		ProfileContainer refContainer = null;
+		colIndex = inSpec.findColumnIndex(settings.getColumnName(Parameter.REFERENCE_FEATURE_COLUMN));
+		FeatureContainer refContainer = null;
 		for (DataRow row : data[1]) {
-			refContainer = ((ProfileValue) row.getCell(colIndex)).getPeakDataValue();
+			refContainer = ((FeatureValue) row.getCell(colIndex)).getPeakDataValue();
 			break;
 		}
 
 		Range mzRange = new ExtendableRange(refContainer.iterator().next().getMz());
 		Range timeRange = new ExtendableRange(refContainer.getTimes().keySet().first(), refContainer.getTimes()
 				.keySet().last());
-		for (Profile profile : refContainer) {
-			timeRange.extendRange(profile.getRtRange());
-			mzRange.extendRange(profile.getMzRange());
+		for (Feature Feature : refContainer) {
+			timeRange.extendRange(Feature.getRtRange());
+			mzRange.extendRange(Feature.getMzRange());
 		}
 
 		for (DataRow row : data[0]) {
-			ProfileContainer inContainer = ((ProfileValue) row.getCell(colIndex)).getPeakDataValue();
-			for (Profile profile : inContainer) {
-				timeRange.extendRange(profile.getRtRange());
-				mzRange.extendRange(profile.getMzRange());
+			FeatureContainer inContainer = ((FeatureValue) row.getCell(colIndex)).getPeakDataValue();
+			for (Feature Feature : inContainer) {
+				timeRange.extendRange(Feature.getRtRange());
+				mzRange.extendRange(Feature.getMzRange());
 			}
 		}
 
@@ -152,7 +153,7 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 		List<DataColumnSpec> dataColumnSpecs = new ArrayList<DataColumnSpec>();
 
 		createColumnSpec(dataColumnSpecs, "container id", StringCell.TYPE);
-		createColumnSpec(dataColumnSpecs, "profile id", IntCell.TYPE);
+		createColumnSpec(dataColumnSpecs, "Feature id", IntCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "time shift", DoubleCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "retention time", DoubleCell.TYPE);
 
@@ -186,8 +187,8 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 				return;
 			}
 
-			Container file = ((ProfileValue) cell).getPeakDataValue();
-			taskParms.put(Parameter.PROFILE_CONTAINER, file);
+			Container file = ((FeatureValue) cell).getPeakDataValue();
+			taskParms.put(Parameter.FEATURE_CONTAINER, file);
 
 			Obiwarp obiwarp = new Obiwarp(taskParms);
 			Container container = obiwarp.call();
@@ -199,18 +200,17 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 			}
 
 			ids.add(container.getDataFile());
-			DataCell outCell = new ProfileCell((ProfileContainer) container);
+			DataCell outCell = new FeatureCell((FeatureContainer) container);
 			outputTables[0].addRowToTable(new ReplacedColumnsDataRow(inRow, outCell, colIndex));
-			
+
 			DataCell[] cells = new DataCell[4];
 			for (Entry<Integer, Double[]> entry : obiwarp.getTimeDiffMap().entrySet()) {
 				cells[0] = new StringCell(TextUtils.cleanId(file.getId()));
 				cells[1] = new IntCell(entry.getKey());
 				cells[2] = new DoubleCell(entry.getValue()[0]);
-				cells[3] = new DoubleCell(entry.getValue()[1]); 
+				cells[3] = new DoubleCell(entry.getValue()[1]);
 				outputTables[1].addRowToTable(new DefaultRow(RowKey.createRowKey(rowId.incrementAndGet()), cells));
-			}	
-
+			}
 
 		} catch (Exception exception) {
 			setWarningMessage("Node execution failed for \"" + Obiwarp.class.getSimpleName() + "\". Details below.");

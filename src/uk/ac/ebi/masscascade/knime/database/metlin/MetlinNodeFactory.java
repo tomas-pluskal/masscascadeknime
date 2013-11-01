@@ -24,7 +24,7 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -75,12 +75,12 @@ public class MetlinNodeFactory extends NodeFactory<MetlinNodeModel> {
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.SPECTRUM_COLUMN, SpectrumValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
 		dialog.addTextOption(Parameter.MZ_WINDOW_AMU, 8);
 		dialog.addTextOption(Parameter.COLLISION_ENERGY, 8);
 		dialog.addTextOption(Parameter.SCORE_METLIN, 8);
-		
+
 		JRadioButton positiveMode = new JRadioButton("", true);
 		JRadioButton negativeMode = new JRadioButton("");
 
@@ -90,9 +90,9 @@ public class MetlinNodeFactory extends NodeFactory<MetlinNodeModel> {
 
 		dialog.addCustomOption(Parameter.POSITIVE_MODE, positiveMode);
 		dialog.addCustomOption(Parameter.NEGATIVE_MODE, negativeMode);
-		
+
 		dialog.addTextOption(Parameter.SECURITY_TOKEN, 20);
-		
+
 		return dialog.build();
 	}
 }

@@ -33,9 +33,9 @@ import javax.swing.table.TableRowSorter;
 
 import org.knime.core.data.DataRow;
 
-import uk.ac.ebi.masscascade.core.container.file.raw.FileRawContainer;
+import uk.ac.ebi.masscascade.core.container.file.scan.FileScanContainer;
 import uk.ac.ebi.masscascade.interfaces.Scan;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultView;
@@ -53,14 +53,15 @@ import uk.ac.ebi.masscascade.utilities.xyz.XYList;
 import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
 
 /**
- * <code>NodeView</code> for the "SpectrumComparator" Node. Displays the spectrums from the selected run.
+ * <code>NodeView</code> for the "SpectrumComparator" Node. Displays the
+ * spectrums from the selected run.
  * 
  * @author Stephan Beisken
  */
 public class SpectrumComparatorNodeView extends DefaultView {
 
 	private GraphColor graphColor;
-	private final Map<String, RawContainer> rawFileMap;
+	private final Map<String, ScanContainer> rawFileMap;
 	private final List<String> addedIds;
 
 	private final Settings settings;
@@ -77,7 +78,7 @@ public class SpectrumComparatorNodeView extends DefaultView {
 		settings = nodeModel.getSettings();
 		graphColor = new GraphColor();
 
-		rawFileMap = new HashMap<String, RawContainer>();
+		rawFileMap = new HashMap<String, ScanContainer>();
 		addedIds = new ArrayList<String>();
 	}
 
@@ -92,13 +93,13 @@ public class SpectrumComparatorNodeView extends DefaultView {
 		for (int selectedRun : selectedRows) {
 
 			DataRow row = NodeUtils.getDataRow(getNodeModel().getInternalTables()[0], selectedRun);
-			RawContainer msFile = ((MsValue) row.getCell(0)).getMsDataValue();
+			ScanContainer msFile = ((MsValue) row.getCell(0)).getMsDataValue();
 
 			totalSize += msFile.size(msLevel);
 		}
 
 		int i = 0;
-		RawContainer msFile = null;
+		ScanContainer msFile = null;
 		CompareSpectrumTableModel tableModel = new CompareSpectrumTableModel();
 		Object[][] tableData = new Object[totalSize][tableModel.getColumnCount()];
 		for (int selectedRun : selectedRows) {
@@ -108,7 +109,7 @@ public class SpectrumComparatorNodeView extends DefaultView {
 
 			rawFileMap.put(msFile.getId(), msFile);
 
-			Map<Integer, Long> scanList = ((FileRawContainer) msFile).getScanNumbers(msLevel);
+			Map<Integer, Long> scanList = ((FileScanContainer) msFile).getScanNumbers(msLevel);
 			List<XYPoint> xyPoints = msFile.getTicChromatogram(msLevel).getData();
 
 			int j = 0;

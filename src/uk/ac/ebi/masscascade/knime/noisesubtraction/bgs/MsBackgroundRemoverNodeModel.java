@@ -26,10 +26,7 @@ import org.knime.core.data.DataTableSpec;
 import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeSettingsRO;
 
-import uk.ac.ebi.masscascade.background.BackgroundSubtraction;
-import uk.ac.ebi.masscascade.interfaces.Range;
-import uk.ac.ebi.masscascade.interfaces.Trace;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultModel;
@@ -37,8 +34,6 @@ import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.CoreTasks;
 import uk.ac.ebi.masscascade.parameters.Parameter;
-
-import com.google.common.collect.TreeMultimap;
 
 /**
  * This is the model implementation of MsBackgroundRemover. Removes the reference background from all mass spectrometry
@@ -62,7 +57,7 @@ public class MsBackgroundRemoverNodeModel extends DefaultModel {
 	@Override
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
-		RawContainer backgroundFile = null;
+		ScanContainer backgroundFile = null;
 		final int backgroundIndex = data[1].getDataTableSpec().findColumnIndex(
 				settings.getColumnName(Parameter.REFERENCE_COLUMN));
 
@@ -71,12 +66,10 @@ public class MsBackgroundRemoverNodeModel extends DefaultModel {
 			break;
 		}
 		
-		TreeMultimap<Range, Trace> refMap = new BackgroundSubtraction().getReference(backgroundFile);
-		
 		parameterMap.put(Parameter.TIME_WINDOW, settings.getDoubleOption(Parameter.TIME_WINDOW));
 		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
 		parameterMap.put(Parameter.SCALE_FACTOR, settings.getDoubleOption(Parameter.SCALE_FACTOR));
-		parameterMap.put(Parameter.REFERENCE_RAW_MAP, refMap);
+		parameterMap.put(Parameter.REFERENCE_SCAN_CONTAINER, backgroundFile);
 
 		return getDataTableSpec(data, Parameter.DATA_COLUMN, Parameter.DATA_COLUMN, false);
 	}

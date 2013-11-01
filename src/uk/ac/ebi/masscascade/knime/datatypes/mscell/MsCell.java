@@ -34,10 +34,10 @@ import org.knime.core.data.StringValue;
 import org.knime.core.data.container.BlobDataCell;
 import org.xmlcml.cml.element.CMLCml;
 
-import uk.ac.ebi.masscascade.core.container.file.raw.FileRawContainer;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
-import uk.ac.ebi.masscascade.io.cml.RawDeserializer;
-import uk.ac.ebi.masscascade.io.cml.RawSerializer;
+import uk.ac.ebi.masscascade.core.container.file.scan.FileScanContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
+import uk.ac.ebi.masscascade.io.cml.ScanDeserializer;
+import uk.ac.ebi.masscascade.io.cml.ScanSerializer;
 import uk.ac.ebi.masscascade.knime.NodePlugin;
 import uk.ac.ebi.masscascade.utilities.buffer.BufferedDataInputStream;
 import uk.ac.ebi.masscascade.utilities.buffer.BufferedDataOutputStream;
@@ -78,7 +78,7 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 		return SERIALIZER;
 	}
 
-	private RawContainer rawContainer;
+	private ScanContainer scanContainer;
 
 	/**
 	 * Creates a new MsDataCell based on the given MassSpectrometryFile.
@@ -86,10 +86,10 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 	 * @param str the String value to store
 	 * @throws NullPointerException if the given String value is <code>null</code>
 	 */
-	public MsCell(final RawContainer rawContainer) {
+	public MsCell(final ScanContainer scanContainer) {
 
-		this.rawContainer = rawContainer;
-		if (rawContainer == null) {
+		this.scanContainer = scanContainer;
+		if (scanContainer == null) {
 			throw new NullPointerException("MassSpecFile object must not be null.");
 		}
 	}
@@ -99,7 +99,7 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 	 */
 	public String getStringValue() {
 
-		String result = rawContainer.getId();
+		String result = scanContainer.getId();
 
 		return result;
 	}
@@ -107,9 +107,8 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 	/**
 	 * {@inheritDoc}
 	 */
-	public RawContainer getMsDataValue() {
-
-		return rawContainer;
+	public ScanContainer getMsDataValue() {
+		return scanContainer;
 	}
 
 	/**
@@ -117,7 +116,6 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 	 */
 	@Override
 	public String toString() {
-
 		return getStringValue();
 	}
 
@@ -126,7 +124,6 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 	 */
 	@Override
 	protected boolean equalsDataCell(final DataCell dc) {
-
 		return getStringValue().equals(((MsCell) dc).getStringValue());
 	}
 
@@ -135,7 +132,6 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 	 */
 	@Override
 	public int hashCode() {
-
 		return getStringValue().hashCode();
 	}
 
@@ -149,7 +145,7 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 		 */
 		public void serialize(final MsCell cell, final DataCellDataOutput output) throws IOException {
 
-			RawSerializer cmlSerializer = new RawSerializer((FileRawContainer) cell.getMsDataValue());
+			ScanSerializer cmlSerializer = new ScanSerializer((FileScanContainer) cell.getMsDataValue());
 			CMLCml cml = cmlSerializer.getCml();
 
 			BufferedDataOutputStream stream = new BufferedDataOutputStream((OutputStream) output);
@@ -167,11 +163,11 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 		public MsCell deserialize(final DataCellDataInput input) throws IOException {
 
 			BufferedDataInputStream stream = new BufferedDataInputStream((InputStream) input);
-			RawContainer rawRun = null;
+			ScanContainer rawRun = null;
 
 			try {
-				RawDeserializer cmlDeserializer = new RawDeserializer(stream, NodePlugin.getProjectDirectory());
-				rawRun = (RawContainer) cmlDeserializer.getFile();
+				ScanDeserializer cmlDeserializer = new ScanDeserializer(stream, NodePlugin.getProjectDirectory());
+				rawRun = (ScanContainer) cmlDeserializer.getFile();
 
 				stream.close();
 

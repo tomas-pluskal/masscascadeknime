@@ -27,9 +27,9 @@ import org.knime.core.data.DataValue;
 import org.knime.core.data.DoubleValue;
 import org.knime.core.data.StringValue;
 
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
@@ -48,9 +48,9 @@ public class NodeParm {
 	static {
 		columnClass.put(Parameter.DATA_COLUMN, MsValue.class);
 		columnClass.put(Parameter.REFERENCE_COLUMN, MsValue.class);
-		columnClass.put(Parameter.REFERENCE_PROFILE_COLUMN, ProfileValue.class);
-		columnClass.put(Parameter.SPECTRUM_COLUMN, SpectrumValue.class);
-		columnClass.put(Parameter.PEAK_COLUMN, ProfileValue.class);
+		columnClass.put(Parameter.REFERENCE_FEATURE_COLUMN, FeatureValue.class);
+		columnClass.put(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
+		columnClass.put(Parameter.PEAK_COLUMN, FeatureValue.class);
 		columnClass.put(Parameter.ION_COLUMN, StringValue.class);
 		columnClass.put(Parameter.LABEL_COLUMN, StringValue.class);
 		columnClass.put(Parameter.VALUE_COLUMN, DoubleValue.class);

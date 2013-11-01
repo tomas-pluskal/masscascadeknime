@@ -46,6 +46,7 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class Spectrum3DNodeModel extends NodeModel implements BufferedDataTableHolder {
 
 	private final TableContentModel contentModel;
@@ -86,8 +87,6 @@ public class Spectrum3DNodeModel extends NodeModel implements BufferedDataTableH
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 
 		if (settings.getOptionMapSize() == 0) {
-			settings.setTextOption(Parameter.MASS_RESOLUTION, "" + Parameter.MASS_RESOLUTION.getDefaultValue());
-			settings.setTextOption(Parameter.TIME_RESOLUTION, "" + Parameter.TIME_RESOLUTION.getDefaultValue());
 		}
 
 		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.DATA_COLUMN);

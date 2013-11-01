@@ -77,7 +77,7 @@ public class LibSearchNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.SCORE, settings.getIntOption(Parameter.SCORE));
 		parameterMap.put(Parameter.ION_MODE, ionMode);
 
-		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class LibSearchNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.SCORE, "" + Parameter.SCORE.getDefaultValue());
 		}
 
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN);
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class LibSearchNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.REFERENCE_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_AMU);

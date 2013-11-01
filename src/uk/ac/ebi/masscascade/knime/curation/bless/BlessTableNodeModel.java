@@ -46,15 +46,15 @@ import org.knime.core.node.NodeSettingsWO;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.knime.type.CDKCell;
 
-import uk.ac.ebi.masscascade.alignment.profilebins.ProfileBinGenerator;
+import uk.ac.ebi.masscascade.alignment.featurebins.FeatureBinGenerator;
 import uk.ac.ebi.masscascade.compound.CompoundEntity;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrum;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrumAdapter;
 import uk.ac.ebi.masscascade.compound.NotationUtil;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
-import uk.ac.ebi.masscascade.interfaces.container.SpectrumContainer;
+import uk.ac.ebi.masscascade.interfaces.container.FeatureSetContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Constants;
@@ -90,7 +90,7 @@ public class BlessTableNodeModel extends NodeModel {
 			throws Exception {
 
 		String colName = settings.getColumnName(Parameter.PEAK_COLUMN) == null ? settings
-				.getColumnName(Parameter.SPECTRUM_COLUMN) : settings.getColumnName(Parameter.PEAK_COLUMN);
+				.getColumnName(Parameter.FEATURE_SET_COLUMN) : settings.getColumnName(Parameter.PEAK_COLUMN);
 		colIndex = inData[0].getSpec().findColumnIndex(colName);
 		int groupIndex = inData[0].getSpec().findColumnIndex(settings.getColumnName(Parameter.LABEL_COLUMN));
 		gid = 0;
@@ -114,10 +114,10 @@ public class BlessTableNodeModel extends NodeModel {
 
 				exec.checkCanceled();
 				spectraContainer.put(((IntValue) groupCell).getIntValue(),
-						((SpectrumValue) spectrumCell).getSpectrumDataValue());
+						((FeatureSetValue) spectrumCell).getFeatureSetDataValue());
 			}
 
-			cToPIdMap = ProfileBinGenerator.createContainerToProfileMap(spectraContainer, ppm, sec, missing);
+			cToPIdMap = FeatureBinGenerator.createContainerToFeatureMap(spectraContainer, ppm, sec, missing);
 		}
 
 		int index = 0;
@@ -129,7 +129,7 @@ public class BlessTableNodeModel extends NodeModel {
 
 			exec.checkCanceled();
 
-			SpectrumContainer container = ((SpectrumValue) spectrumCell).getSpectrumDataValue();
+			FeatureSetContainer container = ((FeatureSetValue) spectrumCell).getFeatureSetDataValue();
 
 			CompoundSpectrumAdapter adapter = new CompoundSpectrumAdapter();
 			List<CompoundSpectrum> css = adapter.getSpectra(cToPIdMap, index++, container);
@@ -215,7 +215,7 @@ public class BlessTableNodeModel extends NodeModel {
 			settings.setTextOption(Parameter.TIME_WINDOW, "" + Parameter.TIME_WINDOW.getDefaultValue());
 			settings.setTextOption(Parameter.MISSINGNESS, "" + Parameter.MISSINGNESS.getDefaultValue());
 		}
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN);
 		return new DataTableSpec[] { new DataTableSpec(createOutputTableSpecification()) };
 	}
 
@@ -232,7 +232,7 @@ public class BlessTableNodeModel extends NodeModel {
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.TIME_WINDOW);
 		NodeUtils.validateDoubleGreaterOrEqualZero(tmpSettings, Parameter.MISSINGNESS);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 	}
 
 	@Override

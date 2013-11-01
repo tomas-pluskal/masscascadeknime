@@ -30,8 +30,8 @@ import uk.ac.ebi.masscascade.parameters.CoreTasks;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
- * This is the model implementation of SavitzkyGolayDeconvolution. Performs Savitzky Golay deconvolution on a collection
- * of peak profiles.
+ * This is the model implementation of SavitzkyGolayDeconvolution. Performs
+ * Savitzky Golay deconvolution on a collection of peak profiles.
  * 
  * @author Stephan Beisken
  */
@@ -50,7 +50,7 @@ public class SavitzkyGolayDeconvolutionNodeModel extends DefaultModel {
 	@Override
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
-		parameterMap.put(Parameter.MIN_PROFILE_INTENSITY, settings.getDoubleOption(Parameter.MIN_PROFILE_INTENSITY));
+		parameterMap.put(Parameter.MIN_FEATURE_INTENSITY, settings.getDoubleOption(Parameter.MIN_FEATURE_INTENSITY));
 		parameterMap.put(Parameter.DERIVATIVE_THRESHOLD, settings.getDoubleOption(Parameter.DERIVATIVE_THRESHOLD));
 		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
 		parameterMap.put(Parameter.SG_LEVEL, settings.getIntOption(Parameter.SG_LEVEL));
@@ -67,8 +67,8 @@ public class SavitzkyGolayDeconvolutionNodeModel extends DefaultModel {
 
 		if (settings.getOptionMapSize() == 0) {
 			settings.setTextOption(Parameter.SCAN_WINDOW, "" + Parameter.SCAN_WINDOW.getDefaultValue());
-			settings.setTextOption(Parameter.MIN_PROFILE_INTENSITY,
-					"" + Parameter.MIN_PROFILE_INTENSITY.getDefaultValue());
+			settings.setTextOption(Parameter.MIN_FEATURE_INTENSITY,
+					"" + Parameter.MIN_FEATURE_INTENSITY.getDefaultValue());
 			settings.setTextOption(Parameter.DERIVATIVE_THRESHOLD,
 					"" + Parameter.DERIVATIVE_THRESHOLD.getDefaultValue());
 			settings.setTextOption(Parameter.SG_LEVEL, "" + Parameter.SG_LEVEL.getDefaultValue());
@@ -90,7 +90,7 @@ public class SavitzkyGolayDeconvolutionNodeModel extends DefaultModel {
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
-		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MIN_PROFILE_INTENSITY);
+		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MIN_FEATURE_INTENSITY);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.DERIVATIVE_THRESHOLD);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SG_LEVEL);
 	}

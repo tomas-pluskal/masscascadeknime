@@ -24,7 +24,7 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -76,8 +76,8 @@ public class ObiwarpNodeFactory extends NodeFactory<ObiwarpNodeModel> {
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class);
-		dialog.addColumnSelection(Parameter.REFERENCE_PROFILE_COLUMN, 1, ProfileValue.class);
+		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.REFERENCE_FEATURE_COLUMN, 1, FeatureValue.class);
 		dialog.addTextOption(Parameter.EXECUTABLE, 20);
 		dialog.addTextOption(Parameter.GAP_INIT, 5);
 		dialog.addTextOption(Parameter.GAP_EXTEND, 5);

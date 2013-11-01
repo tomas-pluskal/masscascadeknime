@@ -27,12 +27,13 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
- * <code>NodeFactory</code> for the "Chemspider" Node. Peak-based Chemspider database search.
+ * <code>NodeFactory</code> for the "Chemspider" Node. Peak-based Chemspider
+ * database search.
  * 
  * @author Stephan Beisken
  */
@@ -78,7 +79,7 @@ public class ChemspiderNodeFactory extends NodeFactory<ChemspiderNodeModel> {
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.SPECTRUM_COLUMN, SpectrumValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 5);
 
 		JRadioButton positiveMode = new JRadioButton("", true);
@@ -92,7 +93,7 @@ public class ChemspiderNodeFactory extends NodeFactory<ChemspiderNodeModel> {
 		dialog.addCustomOption(Parameter.NEGATIVE_MODE, negativeMode);
 
 		dialog.addTextOption(Parameter.SECURITY_TOKEN, 20);
-		
+
 		Map<String, Boolean> databases = new LinkedHashMap<>();
 		databases.put("ChEBI", true);
 		databases.put("NIST", true);

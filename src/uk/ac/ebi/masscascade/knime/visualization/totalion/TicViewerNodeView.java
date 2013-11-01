@@ -156,7 +156,7 @@ public class TicViewerNodeView extends DefaultView {
 		DataRow row = NodeUtils.getDataRow(getNodeModel().getInternalTables()[0], rowIndex);
 
 		tic = ((MsValue) row.getCell(column)).getMsDataValue().getTicChromatogram(level);
-		int j = ((MsValue) row.getCell(column)).getMsDataValue().getRawLevels().size();
+		int j = ((MsValue) row.getCell(column)).getMsDataValue().getScanLevels().size();
 
 		for (JMenuItem item : msLevelItems) spectrumMenu.remove(item);
 

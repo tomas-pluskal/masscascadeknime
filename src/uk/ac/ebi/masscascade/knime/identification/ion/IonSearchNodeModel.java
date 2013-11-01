@@ -82,7 +82,7 @@ public class IonSearchNodeModel extends DefaultModel {
 		}
 		parameterMap.put(Parameter.ION_LIST, adductMap);
 
-		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class IonSearchNodeModel extends DefaultModel {
 
 		NodeUtils.getDataTableSpec(inSpecs[1], settings, Parameter.LABEL_COLUMN);
 		NodeUtils.getDataTableSpec(inSpecs[1], settings, Parameter.VALUE_COLUMN);
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN);
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class IonSearchNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.LABEL_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.VALUE_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);

@@ -51,8 +51,8 @@ import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 
-import uk.ac.ebi.masscascade.core.raw.RawLevel;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.core.scan.ScanLevel;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
@@ -62,7 +62,8 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.utilities.TextUtils;
 
 /**
- * This is the model implementation of PropertyExtractor. Extracts meta information from mass spec data files.
+ * This is the model implementation of PropertyExtractor. Extracts meta
+ * information from mass spec data files.
  * 
  * @author Stephan Beisken
  */
@@ -128,14 +129,14 @@ public class PropertyExtractorNodeModel extends NodeModel {
 							+ dataCell.getClass().getName());
 				}
 
-				RawContainer rawFile = ((MsValue) dataCell).getMsDataValue();
+				ScanContainer rawFile = ((MsValue) dataCell).getMsDataValue();
 
-				newCells[0] = new StringCell(TextUtils.cleanId(rawFile.getRawInfo().getId()));
-				newCells[1] = new StringCell(rawFile.getRawInfo().getDate());
-				newCells[2] = new StringCell(rawFile.getRawInfo().getAuthors());
+				newCells[0] = new StringCell(TextUtils.cleanId(rawFile.getScanInfo().getId()));
+				newCells[1] = new StringCell(rawFile.getScanInfo().getDate());
+				newCells[2] = new StringCell(rawFile.getScanInfo().getAuthors());
 
 				List<DoubleCell> msnCells = new ArrayList<DoubleCell>();
-				for (RawLevel level : rawFile.getRawLevels()) {
+				for (ScanLevel level : rawFile.getScanLevels()) {
 
 					msnCells.add(new DoubleCell(level.getMsn().getLvl()));
 					msnCells.add(new DoubleCell(level.getScanRange().getLowerBounds()));
@@ -155,7 +156,6 @@ public class PropertyExtractorNodeModel extends NodeModel {
 			 */
 			@Override
 			public DataColumnSpec[] getColumnSpecs() {
-
 				return dataColumnSpecs;
 			}
 

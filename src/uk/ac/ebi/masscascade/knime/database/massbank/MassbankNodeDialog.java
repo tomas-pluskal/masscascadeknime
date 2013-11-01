@@ -44,7 +44,7 @@ import org.knime.core.node.NodeSettingsWO;
 import org.knime.core.node.NotConfigurableException;
 import org.knime.core.node.util.ColumnSelectionComboxBox;
 
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.parameters.Constants;
 
 /**
@@ -56,7 +56,7 @@ public class MassbankNodeDialog extends NodeDialogPane {
 
 	@SuppressWarnings("unchecked")
 	private final ColumnSelectionComboxBox spectrumColumn = new ColumnSelectionComboxBox((Border) null,
-			SpectrumValue.class);
+			FeatureSetValue.class);
 
 	private JTextField minProfiles = new JTextField(6);
 	private JTextField score = new JTextField(6);

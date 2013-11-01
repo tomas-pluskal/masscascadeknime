@@ -21,8 +21,8 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -74,9 +74,9 @@ public class MsnBuilderNodeFactory extends NodeFactory<MsnBuilderNodeModel> {
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
-		dialog.addColumnSelection(Parameter.SPECTRUM_COLUMN, SpectrumValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
-		dialog.addTextOption(Parameter.MIN_PROFILE_INTENSITY, 8);
+		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 8);
 		
 		return dialog.build();
 	}

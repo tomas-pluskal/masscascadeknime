@@ -52,9 +52,9 @@ import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 
 import uk.ac.ebi.masscascade.core.container.file.FileContainerBuilder;
-import uk.ac.ebi.masscascade.core.raw.ScanImpl;
+import uk.ac.ebi.masscascade.core.scan.ScanImpl;
 import uk.ac.ebi.masscascade.interfaces.Scan;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.knime.NodePlugin;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsCell;
@@ -72,6 +72,7 @@ import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class MsUnifierNodeModel extends NodeModel {
 
 	private final List<File> ids = new ArrayList<File>();
@@ -98,9 +99,9 @@ public class MsUnifierNodeModel extends NodeModel {
 		String fileKeys = "";
 		Map<Double, Integer> retentionTimeMap = new HashMap<Double, Integer>();
 		Map<Integer, Integer> scanIndexMap = new HashMap<Integer, Integer>();
-		Map<Integer, RawContainer> fileIndexMap = new HashMap<Integer, RawContainer>();
+		Map<Integer, ScanContainer> fileIndexMap = new HashMap<Integer, ScanContainer>();
 		int j = 0;
-		RawContainer file = null;
+		ScanContainer file = null;
 		double rt;
 		for (DataRow row : inData[0]) {
 			file = ((MsValue) row.getCell(colIndex)).getMsDataValue();
@@ -120,7 +121,7 @@ public class MsUnifierNodeModel extends NodeModel {
 		Map<Double, Integer> sortedRetentionTimes = new TreeMap<Double, Integer>(retentionTimeMap);
 
 		Scan dbScan = null;
-		RawContainer rawContainer = FileContainerBuilder.getInstance().newInstance(RawContainer.class,
+		ScanContainer rawContainer = FileContainerBuilder.getInstance().newInstance(ScanContainer.class,
 				"Background-" + System.currentTimeMillis(), NodePlugin.getProjectDirectory());
 		ids.add(rawContainer.getDataFile());
 

@@ -47,16 +47,16 @@ import org.knime.core.node.NodeSettingsWO;
 import uk.ac.ebi.masscascade.interfaces.CallableTask;
 import uk.ac.ebi.masscascade.interfaces.Task;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
-import uk.ac.ebi.masscascade.interfaces.container.ProfileContainer;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
-import uk.ac.ebi.masscascade.interfaces.container.SpectrumContainer;
+import uk.ac.ebi.masscascade.interfaces.container.FeatureContainer;
+import uk.ac.ebi.masscascade.interfaces.container.FeatureSetContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.knime.NodeParm;
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureCell;
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetCell;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsCell;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileCell;
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumCell;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.parameters.ParameterMap;
 
@@ -72,11 +72,12 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 	protected final ParameterMap parameterMap;
 
 	// the first index indicates the column to be replaced (if set)
-	// all subsequent values are additional input container (one per type, max 3)
+	// all subsequent values are additional input container (one per type, max
+	// 3)
 	private int[] colIndex;
 	// all values are input container (one per type, max 3)
 	private Parameter dataColumnIn[];
-	
+
 	private Class<? extends Task> taskClass;
 	private boolean replace;
 
@@ -134,17 +135,18 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 
 		DataColumnSpecCreator specCreator = null;
 		if (dataColumnOut == Parameter.PEAK_COLUMN)
-			specCreator = new DataColumnSpecCreator(dataColumnOut.getDescription(), ProfileCell.TYPE);
+			specCreator = new DataColumnSpecCreator(dataColumnOut.getDescription(), FeatureCell.TYPE);
 		else if (dataColumnOut == Parameter.DATA_COLUMN)
 			specCreator = new DataColumnSpecCreator(dataColumnOut.getDescription(), MsCell.TYPE);
-		else if (dataColumnOut == Parameter.SPECTRUM_COLUMN)
-			specCreator = new DataColumnSpecCreator(dataColumnOut.getDescription(), SpectrumCell.TYPE);
+		else if (dataColumnOut == Parameter.FEATURE_SET_COLUMN)
+			specCreator = new DataColumnSpecCreator(dataColumnOut.getDescription(), FeatureSetCell.TYPE);
 
 		return new DataTableSpec[] { new DataTableSpec(inSpec, new DataTableSpec(specCreator.createSpec())) };
 	}
 
 	/**
-	 * Find the index of the requested data column in the data column specification.
+	 * Find the index of the requested data column in the data column
+	 * specification.
 	 * 
 	 * @param inSpec the data column specification
 	 * @return the index of the requested data column
@@ -183,9 +185,9 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 			final RowAppender[] outputTables) throws Exception {
 
 		try {
-			
+
 			ParameterMap taskParms = parameterMap.clone();
-	
+
 			for (int i = 0; i < colIndex.length; i++) {
 				DataCell cell = inRow.getCell(colIndex[i]);
 				if (cell.isMissing()) {
@@ -193,48 +195,48 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 					skipRow(outputTables, inRow);
 					return;
 				}
-	
+
 				Parameter columnIn = dataColumnIn[i];
-	
+
 				Container file = null;
 				if (columnIn == Parameter.DATA_COLUMN) {
 					file = ((MsValue) cell).getMsDataValue();
-					taskParms.put(Parameter.RAW_CONTAINER, file);
+					taskParms.put(Parameter.SCAN_CONTAINER, file);
 				} else if (columnIn.equals(Parameter.PEAK_COLUMN)) {
-					file = ((ProfileValue) cell).getPeakDataValue();
-					taskParms.put(Parameter.PROFILE_CONTAINER, file);
-				} else if (columnIn.equals(Parameter.SPECTRUM_COLUMN)) {
-					file = ((SpectrumValue) cell).getSpectrumDataValue();
-					taskParms.put(Parameter.SPECTRUM_CONTAINER, file);
+					file = ((FeatureValue) cell).getPeakDataValue();
+					taskParms.put(Parameter.FEATURE_CONTAINER, file);
+				} else if (columnIn.equals(Parameter.FEATURE_SET_COLUMN)) {
+					file = ((FeatureSetValue) cell).getFeatureSetDataValue();
+					taskParms.put(Parameter.FEATURE_SET_COLUMN, file);
 				}
 			}
-	
+
 			Constructor<?> cstr = taskClass.getConstructor(ParameterMap.class);
 			Task task = (Task) cstr.newInstance(taskParms);
 			Container container = task.call();
-	
+
 			if (container == null) {
 				setWarningMessage("Process failed: " + inRow.getKey() + " -- skipped");
 				skipRow(outputTables, inRow);
 				return;
 			}
-	
+
 			ids.add(container.getDataFile());
 			DataCell outCell;
-			if (container instanceof RawContainer)
-				outCell = new MsCell((RawContainer) container);
-			else if (container instanceof ProfileContainer)
-				outCell = new ProfileCell((ProfileContainer) container);
-			else if (container instanceof SpectrumContainer)
-				outCell = new SpectrumCell((SpectrumContainer) container);
+			if (container instanceof ScanContainer)
+				outCell = new MsCell((ScanContainer) container);
+			else if (container instanceof FeatureContainer)
+				outCell = new FeatureCell((FeatureContainer) container);
+			else if (container instanceof FeatureSetContainer)
+				outCell = new FeatureSetCell((FeatureSetContainer) container);
 			else
 				outCell = DataType.getMissingCell();
-	
+
 			if (replace)
 				outputTables[0].addRowToTable(new ReplacedColumnsDataRow(inRow, outCell, colIndex[0]));
 			else
 				outputTables[0].addRowToTable(new AppendedColumnRow(inRow, outCell));
-			
+
 		} catch (Exception exception) {
 			setWarningMessage("Node execution failed for \"" + taskClass.getSimpleName() + "\". Details below.");
 			throw exception;

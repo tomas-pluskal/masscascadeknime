@@ -60,7 +60,7 @@ public class IsotopeRemoverNodeModel extends DefaultModel {
 		} else if (settings.getBooleanOption(Parameter.REMOVE_ISOTOPES))
 			setTaskClass(CoreTasks.ISOTOPE_REMOVER.getCallableClass());
 		
-		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class IsotopeRemoverNodeModel extends DefaultModel {
 	 */
 	@Override
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
-		return getDataTableSpec(inSpecs, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
+		return getDataTableSpec(inSpecs, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
 
 	/**
@@ -80,6 +80,6 @@ public class IsotopeRemoverNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 	}
 }

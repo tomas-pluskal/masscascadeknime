@@ -34,8 +34,8 @@ import uk.ac.ebi.masscascade.parameters.CoreTasks;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
- * This is the model implementation of SavitzkyGolaySmoother. Applies Savitzky-Golay smoothing to the mass spectrometry
- * data set.
+ * This is the model implementation of SavitzkyGolaySmoother. Applies
+ * Savitzky-Golay smoothing to the mass spectrometry data set.
  * 
  * @author Stephan Beisken
  */
@@ -57,7 +57,7 @@ public class SavitzkyGolaySmootherNodeModel extends DefaultModel {
 
 		parameterMap.put(Parameter.MS_LEVEL, Constants.MSN.MS1);
 		parameterMap.put(Parameter.POLYNOMIAL_ORDER, settings.getIntOption(Parameter.POLYNOMIAL_ORDER));
-		parameterMap.put(Parameter.DATA_WINDOW, settings.getIntOption(Parameter.DATA_WINDOW));
+		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
 
 		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
 	}
@@ -70,7 +70,7 @@ public class SavitzkyGolaySmootherNodeModel extends DefaultModel {
 
 		if (settings.getOptionMapSize() == 0) {
 			settings.setTextOption(Parameter.POLYNOMIAL_ORDER, "" + Parameter.POLYNOMIAL_ORDER.getDefaultValue());
-			settings.setTextOption(Parameter.DATA_WINDOW, "" + Parameter.DATA_WINDOW.getDefaultValue());
+			settings.setTextOption(Parameter.SCAN_WINDOW, "" + Parameter.SCAN_WINDOW.getDefaultValue());
 		}
 
 		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
@@ -87,6 +87,6 @@ public class SavitzkyGolaySmootherNodeModel extends DefaultModel {
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.POLYNOMIAL_ORDER);
-		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.DATA_WINDOW);
+		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
 	}
 }

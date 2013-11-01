@@ -23,7 +23,7 @@ package uk.ac.ebi.masscascade.knime.datatypes.mscell;
 import org.knime.core.data.DataCell;
 import org.knime.core.data.DataType;
 
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 
 /**
  * Factory class to create cell objects representing mass spectrometry formats.
@@ -50,8 +50,7 @@ public final class MsFactory {
 	 * @param File File pointing to the mass spectrometry data file.
 	 * @return DataCell representing mass spectrometry data content.
 	 */
-	public static DataCell create(final RawContainer rawContainer) {
-
-		return new MsCell(rawContainer);
+	public static DataCell create(final ScanContainer scanContainer) {
+		return new MsCell(scanContainer);
 	}
 }

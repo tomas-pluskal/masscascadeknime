@@ -54,7 +54,7 @@ public class MsnEnumeratorNodeModel extends DefaultModel {
 		parameterMap.put(LibraryParameter.DEPTH, settings.getIntOption(LibraryParameter.DEPTH));
 		parameterMap.put(Parameter.EXECUTABLE, settings.getTextOption(Parameter.EXECUTABLE));
 
-		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class MsnEnumeratorNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.EXECUTABLE, "" + Parameter.EXECUTABLE.getDefaultValue());
 		}
 
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class MsnEnumeratorNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_AMU);
 		NodeUtils.validateIntGreaterZero(tmpSettings, LibraryParameter.DEPTH);
 		NodeUtils.validateTextNotEmpty(tmpSettings, Parameter.EXECUTABLE);

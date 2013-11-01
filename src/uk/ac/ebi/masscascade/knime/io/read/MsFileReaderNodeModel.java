@@ -50,7 +50,7 @@ import org.knime.core.util.ThreadPool;
 
 import uk.ac.ebi.masscascade.core.container.file.FileContainerBuilder;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.io.PsiMzmlReader;
 import uk.ac.ebi.masscascade.io.XCaliburReader;
 import uk.ac.ebi.masscascade.knime.NodePlugin;
@@ -137,10 +137,10 @@ public class MsFileReaderNodeModel extends NodeModel {
 		}
 
 		int rowId = 0;
-		RawContainer fTaskResult = null;
+		ScanContainer fTaskResult = null;
 		for (Future<Container> fTask : fTasks.keySet()) {
 			try {
-				fTaskResult = (RawContainer) fTask.get();
+				fTaskResult = (ScanContainer) fTask.get();
 				scanFileIds.add(fTaskResult.getDataFile());
 				msFileCont.addRowToTable(new DefaultRow(new RowKey("" + rowId), new MsCell(fTaskResult)));
 			} catch (Exception exception) {
@@ -169,8 +169,8 @@ public class MsFileReaderNodeModel extends NodeModel {
 
 		ParameterMap params = new ParameterMap();
 		params.put(Parameter.DATA_FILE, file);
-		params.put(Parameter.RAW_CONTAINER,
-				FileContainerBuilder.getInstance().newInstance(RawContainer.class, name,
+		params.put(Parameter.SCAN_CONTAINER,
+				FileContainerBuilder.getInstance().newInstance(ScanContainer.class, name,
 						NodePlugin.getProjectDirectory()));
 
 		try {
@@ -277,7 +277,7 @@ public class MsFileReaderNodeModel extends NodeModel {
 			setWarningMessage("Platform not supported for Thermo RAW files. Extracting archived RAW reader. ");
 		if (!new File(System.getProperty("java.io.tmpdir") + File.separator + "RAWdumpProfile.exe").exists()) {
 			try {
-				URI uri = PackUtils.getJarURI(RawContainer.class);
+				URI uri = PackUtils.getJarURI(ScanContainer.class);
 				PackUtils.getFile(uri, RAWLOCATION);
 				PackUtils.getFile(uri, DLLLOCATION);
 			} catch (Exception exception) {

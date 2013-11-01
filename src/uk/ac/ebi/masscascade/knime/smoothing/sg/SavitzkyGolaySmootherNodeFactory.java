@@ -24,13 +24,13 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
- * <code>NodeFactory</code> for the "SavitzkyGolaySmoother" Node. Applies Savitzky-Golay smoothing to the mass
- * spectrometry data set.
+ * <code>NodeFactory</code> for the "SavitzkyGolaySmoother" Node. Applies
+ * Savitzky-Golay smoothing to the mass spectrometry data set.
  * 
  * @author Stephan Beisken
  */
@@ -77,8 +77,8 @@ public class SavitzkyGolaySmootherNodeFactory extends NodeFactory<SavitzkyGolayS
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class);
-		dialog.addTextOption(Parameter.DATA_WINDOW, 3);
+		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addTextOption(Parameter.SCAN_WINDOW, 3);
 		dialog.addTextOption(Parameter.POLYNOMIAL_ORDER, 3);
 
 		return dialog.build();

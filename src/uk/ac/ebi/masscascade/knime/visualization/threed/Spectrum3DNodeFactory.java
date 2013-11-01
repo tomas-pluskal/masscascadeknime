@@ -34,6 +34,7 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class Spectrum3DNodeFactory extends NodeFactory<Spectrum3DNodeModel> {
 
 	/**
@@ -81,8 +82,6 @@ public class Spectrum3DNodeFactory extends NodeFactory<Spectrum3DNodeModel> {
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
-		dialog.addTextOption(Parameter.TIME_RESOLUTION, 5);
-		dialog.addTextOption(Parameter.MASS_RESOLUTION, 5);
 
 		return dialog.build();
 	}

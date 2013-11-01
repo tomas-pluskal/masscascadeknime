@@ -45,15 +45,15 @@ import org.knime.core.node.NodeSettingsWO;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.knime.type.CDKCell;
 
-import uk.ac.ebi.masscascade.alignment.profilebins.ProfileBinGenerator;
-import uk.ac.ebi.masscascade.brush.SpectrumCourt;
+import uk.ac.ebi.masscascade.alignment.featurebins.FeatureBinGenerator;
+import uk.ac.ebi.masscascade.brush.FeatureSetCourt;
 import uk.ac.ebi.masscascade.compound.CompoundEntity;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrum;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrumAdapter;
 import uk.ac.ebi.masscascade.compound.NotationUtil;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Constants;
@@ -91,7 +91,7 @@ public class BrushNodeModel extends NodeModel {
 			throws Exception {
 
 		// retrieve column names and indices
-		String colName = settings.getColumnName(Parameter.SPECTRUM_COLUMN);
+		String colName = settings.getColumnName(Parameter.FEATURE_SET_COLUMN);
 		colIndex = inData[0].getSpec().findColumnIndex(colName);
 		String groupName = settings.getColumnName(Parameter.LABEL_COLUMN);
 		groupIndex = inData[0].getSpec().findColumnIndex(groupName);
@@ -133,11 +133,11 @@ public class BrushNodeModel extends NodeModel {
 					continue;
 				}
 				exec.checkCanceled();
-				spectraContainer.put(group, ((SpectrumValue) spectrumCell).getSpectrumDataValue());
+				spectraContainer.put(group, ((FeatureSetValue) spectrumCell).getFeatureSetDataValue());
 			}
 
 			// bin profiles across spectrum containers
-			cToPIdMap = ProfileBinGenerator.createContainerToProfileMap(spectraContainer, ppm, sec, missing);
+			cToPIdMap = FeatureBinGenerator.createContainerToFeatureMap(spectraContainer, ppm, sec, missing);
 			int index = 0;
 
 			// process spectrum cells of a group one by one using the
@@ -149,10 +149,10 @@ public class BrushNodeModel extends NodeModel {
 				exec.checkCanceled();
 				CompoundSpectrumAdapter adapter = new CompoundSpectrumAdapter((int) (100 - missing) * 2);
 				List<CompoundSpectrum> css = adapter.getSpectra(cToPIdMap, index++,
-						((SpectrumValue) spectrumCell).getSpectrumDataValue());
+						((FeatureSetValue) spectrumCell).getFeatureSetDataValue());
 
 				// define filter criteria and run
-				SpectrumCourt court = new SpectrumCourt(css);
+				FeatureSetCourt court = new FeatureSetCourt(css);
 				court.setParameters(params);
 				css = court.call();
 
@@ -161,8 +161,8 @@ public class BrushNodeModel extends NodeModel {
 				for (CompoundSpectrum cs : css) {
 					for (CompoundEntity ce : cs.getBest(100)) {
 						DataCell[] resultCells = new DataCell[8];
-						addSpectrum(cs, ce, resultCells, ((SpectrumValue) spectrumCell)
-								.getSpectrumDataValue().getId());
+						addSpectrum(cs, ce, resultCells, ((FeatureSetValue) spectrumCell).getFeatureSetDataValue()
+								.getId());
 						dataContainer.addRowToTable(new DefaultRow(new RowKey(gid++ + ""), resultCells));
 					}
 				}
@@ -244,7 +244,7 @@ public class BrushNodeModel extends NodeModel {
 			settings.setTextOption(Parameter.MISSINGNESS, "" + Parameter.MISSINGNESS.getDefaultValue());
 			settings.setBooleanOption(Parameter.ELEMENT_FILTER, true);
 		}
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN);
 		return new DataTableSpec[] { new DataTableSpec(createOutputTableSpecification()) };
 	}
 
@@ -261,7 +261,7 @@ public class BrushNodeModel extends NodeModel {
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.TIME_WINDOW);
 		NodeUtils.validateDoubleGreaterOrEqualZero(tmpSettings, Parameter.MISSINGNESS);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.LABEL_COLUMN);
 	}
 

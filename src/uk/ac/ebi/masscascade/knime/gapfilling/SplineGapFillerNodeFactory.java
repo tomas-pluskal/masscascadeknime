@@ -24,7 +24,7 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -34,6 +34,7 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class SplineGapFillerNodeFactory extends NodeFactory<SplineGapFillerNodeModel> {
 
 	/**
@@ -77,7 +78,7 @@ public class SplineGapFillerNodeFactory extends NodeFactory<SplineGapFillerNodeM
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class);
+		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
 
 		return dialog.build();
 	}

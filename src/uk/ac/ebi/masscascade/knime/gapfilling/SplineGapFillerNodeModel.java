@@ -38,6 +38,7 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class SplineGapFillerNodeModel extends DefaultModel {
 
 	/**

@@ -33,6 +33,7 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class MsUnifierNodeFactory extends NodeFactory<MsUnifierNodeModel> {
 
 	/**

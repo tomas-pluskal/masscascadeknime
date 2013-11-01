@@ -34,9 +34,9 @@ import javax.swing.ListSelectionModel;
 
 import org.knime.core.data.DataRow;
 
-import uk.ac.ebi.masscascade.core.container.file.raw.FileRawContainer;
+import uk.ac.ebi.masscascade.core.container.file.scan.FileScanContainer;
 import uk.ac.ebi.masscascade.interfaces.Scan;
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultView;
@@ -45,8 +45,8 @@ import uk.ac.ebi.masscascade.knime.visualization.GraphColor;
 import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Constants.MSN;
 import uk.ac.ebi.masscascade.parameters.Parameter;
-import uk.ac.ebi.masscascade.tables.GroupProfileTable;
-import uk.ac.ebi.masscascade.tables.model.GroupProfileTableModel;
+import uk.ac.ebi.masscascade.tables.GroupFeatureTable;
+import uk.ac.ebi.masscascade.tables.model.GroupFeatureTableModel;
 import uk.ac.ebi.masscascade.tables.renderer.NumberCellRenderer;
 import uk.ac.ebi.masscascade.utilities.ChartUtils;
 import uk.ac.ebi.masscascade.utilities.DataSet;
@@ -63,7 +63,7 @@ public class SpectrumViewerNodeView extends DefaultView {
 
 	private List<JMenuItem> msLevelItems;
 
-	private RawContainer msFile;
+	private ScanContainer msFile;
 	private GraphColor graphColor;
 	private Constants.MSN globalLevel;
 	private int selectedRun;
@@ -76,7 +76,7 @@ public class SpectrumViewerNodeView extends DefaultView {
 	 */
 	protected SpectrumViewerNodeView(final ViewerModel nodeModel) {
 
-		super(nodeModel, Parameter.DATA_COLUMN, new GroupProfileTable());
+		super(nodeModel, Parameter.DATA_COLUMN, new GroupFeatureTable());
 
 		msLevelItems = new ArrayList<JMenuItem>();
 
@@ -96,10 +96,10 @@ public class SpectrumViewerNodeView extends DefaultView {
 		DataRow row = NodeUtils.getDataRow(getNodeModel().getInternalTables()[0], selectedRun);
 		msFile = ((MsValue) row.getCell(column)).getMsDataValue();
 
-		Map<Integer, Long> scanList = ((FileRawContainer) msFile).getScanNumbers(globalLevel);
+		Map<Integer, Long> scanList = ((FileScanContainer) msFile).getScanNumbers(globalLevel);
 		List<XYPoint> xyPoints = msFile.getTicChromatogram(globalLevel).getData();
 
-		int j = msFile.getRawLevels().size();
+		int j = msFile.getScanLevels().size();
 
 		for (JMenuItem item : msLevelItems) {
 			spectrumMenu.remove(item);
@@ -133,7 +133,7 @@ public class SpectrumViewerNodeView extends DefaultView {
 		Object[][] tableDataCut = new Object[i][2];
 		System.arraycopy(tableData, 0, tableDataCut, 0, i);
 
-		GroupProfileTableModel tableModel = new GroupProfileTableModel();
+		GroupFeatureTableModel tableModel = new GroupFeatureTableModel();
 		tableModel.setData(tableDataCut);
 		listTable.setModel(tableModel);
 		listTable.getColumnModel().getColumn(1).setCellRenderer(new NumberCellRenderer(new DecimalFormat("0.00")));

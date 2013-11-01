@@ -73,18 +73,15 @@ public class AdductFinderNodeModel extends DefaultModel {
 		else if (settings.getBooleanOption(Parameter.NEGATIVE_MODE))
 			parameterMap.put(Parameter.ION_MODE, Constants.ION_MODE.NEGATIVE);
 		
-		parameterMap.put(Parameter.NEUTRAL_LOSS, settings.getBooleanOption(Parameter.NEUTRAL_LOSS));
-
 		List<AdductSingle> adductList = new ArrayList<AdductSingle>();
 		for (DataRow row : data[1]) {
 			String name = ((StringValue) row.getCell(labelIndex)).getStringValue();
 			double mass = ((DoubleValue) row.getCell(massIndex)).getDoubleValue();
-			adductList.add(new AdductSingle(name, 0, mass, parameterMap.get(Parameter.ION_MODE,
-					Constants.ION_MODE.class), settings.getBooleanOption(Parameter.NEUTRAL_LOSS)));
+			adductList.add(new AdductSingle(name, 0, mass));
 		}
 		parameterMap.put(Parameter.ADDUCT_LIST, adductList);
 
-		return getDataTableSpec(data, Parameter.SPECTRUM_COLUMN, Parameter.SPECTRUM_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
 
 	/**
@@ -99,7 +96,7 @@ public class AdductFinderNodeModel extends DefaultModel {
 
 		NodeUtils.getDataTableSpec(inSpecs[1], settings, Parameter.LABEL_COLUMN);
 		NodeUtils.getDataTableSpec(inSpecs[1], settings, Parameter.VALUE_COLUMN);
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN);
 	}
 
 	/**
@@ -113,7 +110,7 @@ public class AdductFinderNodeModel extends DefaultModel {
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.LABEL_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.VALUE_COLUMN);
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 	}
 }

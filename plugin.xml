@@ -4,93 +4,161 @@
 <plugin>
    <extension point="org.knime.workbench.repository.categories">
    <category after="" description="Nodes for spectrometry data analysis" icon="icons/blank.png" level-id="masscascade" name="MassCascade" path="/community"/>
-      <category description="Nodes for sample alignment" icon="icons/blank.png" level-id="alignment" name="Alignment" path="/community/masscascade">
+   <category
+         description="Nodes for file in- and output"
+         icon="icons/blank.png"
+         level-id="io"
+         name="+ Input and Output"
+         path="/community/masscascade">
+   </category>
+   <category
+         description="Nodes for raw data processing"
+         icon="icons/blank.png"
+         level-id="scans"
+         locked="true"
+         name="a. Scans"
+         path="/community/masscascade">
+   </category>
+   <category
+         description="Nodes for background correction"
+         icon="icons/blank.png"
+         level-id="background"
+         name="Noise and Background"
+         path="/community/masscascade/scans">
+   </category>
+   <category
+         description="Nodes for feature extraction"
+         icon="icons/blank.png"
+         level-id="featureBuilder"
+         name="Feature Builder"
+         path="/community/masscascade/scans">
+   </category>
+   <category
+         description="Nodes for visualisation"
+         icon="icons/blank.png"
+         level-id="scanvis"
+         name="Viewer"
+         path="/community/masscascade/scans">
+   </category>
+   <category
+         description="Nodes for feature data processing"
+         icon="icons/blank.png"
+         level-id="features"
+         locked="true"
+         name="b. Features"
+         path="/community/masscascade">
+   </category>
+   <category
+         description="Nodes for visualisation"
+         icon="icons/blank.png"
+         level-id="featurevis"
+         name="Viewer"
+         path="/community/masscascade/features">
+   </category>
+   <category description="Nodes for sample alignment" icon="icons/blank.png" level-id="alignment" name="Alignment" path="/community/masscascade/features">
       </category>
-      <category description="Nodes for background correction" icon="icons/blank.png" level-id="background" name="Background" path="/community/masscascade">
+      <category
+            description="Nodes for feature deconvolution"
+            icon="icons/blank.png"
+            level-id="deconvolution"
+            name="Deconvolution"
+            path="/community/masscascade/features">
       </category>
-      <category description="Nodes for data binning" icon="icons/blank.png" level-id="binning" name="Binning" path="/community/masscascade">
+      <category
+            description="Nodes for feature smoothing"
+            icon="icons/blank.png"
+            level-id="smoothing"
+            name="Smoothing"
+            path="/community/masscascade/features">
       </category>
-      <category description="Nodes for online database searches" icon="icons/blank.png" level-id="database" name="Database" path="/community/masscascade">
+      <category
+            description="Nodes for feature filtering"
+            icon="icons/blank.png"
+            level-id="filter"
+            name="Filter"
+            path="/community/masscascade/features">
       </category>
-      <category description="Input and output nodes" icon="icons/blank.png" level-id="io" name="I/O" path="/community/masscascade">
+      <category
+            description="Nodes for feature set compilation"
+            icon="icons/blank.png"
+            level-id="featureSetCompilation"
+            name="Feature Set Compilation"
+            path="/community/masscascade/features">
       </category>
-      <category description="Convenient nodes" icon="icons/blank.png" level-id="misc" name="Misc" path="/community/masscascade">
+      <category
+            description="Nodes for feature set data processing"
+            icon="icons/blank.png"
+            level-id="featuresets"
+            locked="true"
+            name="c. Feature Sets"
+            path="/community/masscascade">
       </category>
-      <category description="Nodes for data smoothing" icon="icons/blank.png" level-id="smoothing" name="Smoothing" path="/community/masscascade">
+      <category
+            icon="icons/blank.png"
+            level-id="identification"
+            locked="true"
+            name="Identification"
+            path="/community/masscascade/featuresets">
       </category>
-      <category description="Nodes for data visualisation" icon="icons/blank.png" level-id="viewer" name="Visualisation" path="/community/masscascade">
+      <category
+            description="Nodes for online database searches"
+            icon="icons/blank.png"
+            level-id="database"
+            name="Database"
+            path="/community/masscascade/featuresets/identification">
       </category>
-      <category description="Nodes for molecule fragmentation" icon="icons/blank.png" level-id="fragmentation" name="Fragmentation" path="/community/masscascade">
-      </category>
-      <category description="Nodes for feature extraction" icon="icons/blank.png" level-id="profilePerception" name="Profile Perception" path="/community/masscascade">
-      </category>
-      <category icon="icons/blank.png" level-id="profileBuilder" name="Profile Builder" path="/community/masscascade">
-      </category>
-      <category icon="icons/blank.png" level-id="curation" name="Curation" path="/community/masscascade">
-      </category>
-      <category icon="icons/blank.png" level-id="gapFilling" name="Gap Filling" path="/community/masscascade">
-      </category>
-      <category icon="icons/blank.png" level-id="identification" name="Identification" path="/community/masscascade">
-      </category>
-      <category icon="icons/blank.png" level-id="profileVisualisation" name="Profile Visualisation" path="/community/masscascade/viewer">
-      </category>
-      <category icon="icons/blank.png" level-id="dataVisualisation" name="Data Visualisation" path="/community/masscascade/viewer">
-      </category>
-      <category icon="icons/blank.png" level-id="deconvolution" name="Deconvolution" path="/community/masscascade">
+      <category
+            description="Nodes for metabolite curation"
+            icon="icons/blank.png"
+            level-id="curation"
+            name="Curation"
+            path="/community/masscascade/featuresets/identification">
       </category>
    </extension>
    <extension point="org.knime.workbench.repository.nodes">
 <node category-path="/community/masscascade/io" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.io.read.MsFileReaderNodeFactory" id="uk.ac.ebi.masscascade.knime.io.read.MsFileReaderNodeFactory"/>
-<node category-path="/community/masscascade/viewer/dataVisualisation" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.totalion.TicViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.totalion.TicViewerNodeFactory"/>
-<node category-path="/community/masscascade/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.metlin.MetlinNodeFactory" id="uk.ac.ebi.masscascade.knime.database.metlin.MetlinNodeFactory"/>
-<node category-path="/community/masscascade/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.local.LibSearchNodeFactory" id="uk.ac.ebi.masscascade.knime.database.local.LibSearchNodeFactory"/>
-<node category-path="/community/masscascade/smoothing" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.smoothing.sg.SavitzkyGolaySmootherNodeFactory" id="uk.ac.ebi.masscascade.knime.smoothing.sg.SavitzkyGolaySmootherNodeFactory"/>
-<node category-path="/community/masscascade/binning" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.binning.mz.MsBinnerMzNodeFactory" id="uk.ac.ebi.masscascade.knime.binning.mz.MsBinnerMzNodeFactory"/>
-<node category-path="/community/masscascade/viewer/dataVisualisation" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.spectrum.SpectrumViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.spectrum.SpectrumViewerNodeFactory"/>
-<node category-path="/community/masscascade/smoothing" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.smoothing.median.MovingMedianSmootherNodeFactory" id="uk.ac.ebi.masscascade.knime.smoother.median.MovingMedianSmootherNodeFactory"/>
-<node category-path="/community/masscascade/viewer/dataVisualisation" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.spectrum.compare.SpectrumComparatorNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.spectrum.compare.SpectrumComparatorNodeFactory"/>
-<node category-path="/community/masscascade/viewer/dataVisualisation" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.base.BasePeakViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.base.BasePeakViewerNodeFactory"/>
-<node category-path="/community/masscascade/binning" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.binning.rt.MsBinnerRtNodeFactory" id="uk.ac.ebi.masscascade.knime.binning.rt.MsBinnerRtNodeFactory"/>
-<node category-path="/community/masscascade/misc" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.utilities.unify.MsUnifierNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.unify.MsUnifierNodeFactory"/>
-<node category-path="/community/masscascade/alignment" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.alignment.fastdtw.MsFastDtwNodeFactory" id="uk.ac.ebi.masscascade.knime.alignment.fastdtw.MsFastDtwNodeFactory"/>
-<node category-path="/community/masscascade/alignment" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.alignment.obiwarp.ObiwarpNodeFactory" id="uk.ac.ebi.masscascade.knime.alignment.obiwarp.ObiwarpNodeFactory"/>
-<node category-path="/community/masscascade/background" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.noisesubtraction.bgs.MsBackgroundRemoverNodeFactory" id="uk.ac.ebi.masscascade.knime.noisesubtraction.bgs.MsBackgroundRemoverNodeFactory"/>
-<node category-path="/community/masscascade/background" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.profileselection.durbin.DurbinFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.profileselection.DurbinFilterNodeFactory"/>
-<node category-path="/community/masscascade/background" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.profileselection.coda.CodaFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.profileselection.coda.CodaFilterNodeFactory"/>
+<node category-path="/community/masscascade/scans/scanvis" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.totalion.TicViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.totalion.TicViewerNodeFactory"/>
+<node category-path="/community/masscascade/featuresets/identification/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.metlin.MetlinNodeFactory" id="uk.ac.ebi.masscascade.knime.database.metlin.MetlinNodeFactory"/>
+<node category-path="/community/masscascade/featuresets/identification/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.local.LibSearchNodeFactory" id="uk.ac.ebi.masscascade.knime.database.local.LibSearchNodeFactory"/>
+<node category-path="/community/masscascade/features/smoothing" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.smoothing.sg.SavitzkyGolaySmootherNodeFactory" id="uk.ac.ebi.masscascade.knime.smoothing.sg.SavitzkyGolaySmootherNodeFactory"/>
+<node category-path="/community/masscascade/scans/scanvis" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.spectrum.SpectrumViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.spectrum.SpectrumViewerNodeFactory"/>
+<node category-path="/community/masscascade/scans/scanvis" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.spectrum.compare.SpectrumComparatorNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.spectrum.compare.SpectrumComparatorNodeFactory"/>
+<node category-path="/community/masscascade/scans/scanvis" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.base.BasePeakViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.base.BasePeakViewerNodeFactory"/>
+<node category-path="/community/masscascade/features/alignment" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.alignment.obiwarp.ObiwarpNodeFactory" id="uk.ac.ebi.masscascade.knime.alignment.obiwarp.ObiwarpNodeFactory"/>
+<node category-path="/community/masscascade/scans/background" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.noisesubtraction.bgs.MsBackgroundRemoverNodeFactory" id="uk.ac.ebi.masscascade.knime.noisesubtraction.bgs.MsBackgroundRemoverNodeFactory"/>
+<node category-path="/community/masscascade/features/filter" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.featureselection.durbin.DurbinFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.featureselection.durbin.DurbinFilterNodeFactory"/>
+<node category-path="/community/masscascade/features/smoothing" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.noisesubtraction.tophat.TopHatNodeFactory" id="uk.ac.ebi.masscascade.knime.noisesubtraction.tophat.TopHatNodeFactory"/>
 <node category-path="/community/masscascade/io" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.io.write.MsFileWriterNodeFactory" id="uk.ac.ebi.masscascade.knime.io.write.MsFileWriterNodeFactory"/>
-<node category-path="/community/masscascade/background" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.noisesubtraction.nora.MsNoiseReductionNodeFactory" id="uk.ac.ebi.masscascade.knime.noisesubtraction.nora.MsNoiseReductionNodeFactory"/>
-<node category-path="/community/masscascade/profilePerception" factory-class="uk.ac.ebi.masscascade.knime.profileperception.wavelet.WaveletCompilerNodeFactory" id="uk.ac.ebi.masscascade.knime.profileperception.wavelet.WaveletCompilerNodeFactory"/>
-<node category-path="/community/masscascade/profileBuilder" factory-class="uk.ac.ebi.masscascade.knime.profilebuilding.tracebuilder.TraceBuilderNodeFactory" id="uk.ac.ebi.masscascade.knime.profilebuilding.tracebuilder.TraceBuilderNodeFactory"/>
-<node category-path="/community/masscascade/viewer/profileVisualisation" factory-class="uk.ac.ebi.masscascade.knime.visualization.profiletable.ProfileTableNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.profiletable.ProfileTableNodeFactory"/>
-<node category-path="/community/masscascade/viewer/profileVisualisation" factory-class="uk.ac.ebi.masscascade.knime.visualization.profiletwod.ProfileTwoDNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.profiletwod.ProfileTwoDNodeFactory"/>
-<node category-path="/community/masscascade/viewer/profileVisualisation" factory-class="uk.ac.ebi.masscascade.knime.visualization.totalionprofile.TicProfileViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.totalionprofile.TicProfileViewerNodeFactory"/>
-<node category-path="/community/masscascade/misc" factory-class="uk.ac.ebi.masscascade.knime.utilities.profilefilter.ProfileFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.profilefilter.ProfileFilterNodeFactory"/>
-<node category-path="/community/masscascade/misc" factory-class="uk.ac.ebi.masscascade.knime.utilities.spectrumfilter.SpectrumFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.spectrumfilter.SpectrumFilterNodeFactory"/>
-<node category-path="/community/masscascade/misc" factory-class="uk.ac.ebi.masscascade.knime.utilities.scanfilter.ScanFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.scanfilter.ScanFilterNodeFactory"/>
-<node category-path="/community/masscascade/misc" factory-class="uk.ac.ebi.masscascade.knime.utilities.meta.PropertyExtractorNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.meta.PropertyExtractorNodeFactory"/>
-<node category-path="/community/masscascade/misc" factory-class="uk.ac.ebi.masscascade.knime.utilities.massfilter.MassTraceFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.massfilter.MassTraceFilterNodeFactory"/>
-<node category-path="/community/masscascade/profileBuilder" factory-class="uk.ac.ebi.masscascade.knime.profilebuilding.tracejoiner.MassTraceCompilerNodeFactory" id="uk.ac.ebi.masscascade.knime.profilebuilding.tracejoiner.MassTraceCompilerNodeFactory"/>
-<node category-path="/community/masscascade/gapFilling" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.gapfilling.SplineGapFillerNodeFactory" id="uk.ac.ebi.masscascade.knime.gapfilling.SplineGapFillerNodeFactory"/>
-<node category-path="/community/masscascade/profileBuilder" factory-class="uk.ac.ebi.masscascade.knime.profilebuilding.tracesplitter.MassTraceSplitterNodeFactory" id="uk.ac.ebi.masscascade.knime.profilebuilding.tracesplitter.MassTraceSplitterNodeFactory"/>
-<node category-path="/community/masscascade/identification" factory-class="uk.ac.ebi.masscascade.knime.identification.isotope.IsotopeFinderNodeFactory" id="uk.ac.ebi.masscascade.knime.identification.isotope.IsotopeFinderNodeFactory"/>
-<node category-path="/community/masscascade/identification" factory-class="uk.ac.ebi.masscascade.knime.identification.adduct.AdductFinderNodeFactory" id="uk.ac.ebi.masscascade.knime.identification.adduct.AdductFinderNodeFactory"/>
-<node category-path="/community/masscascade/viewer/profileVisualisation" factory-class="uk.ac.ebi.masscascade.knime.visualization.pseudospectrum.PseudoSpectrumNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.pseudospectrum.PseudoSpectrumNodeFactory"/>
-<node category-path="/community/masscascade/deconvolution" factory-class="uk.ac.ebi.masscascade.knime.deconvolution.biehman.BiehmanDeconvolutionNodeFactory" id="uk.ac.ebi.masscascade.knime.deconvolution.biehman.BiehmanDeconvolutionNodeFactory"/>
-<node category-path="/community/masscascade/io" factory-class="uk.ac.ebi.masscascade.knime.io.convert.ProfileConverterNodeFactory" id="uk.ac.ebi.masscascade.knime.io.convert.ProfileConverterNodeFactory"/>
-<node category-path="/community/masscascade/io" factory-class="uk.ac.ebi.masscascade.knime.io.convert.ProfileMatrixNodeFactory" id="uk.ac.ebi.masscascade.knime.io.convert.ProfileMatrixNodeFactory"/>
-<node category-path="/community/masscascade/profilePerception" factory-class="uk.ac.ebi.masscascade.knime.profileperception.correlation.CosineCompilerNodeFactory" id="uk.ac.ebi.masscascade.knime.profileperception.correlation.CosineCompilerNodeFactory"/>
-<node category-path="/community/masscascade/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.chemspider.ChemspiderNodeFactory" id="uk.ac.ebi.masscascade.knime.database.chemspider.ChemspiderNodeFactory"/>
-<node category-path="/community/masscascade/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.massbank.MassbankNodeFactory" id="uk.ac.ebi.masscascade.knime.database.massbank.MassbankNodeFactory"/>
-<node category-path="/community/masscascade/identification" factory-class="uk.ac.ebi.masscascade.knime.identification.ion.IonSearchNodeFactory" id="uk.ac.ebi.masscascade.knime.identification.ion.IonSearchNodeFactory"/>
-<node category-path="/community/masscascade/identification" factory-class="uk.ac.ebi.masscascade.knime.identification.isotope.remove.IsotopeRemoverNodeFactory" id="uk.ac.ebi.masscascade.knime.identification.isotope.remove.IsotopeRemoverNodeFactory"/>
-<node category-path="/community/masscascade/deconvolution" factory-class="uk.ac.ebi.masscascade.knime.deconvolution.savitzkygolay.SavitzkyGolayDeconvolutionNodeFactory" id="uk.ac.ebi.masscascade.knime.deconvolution.savitzkygolay.SavitzkyGolayDeconvolutionNodeFactory"/>
-<node category-path="/community/masscascade/viewer/profileVisualisation" factory-class="uk.ac.ebi.masscascade.knime.visualization.profile.ProfileViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.profile.ProfileViewerNodeFactory"/>
-<node category-path="/community/masscascade/profilePerception" factory-class="uk.ac.ebi.masscascade.knime.profileperception.biehman.BiehmanCompilerNodeFactory" id="uk.ac.ebi.masscascade.knime.profileperception.biehman.BiehmanCompilerNodeFactory"/>
-<node category-path="/community/masscascade/profilePerception" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory"/>
-<node category-path="/community/masscascade/identification" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory"/>
-<node category-path="/community/masscascade/io" factory-class="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory" id="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory"/>
-<node category-path="/community/masscascade/curation" factory-class="uk.ac.ebi.masscascade.knime.curation.bless.BlessTableNodeFactory" id="uk.ac.ebi.masscascade.knime.curation.bless.BlessTableNodeFactory"/>
-<node category-path="/community/masscascade/curation" factory-class="uk.ac.ebi.masscascade.knime.curation.brush.BrushNodeFactory" id="uk.ac.ebi.masscascade.knime.curation.brush.BrushNodeFactory"/>
+<node category-path="/community/masscascade/scans/background" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.noisesubtraction.nora.MsNoiseReductionNodeFactory" id="uk.ac.ebi.masscascade.knime.noisesubtraction.nora.MsNoiseReductionNodeFactory"/>
+<node category-path="/community/masscascade/scans/featureBuilder" factory-class="uk.ac.ebi.masscascade.knime.featuresetbuilding.wavelet.WaveletCompilerNodeFactory" id="uk.ac.ebi.masscascade.knime.featuresetbuilding.wavelet.WaveletCompilerNodeFactory"/>
+<node category-path="/community/masscascade/scans/featureBuilder" factory-class="uk.ac.ebi.masscascade.knime.featurebuilding.tracebuilder.TraceBuilderNodeFactory" id="uk.ac.ebi.masscascade.knime..featurebuilding.tracebuilder.TraceBuilderNodeFactory"/>
+<node category-path="/community/masscascade/features/featurevis" factory-class="uk.ac.ebi.masscascade.knime.visualization.featuretable.FeatureTableNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.featuretable.FeatureTableNodeFactory"/>
+<node category-path="/community/masscascade/features/featurevis" factory-class="uk.ac.ebi.masscascade.knime.visualization.featuretwod.FeatureTwoDNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.featuretwod.FeatureTwoDNodeFactory"/>
+<node category-path="/community/masscascade/features/featurevis" factory-class="uk.ac.ebi.masscascade.knime.visualization.totalionfeature.TicFeatureViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.totalionfeature.TicFeatureViewerNodeFactory"/>
+<node category-path="/community/masscascade/features/filter" factory-class="uk.ac.ebi.masscascade.knime.utilities.featurefilter.FeatureFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.featurefilter.FeatureFilterNodeFactory"/>
+<node category-path="/community/masscascade/featuresets" factory-class="uk.ac.ebi.masscascade.knime.utilities.featuresetfilter.FeatureSetFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.featuresetfilter.FeatureSetFilterNodeFactory"/>
+<node category-path="/community/masscascade/scans" factory-class="uk.ac.ebi.masscascade.knime.utilities.scanfilter.ScanFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.scanfilter.ScanFilterNodeFactory"/>
+<node category-path="/community/masscascade/scans" factory-class="uk.ac.ebi.masscascade.knime.utilities.meta.PropertyExtractorNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.meta.PropertyExtractorNodeFactory"/>
+<node category-path="/community/masscascade/features/filter" factory-class="uk.ac.ebi.masscascade.knime.utilities.massfilter.MassTraceFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.utilities.massfilter.MassTraceFilterNodeFactory"/>
+<node category-path="/community/masscascade/featuresets" factory-class="uk.ac.ebi.masscascade.knime.identification.isotope.IsotopeFinderNodeFactory" id="uk.ac.ebi.masscascade.knime.identification.isotope.IsotopeFinderNodeFactory"/>
+<node category-path="/community/masscascade/featuresets" factory-class="uk.ac.ebi.masscascade.knime.identification.adduct.AdductFinderNodeFactory" id="uk.ac.ebi.masscascade.knime.identification.adduct.AdductFinderNodeFactory"/>
+<node category-path="/community/masscascade/featuresets" factory-class="uk.ac.ebi.masscascade.knime.visualization.featureset.FeatureSetNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.featureset.FeatureSetNodeFactory"/>
+<node category-path="/community/masscascade/features/deconvolution" factory-class="uk.ac.ebi.masscascade.knime.deconvolution.biehman.BiehmanDeconvolutionNodeFactory" id="uk.ac.ebi.masscascade.knime.deconvolution.biehman.BiehmanDeconvolutionNodeFactory"/>
+<node category-path="/community/masscascade/io" factory-class="uk.ac.ebi.masscascade.knime.io.convert.FeatureConverterNodeFactory" id="uk.ac.ebi.masscascade.knime.io.convert.FeatureConverterNodeFactory"/>
+<node category-path="/community/masscascade/io" factory-class="uk.ac.ebi.masscascade.knime.io.convert.ResultMatrixNodeFactory" id="uk.ac.ebi.masscascade.knime.io.convert.ResultMatrixNodeFactory"/>
+<node category-path="/community/masscascade/features/featureSetCompilation" factory-class="uk.ac.ebi.masscascade.knime.featuresetbuilding.correlation.CosineCompilerNodeFactory" id="uk.ac.ebi.masscascade.knime.featuresetbuilding.correlation.CosineCompilerNodeFactory"/>
+<node category-path="/community/masscascade/featuresets/identification/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.chemspider.ChemspiderNodeFactory" id="uk.ac.ebi.masscascade.knime.database.chemspider.ChemspiderNodeFactory"/>
+<node category-path="/community/masscascade/featuresets/identification/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.massbank.MassbankNodeFactory" id="uk.ac.ebi.masscascade.knime.database.massbank.MassbankNodeFactory"/>
+<node category-path="/community/masscascade/featuresets/identification" factory-class="uk.ac.ebi.masscascade.knime.identification.ion.IonSearchNodeFactory" id="uk.ac.ebi.masscascade.knime.identification.ion.IonSearchNodeFactory"/>
+<node category-path="/community/masscascade/featuresets" factory-class="uk.ac.ebi.masscascade.knime.identification.isotope.remove.IsotopeRemoverNodeFactory" id="uk.ac.ebi.masscascade.knime.identification.isotope.remove.IsotopeRemoverNodeFactory"/>
+<node category-path="/community/masscascade/features/deconvolution" factory-class="uk.ac.ebi.masscascade.knime.deconvolution.savitzkygolay.SavitzkyGolayDeconvolutionNodeFactory" id="uk.ac.ebi.masscascade.knime.deconvolution.savitzkygolay.SavitzkyGolayDeconvolutionNodeFactory"/>
+<node category-path="/community/masscascade/features/featurevis" factory-class="uk.ac.ebi.masscascade.knime.visualization.feature.FeatureViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.feature.FeatureViewerNodeFactory"/>
+<node category-path="/community/masscascade/features/featureSetCompilation" factory-class="uk.ac.ebi.masscascade.knime.featuresetbuilding.biehman.BiehmanCompilerNodeFactory" id="uk.ac.ebi.masscascade.knime.featuresetbuilding.biehman.BiehmanCompilerNodeFactory"/>
+<node category-path="/community/masscascade/featuresets" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory"/>
+<node category-path="/community/masscascade/featuresets/identification" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory"/>
+<node category-path="/community/masscascade/featuresets/identification" factory-class="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory" id="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory"/>
+<node category-path="/community/masscascade/featuresets/identification/curation" factory-class="uk.ac.ebi.masscascade.knime.curation.bless.BlessTableNodeFactory" id="uk.ac.ebi.masscascade.knime.curation.bless.BlessTableNodeFactory"/>
+<node category-path="/community/masscascade/featuresets/identification/curation" factory-class="uk.ac.ebi.masscascade.knime.curation.brush.BrushNodeFactory" id="uk.ac.ebi.masscascade.knime.curation.brush.BrushNodeFactory"/>
 </extension>
    <extension point="org.eclipse.ui.preferencePages">
       <page category="org.knime.workbench.ui.preferences" class="uk.ac.ebi.masscascade.knime.preferences.PreferencePage" id="uk.ac.ebi.masscascade.knime.MassCascadePreferencePage" name="MassCascade">

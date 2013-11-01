@@ -25,7 +25,7 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -78,7 +78,7 @@ public class MassTraceFilterNodeFactory extends NodeFactory<MassTraceFilterNodeM
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, ProfileValue.class);
+		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
 		dialog.addColumnSelection(Parameter.VALUE_COLUMN, 1, DoubleValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 5);
 

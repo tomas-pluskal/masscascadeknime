@@ -20,17 +20,13 @@
  */
 package uk.ac.ebi.masscascade.knime.identification.adduct;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
-
 import org.knime.core.data.DoubleValue;
 import org.knime.core.data.StringValue;
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -81,23 +77,11 @@ public class AdductFinderNodeFactory extends NodeFactory<AdductFinderNodeModel> 
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.SPECTRUM_COLUMN, SpectrumValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
 		dialog.addColumnSelection(Parameter.LABEL_COLUMN, 1, StringValue.class);
 		dialog.addColumnSelection(Parameter.VALUE_COLUMN, 1, DoubleValue.class);
 
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 5);
-
-		JRadioButton posMode = new JRadioButton("", true);
-		JRadioButton negMode = new JRadioButton("", false);
-
-		ButtonGroup bg = new ButtonGroup();
-		bg.add(posMode);
-		bg.add(negMode);
-
-		dialog.addCustomOption(Parameter.POSITIVE_MODE, posMode);
-		dialog.addCustomOption(Parameter.NEGATIVE_MODE, negMode);
-		
-		dialog.addCustomOption(Parameter.NEUTRAL_LOSS, new JCheckBox());
 
 		return dialog.build();
 	}

@@ -40,8 +40,8 @@ import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.io.MzTabWriter;
 import uk.ac.ebi.masscascade.knime.NodePlugin;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
-import uk.ac.ebi.masscascade.knime.datatypes.profilecell.ProfileCell;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumCell;
+import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureCell;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetCell;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Parameter;
@@ -92,8 +92,8 @@ public class MsFileWriterNodeModel extends NodeModel {
 
 				ParameterMap params = new ParameterMap();
 				DataCell cell = row.getCell(colIndex);
-				if (cell instanceof ProfileCell) params.put(Parameter.PROFILE_CONTAINER, ((ProfileCell) cell).getPeakDataValue());
-				else if (cell instanceof SpectrumCell) params.put(Parameter.SPECTRUM_CONTAINER, ((SpectrumCell) cell).getSpectrumDataValue());
+				if (cell instanceof FeatureCell) params.put(Parameter.FEATURE_CONTAINER, ((FeatureCell) cell).getPeakDataValue());
+				else if (cell instanceof FeatureSetCell) params.put(Parameter.FEATURE_SET_CONTAINER, ((FeatureSetCell) cell).getFeatureSetDataValue());
 				params.put(Parameter.OUTPUT_DIRECTORY, path);
 				
 				MzTabWriter task = new MzTabWriter(params);
@@ -128,7 +128,7 @@ public class MsFileWriterNodeModel extends NodeModel {
 			settings.setTextOption(Parameter.OUTPUT_DIRECTORY, "" + Parameter.OUTPUT_DIRECTORY.getDefaultValue());
 		}
 
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN, Parameter.FEATURE_SET_COLUMN);
 		return new DataTableSpec[] {};
 	}
 

@@ -50,10 +50,10 @@ public class MsnBuilderNodeModel extends DefaultModel {
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
 		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
-		parameterMap.put(Parameter.MIN_PROFILE_INTENSITY, settings.getDoubleOption(Parameter.MIN_PROFILE_INTENSITY));
+		parameterMap.put(Parameter.MIN_FEATURE_INTENSITY, settings.getDoubleOption(Parameter.MIN_FEATURE_INTENSITY));
 
-		return getDataTableSpec(data, new Parameter[] { Parameter.SPECTRUM_COLUMN, Parameter.DATA_COLUMN },
-				Parameter.SPECTRUM_COLUMN, false);
+		return getDataTableSpec(data, new Parameter[] { Parameter.FEATURE_SET_COLUMN, Parameter.DATA_COLUMN },
+				Parameter.FEATURE_SET_COLUMN, false);
 	}
 
 	/**
@@ -64,12 +64,12 @@ public class MsnBuilderNodeModel extends DefaultModel {
 
 		if (settings.getOptionMapSize() == 0) {
 			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
-			settings.setTextOption(Parameter.MIN_PROFILE_INTENSITY,
-					"" + Parameter.MIN_PROFILE_INTENSITY.getDefaultValue());
+			settings.setTextOption(Parameter.MIN_FEATURE_INTENSITY,
+					"" + Parameter.MIN_FEATURE_INTENSITY.getDefaultValue());
 		}
 
 		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.DATA_COLUMN);
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.SPECTRUM_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN);
 	}
 
 	/**
@@ -82,8 +82,8 @@ public class MsnBuilderNodeModel extends DefaultModel {
 		tmpSettings.loadSettings(settings);
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.SPECTRUM_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
-		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MIN_PROFILE_INTENSITY);
+		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MIN_FEATURE_INTENSITY);
 	}
 }

@@ -47,17 +47,18 @@ import org.knime.core.util.ThreadPool;
 
 import uk.ac.ebi.masscascade.interfaces.CallableWebservice;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
-import uk.ac.ebi.masscascade.interfaces.container.SpectrumContainer;
+import uk.ac.ebi.masscascade.interfaces.container.FeatureSetContainer;
 import uk.ac.ebi.masscascade.knime.NodePlugin;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumCell;
-import uk.ac.ebi.masscascade.knime.datatypes.spectrumcell.SpectrumValue;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetCell;
+import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.parameters.ParameterMap;
 import uk.ac.ebi.masscascade.ws.massbank.MassBankBatchSearch;
 
 /**
- * This is the model implementation of Massbank. Spectrum-based Massbank database search.
+ * This is the model implementation of Massbank. Spectrum-based Massbank
+ * database search.
  * 
  * @author Stephan Beisken
  */
@@ -92,7 +93,7 @@ public class MassbankNodeModel extends NodeModel {
 
 		tasks = new ArrayList<Future<Container>>();
 
-		SpectrumContainer container = null;
+		FeatureSetContainer container = null;
 		double currentRow = 1;
 		double threadCounter = 1;
 		double rowCount = inData[0].getRowCount();
@@ -104,7 +105,7 @@ public class MassbankNodeModel extends NodeModel {
 				exec.setProgress((double) currentRow / rowCount, "processing rows " + (currentRow - threadCounter)
 						+ " - " + currentRow);
 
-				container = ((SpectrumValue) row.getCell(colIndex)).getSpectrumDataValue();
+				container = ((FeatureSetValue) row.getCell(colIndex)).getFeatureSetDataValue();
 				ParameterMap params = new ParameterMap();
 				params.put(Parameter.MZ_WINDOW_PPM, settings.getPpm());
 				params.put(Parameter.SCORE, settings.getScore());
@@ -114,8 +115,8 @@ public class MassbankNodeModel extends NodeModel {
 
 				params.put(Parameter.INSTRUMENTS, instruments);
 				params.put(Parameter.RESULTS, settings.getMaxNumOfResults());
-				params.put(Parameter.MIN_PROFILES, settings.getMinNumOfProfiles());
-				params.put(Parameter.SPECTRUM_CONTAINER, container);
+				params.put(Parameter.MIN_FEATURES, settings.getMinNumOfProfiles());
+				params.put(Parameter.FEATURE_SET_COLUMN, container);
 				params.put(Parameter.MS_LEVEL, Constants.MSN.get(settings.getMSnLevel()));
 
 				CallableWebservice task = new MassBankBatchSearch(params);
@@ -177,7 +178,7 @@ public class MassbankNodeModel extends NodeModel {
 					Container file = tasks.get(fileIndex++).get();
 
 					ids.add(file.getDataFile());
-					return new SpectrumCell((SpectrumContainer) file);
+					return new FeatureSetCell((FeatureSetContainer) file);
 
 				} catch (Exception exception) {
 					LOGGER.error(this, exception);
@@ -190,7 +191,8 @@ public class MassbankNodeModel extends NodeModel {
 	}
 
 	/**
-	 * Find the index of the requested data column in the data column specification.
+	 * Find the index of the requested data column in the data column
+	 * specification.
 	 * 
 	 * @param inSpec the data column specification
 	 * @return the index of the requested data column
@@ -202,7 +204,7 @@ public class MassbankNodeModel extends NodeModel {
 		if (dataCol == -1) {
 			int i = 0;
 			for (DataColumnSpec dcs : inSpec) {
-				if (dcs.getType().isCompatible(SpectrumValue.class)) {
+				if (dcs.getType().isCompatible(FeatureSetValue.class)) {
 					dataCol = i;
 				}
 				i++;
@@ -240,7 +242,7 @@ public class MassbankNodeModel extends NodeModel {
 		if (isomerColumn == -1) {
 			int i = 0;
 			for (DataColumnSpec spec : inSpecs[0]) {
-				if (spec.getType().isCompatible(SpectrumValue.class)) {
+				if (spec.getType().isCompatible(FeatureSetValue.class)) {
 					isomerColumn = i;
 					spectrumColumn = spec.getName();
 				}
@@ -297,11 +299,11 @@ public class MassbankNodeModel extends NodeModel {
 		if (tmpSettings.getMinNumOfProfiles() <= 0) {
 			throw new InvalidSettingsException("Min. no. of profiles must be positive.");
 		}
-		
+
 		if (tmpSettings.getMSnLevel() < 1) {
 			throw new InvalidSettingsException("The MSn level must be a positive integer.");
 		}
-		
+
 		if (tmpSettings.getPpm() < 0) {
 			throw new InvalidSettingsException("The m/z window be a positive integer.");
 		}

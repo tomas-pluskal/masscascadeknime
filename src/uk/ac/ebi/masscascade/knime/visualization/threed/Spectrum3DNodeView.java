@@ -37,7 +37,7 @@ import org.knime.core.node.NodeView;
 import org.knime.core.node.tableview.TableContentModel;
 import org.knime.core.node.tableview.TableView;
 
-import uk.ac.ebi.masscascade.interfaces.container.RawContainer;
+import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsCell;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
@@ -50,6 +50,7 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class Spectrum3DNodeView extends NodeView<Spectrum3DNodeModel> {
 
 	private TableView tableView;
@@ -61,7 +62,7 @@ public class Spectrum3DNodeView extends NodeView<Spectrum3DNodeModel> {
 //	private int xRes, yRes;
 	private int lastSelected;
 //	private Ploót3DSurface display;
-	private RawContainer rawContainer;
+	private ScanContainer rawContainer;
 	private final Settings settings;
 
 	/**
@@ -182,7 +183,7 @@ public class Spectrum3DNodeView extends NodeView<Spectrum3DNodeModel> {
 		for (JMenuItem item : msnLevelItems) {
 			msnMenu.remove(item);
 		}
-		for (int i = 1; i <= rawContainer.getRawLevels().size(); i++) {
+		for (int i = 1; i <= rawContainer.getScanLevels().size(); i++) {
 			JMenuItem tmpItem = new JMenuItem("MS Level " + i);
 			tmpItem.addActionListener(new ActionListener() {
 

@@ -34,6 +34,7 @@ import uk.ac.ebi.masscascade.parameters.Parameter;
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class MsFastDtwNodeFactory extends NodeFactory<MsFastDtwNodeModel> {
 
 	/**

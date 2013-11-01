@@ -29,11 +29,12 @@ import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
- * <code>NodeFactory</code> for the "MovingMedianSmoother" Node. Corrects the baseline of the run using a simple moving
- * median.
+ * <code>NodeFactory</code> for the "MovingMedianSmoother" Node. Corrects the
+ * baseline of the run using a simple moving median.
  * 
  * @author Stephan Beisken
  */
+@Deprecated
 public class MovingMedianSmootherNodeFactory extends NodeFactory<MovingMedianSmootherNodeModel> {
 
 	/**
@@ -78,7 +79,7 @@ public class MovingMedianSmootherNodeFactory extends NodeFactory<MovingMedianSmo
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
-		dialog.addTextOption(Parameter.DATA_WINDOW, 3);
+		dialog.addTextOption(Parameter.SCAN_WINDOW, 3);
 
 		return dialog.build();
 	}

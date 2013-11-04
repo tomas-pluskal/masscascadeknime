@@ -305,8 +305,8 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 	@Override
 	protected void reset() {
 
-		if (settings.getBooleanOption(DefaultDialog.TERMINUS))
-			return;
+//		if (settings.getBooleanOption(DefaultDialog.TERMINUS))
+//			return;
 
 		for (File id : ids)
 			id.delete();

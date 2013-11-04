@@ -58,7 +58,6 @@ import uk.ac.ebi.masscascade.interfaces.container.FeatureContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureCell;
 import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
-import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Parameter;
@@ -310,8 +309,8 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 	@Override
 	protected void reset() {
 
-		if (settings.getBooleanOption(DefaultDialog.TERMINUS))
-			return;
+//		if (settings.getBooleanOption(DefaultDialog.TERMINUS))
+//			return;
 
 		for (File id : ids)
 			id.delete();

@@ -55,7 +55,6 @@ import uk.ac.ebi.masscascade.core.scan.ScanLevel;
 import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
-import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Parameter;
@@ -236,8 +235,8 @@ public class PropertyExtractorNodeModel extends NodeModel {
 	@Override
 	protected void reset() {
 
-		if (settings.getBooleanOption(DefaultDialog.TERMINUS))
-			return;
+//		if (settings.getBooleanOption(DefaultDialog.TERMINUS))
+//			return;
 
 		for (File id : ids)
 			id.delete();

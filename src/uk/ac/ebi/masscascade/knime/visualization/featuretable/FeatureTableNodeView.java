@@ -39,6 +39,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import org.knime.core.data.DataRow;
+import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeView;
 import org.knime.core.node.tableview.TableContentModel;
 import org.knime.core.node.tableview.TableView;
@@ -70,7 +71,8 @@ import uk.ac.ebi.masscascade.utilities.FeatureUtils;
 import uk.ac.ebi.masscascade.utilities.math.MathUtils;
 
 /**
- * <code>NodeView</code> for the "PeakTable" Node. Visualizes a peak collection as table.
+ * <code>NodeView</code> for the "PeakTable" Node. Visualizes a peak collection
+ * as table.
  * 
  * @author Stephan Beisken
  */
@@ -214,7 +216,7 @@ public class FeatureTableNodeView extends NodeView<ViewerModel> {
 		display = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, peakPane, tableView);
 		display.setPreferredSize(PREF_DISPLAY_SIZE);
 		display.setResizeWeight(1);
-		display.setDividerLocation(600);
+		display.setDividerLocation(0.7);
 
 		setComponent(display);
 	}
@@ -227,6 +229,18 @@ public class FeatureTableNodeView extends NodeView<ViewerModel> {
 		TableContentModel tableContentModel = nodeModel.getContentModel();
 
 		String columnName = nodeModel.getSettings().getColumnName(Parameter.PEAK_COLUMN);
+
+		// hack to avoid "null" value in auto-configured data column
+		if (columnName == null) {
+			try {
+				NodeUtils.getDataTableSpec(nodeModel.getContentModel().getDataTableSpec(), nodeModel.getSettings(),
+						Parameter.PEAK_COLUMN);
+				columnName = nodeModel.getSettings().getColumnName(Parameter.PEAK_COLUMN);
+			} catch (InvalidSettingsException e) {
+				e.printStackTrace();
+			}
+		}
+
 		column = tableContentModel.getDataTable().getDataTableSpec().findColumnIndex(columnName);
 	}
 

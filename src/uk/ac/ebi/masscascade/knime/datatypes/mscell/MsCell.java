@@ -147,7 +147,7 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 
 			ScanSerializer cmlSerializer = new ScanSerializer((FileScanContainer) cell.getMsDataValue());
 			CMLCml cml = cmlSerializer.getCml();
-
+			
 			BufferedDataOutputStream stream = new BufferedDataOutputStream((OutputStream) output);
 			cml.serialize(stream, 1);
 
@@ -163,11 +163,11 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 		public MsCell deserialize(final DataCellDataInput input) throws IOException {
 
 			BufferedDataInputStream stream = new BufferedDataInputStream((InputStream) input);
-			ScanContainer rawRun = null;
+			ScanContainer scanRun = null;
 
 			try {
 				ScanDeserializer cmlDeserializer = new ScanDeserializer(stream, NodePlugin.getProjectDirectory());
-				rawRun = (ScanContainer) cmlDeserializer.getFile();
+				scanRun = (ScanContainer) cmlDeserializer.getFile();
 
 				stream.close();
 
@@ -175,7 +175,7 @@ public class MsCell extends BlobDataCell implements StringValue, MsValue {
 			} catch (Exception exception) {
 				throw new IOException("XMLStream failure: " + exception.getMessage());
 			}
-			return new MsCell(rawRun);
+			return new MsCell(scanRun);
 		}
 	}
 }

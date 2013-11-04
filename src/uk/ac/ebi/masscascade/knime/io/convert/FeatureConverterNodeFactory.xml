@@ -8,7 +8,7 @@
 	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./conversion.png" type="Sink">
-	<name>Profile Converter</name>
+	<name>Feature Converter</name>
 
 	<shortDescription>
 		Node to extract profile information from Profile data cells. All profile details are converted

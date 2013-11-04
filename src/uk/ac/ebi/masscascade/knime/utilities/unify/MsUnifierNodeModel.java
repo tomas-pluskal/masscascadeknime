@@ -59,7 +59,6 @@ import uk.ac.ebi.masscascade.knime.NodePlugin;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsCell;
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
-import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
 import uk.ac.ebi.masscascade.parameters.Constants;
@@ -215,8 +214,8 @@ public class MsUnifierNodeModel extends NodeModel {
 	@Override
 	protected void reset() {
 
-		if (settings.getBooleanOption(DefaultDialog.TERMINUS))
-			return;
+//		if (settings.getBooleanOption(DefaultDialog.TERMINUS))
+//			return;
 
 		for (File id : ids)
 			id.delete();

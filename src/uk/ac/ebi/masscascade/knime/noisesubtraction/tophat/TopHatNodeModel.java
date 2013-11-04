@@ -52,7 +52,7 @@ public class TopHatNodeModel extends DefaultModel {
 	@Override
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
-		parameterMap.put(Parameter.SCAN_WINDOW, settings.getDoubleOption(Parameter.SCAN_WINDOW));
+		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
 		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
 	}
 
@@ -79,6 +79,6 @@ public class TopHatNodeModel extends DefaultModel {
 		tmpSettings.loadSettings(settings);
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
-		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
+		NodeUtils.validateIntGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
 	}
 }

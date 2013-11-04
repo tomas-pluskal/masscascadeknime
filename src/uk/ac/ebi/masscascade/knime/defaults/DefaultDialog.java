@@ -22,15 +22,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -44,7 +41,6 @@ import javax.swing.border.Border;
 
 import org.knime.core.data.DataTableSpec;
 import org.knime.core.data.DataValue;
-import org.knime.core.node.BufferedDataTable;
 import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeSettingsRO;
@@ -56,7 +52,6 @@ import org.knime.core.node.util.FilesHistoryPanel;
 import uk.ac.ebi.masscascade.exception.MassCascadeException;
 import uk.ac.ebi.masscascade.interfaces.Option;
 import uk.ac.ebi.masscascade.knime.defaults.elements.BooleanTableModel;
-import uk.ac.ebi.masscascade.knime.defaults.preview.PreviewFrame;
 import uk.ac.ebi.masscascade.knime.io.reference.OptionalColumnPanel;
 
 /**
@@ -73,13 +68,13 @@ public class DefaultDialog extends NodeDialogPane {
 	/*
 	 * Constant to control file deletion in loops.
 	 */
-	public final static String TERMINUS = "loopTerminus";
+//	public final static String TERMINUS = "loopTerminus";
 
 	private final GridBagConstraints c;
-	private final JCheckBox loopTerminus;
-	private final JButton previewButton;
+//	private final JCheckBox loopTerminus;
+//	private final JButton previewButton;
 	
-	private BufferedDataTable[] input;
+//	private BufferedDataTable[] input;
 
 	private final Settings settings;
 	private final Map<String, JTextField> textField;
@@ -104,8 +99,8 @@ public class DefaultDialog extends NodeDialogPane {
 		this.scrollPane = new LinkedHashMap<String, JScrollPane>();
 		this.columnPanels = new ArrayList<>();
 		
-		this.loopTerminus = new JCheckBox();
-		this.previewButton = new JButton("Preview");
+//		this.loopTerminus = new JCheckBox();
+//		this.previewButton = new JButton("Preview");
 
 		this.c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.NORTHWEST;
@@ -346,25 +341,25 @@ public class DefaultDialog extends NodeDialogPane {
 		c.gridwidth = 1;
 
 		c.insets = new Insets(10, 0, 0, 0);
-		optionPanel.add(new JLabel("Retain Data (Loop)" + PADDING), c);
-		c.gridx++;
-		optionPanel.add(loopTerminus, c);
-		c.gridy++;
+//		optionPanel.add(new JLabel("Retain Data (Loop)" + PADDING), c);
+//		c.gridx++;
+//		optionPanel.add(loopTerminus, c);
+//		c.gridy++;
 		
-		optionPanel.add(previewButton, c);
-		c.gridx = 0;
-		c.gridy++;
+//		optionPanel.add(previewButton, c);
+//		c.gridx = 0;
+//		c.gridy++;
 
-		previewButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				PreviewFrame frame = new PreviewFrame(input, settings);
-				frame.setLocationRelativeTo(optionPanel);
-				frame.setVisible(true);
-			}
-		});
+//		previewButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//				PreviewFrame frame = new PreviewFrame(input, settings);
+//				frame.setLocationRelativeTo(optionPanel);
+//				frame.setVisible(true);
+//			}
+//		});
 		
 		return optionPanel;
 	}
@@ -440,8 +435,9 @@ public class DefaultDialog extends NodeDialogPane {
 			// do nothing
 		}
 
-		for (String label : comboBox.keySet())
+		for (String label : comboBox.keySet()) {
 			comboBox.get(label).update(specs[comboBoxSpec.get(label)], this.settings.getColumnName(label));
+		}
 
 		for (String label : textField.keySet())
 			textField.get(label).setText(this.settings.getTextOption(label));
@@ -474,7 +470,7 @@ public class DefaultDialog extends NodeDialogPane {
 			}
 		}
 
-		loopTerminus.setSelected(this.settings.getBooleanOption(TERMINUS));
+//		loopTerminus.setSelected(this.settings.getBooleanOption(TERMINUS));
 	}
 	
 //	/**
@@ -537,7 +533,7 @@ public class DefaultDialog extends NodeDialogPane {
 			else this.settings.setTextOption(singleColPan.getDescription(), singleColPan.getColumnName());
 		}
 
-		this.settings.setTextOption(TERMINUS, loopTerminus.isSelected() + "");
+//		this.settings.setTextOption(TERMINUS, loopTerminus.isSelected() + "");
 		this.settings.saveSettings(settings);
 	}
 }

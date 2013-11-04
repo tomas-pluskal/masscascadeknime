@@ -47,12 +47,14 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeView;
 import org.knime.core.node.tableview.TableContentModel;
 import org.knime.core.node.tableview.TableView;
 
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum;
 import uk.ac.ebi.masscascade.charts.SimpleSpectrum.PAINTERS;
+import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
@@ -113,6 +115,18 @@ public abstract class DefaultView extends NodeView<ViewerModel> {
 		TableContentModel tableContentModel = nodeModel.getContentModel();
 
 		String columnName = nodeModel.getSettings().getColumnName(columnType);
+
+		// hack to avoid "null" value in auto-configured data column
+		if (columnName == null) {
+			try {
+				NodeUtils.getDataTableSpec(nodeModel.getContentModel().getDataTableSpec(), nodeModel.getSettings(),
+						columnType);
+				columnName = nodeModel.getSettings().getColumnName(columnType);
+			} catch (InvalidSettingsException e) {
+				e.printStackTrace();
+			}
+		}
+
 		column = tableContentModel.getDataTable().getDataTableSpec().findColumnIndex(columnName);
 	}
 
@@ -202,7 +216,8 @@ public abstract class DefaultView extends NodeView<ViewerModel> {
 				chart.toogleDisc(getSelectedIndices());
 			}
 		});
-		discItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, (Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())));
+		discItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
+				(Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())));
 
 		lineItem = new JMenuItem("Toogle vertical bars");
 		lineItem.addActionListener(new ActionListener() {
@@ -213,7 +228,8 @@ public abstract class DefaultView extends NodeView<ViewerModel> {
 				chart.toogleVerticalBar(getSelectedIndices());
 			}
 		});
-		lineItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, (Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())));
+		lineItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B,
+				(Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())));
 
 		polyItem = new JMenuItem("Toogle polyline");
 		polyItem.addActionListener(new ActionListener() {
@@ -224,7 +240,8 @@ public abstract class DefaultView extends NodeView<ViewerModel> {
 				chart.tooglePolyline(getSelectedIndices());
 			}
 		});
-		polyItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, (Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())));
+		polyItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
+				(Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())));
 
 		labelItem = new JMenuItem("Toogle labels");
 		labelItem.addActionListener(new ActionListener() {
@@ -235,7 +252,8 @@ public abstract class DefaultView extends NodeView<ViewerModel> {
 				chart.toogleLabels(getSelectedIndices());
 			}
 		});
-		labelItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, (Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())));
+		labelItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
+				(Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())));
 
 		scaleItem = new JMenuItem("Scale traces");
 		scaleItem.addActionListener(new ActionListener() {
@@ -247,7 +265,8 @@ public abstract class DefaultView extends NodeView<ViewerModel> {
 				chart.zoomAll();
 			}
 		});
-		scaleItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, (Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())));
+		scaleItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				(Toolkit.getDefaultToolkit().getMenuShortcutKeyMask())));
 		zoomItem = new JMenuItem("Reset Zoom");
 		zoomItem.addActionListener(new ActionListener() {
 

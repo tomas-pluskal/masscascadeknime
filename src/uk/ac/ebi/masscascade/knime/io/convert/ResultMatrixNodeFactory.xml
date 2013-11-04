@@ -8,7 +8,7 @@
 	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./conversion.png" type="Sink">
-	<name>Profile Matrix</name>
+	<name>Result Matrix</name>
 
 	<shortDescription>
 		Compiles a profile matrix from all samples.

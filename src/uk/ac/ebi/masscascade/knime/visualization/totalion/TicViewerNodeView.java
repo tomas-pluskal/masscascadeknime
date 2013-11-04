@@ -204,7 +204,6 @@ public class TicViewerNodeView extends DefaultView {
 
 	@Override
 	protected void loadDataFromList(int... rowNumber) {
-
 		// nothing to do
 	}
 

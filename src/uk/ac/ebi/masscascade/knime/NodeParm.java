@@ -50,7 +50,7 @@ public class NodeParm {
 		columnClass.put(Parameter.REFERENCE_COLUMN, MsValue.class);
 		columnClass.put(Parameter.REFERENCE_FEATURE_COLUMN, FeatureValue.class);
 		columnClass.put(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
-		columnClass.put(Parameter.PEAK_COLUMN, FeatureValue.class);
+		columnClass.put(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		columnClass.put(Parameter.ION_COLUMN, StringValue.class);
 		columnClass.put(Parameter.LABEL_COLUMN, StringValue.class);
 		columnClass.put(Parameter.VALUE_COLUMN, DoubleValue.class);

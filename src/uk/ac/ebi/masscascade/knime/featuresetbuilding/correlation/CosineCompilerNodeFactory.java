@@ -76,7 +76,7 @@ public class CosineCompilerNodeFactory extends NodeFactory<CosineCompilerNodeMod
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addTextOption(Parameter.CORRELATION_THRESHOLD, 5);
 		dialog.addTextOption(Parameter.BINS, 5);
 

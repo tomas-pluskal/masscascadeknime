@@ -53,8 +53,8 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.NOISE_FACTOR, settings.getIntOption(Parameter.NOISE_FACTOR));
 		parameterMap.put(Parameter.CENTER, settings.getBooleanOption(Parameter.CENTER));
 
-		return getDataTableSpec(data, new Parameter[] { Parameter.PEAK_COLUMN, Parameter.DATA_COLUMN },
-				Parameter.PEAK_COLUMN, false);
+		return getDataTableSpec(data, new Parameter[] { Parameter.FEATURE_COLUMN, Parameter.DATA_COLUMN },
+				Parameter.FEATURE_COLUMN, false);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 		}
 
 		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.DATA_COLUMN);
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_COLUMN);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class BiehmanDeconvolutionNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.NOISE_FACTOR);
 	}

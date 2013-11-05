@@ -78,7 +78,7 @@ public class SavitzkyGolayDeconvolutionNodeFactory extends NodeFactory<SavitzkyG
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
 		dialog.addTextOption(Parameter.SCAN_WINDOW, 5);
 		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 5);

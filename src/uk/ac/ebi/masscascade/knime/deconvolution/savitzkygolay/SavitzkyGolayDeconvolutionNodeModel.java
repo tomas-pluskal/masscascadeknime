@@ -55,8 +55,8 @@ public class SavitzkyGolayDeconvolutionNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
 		parameterMap.put(Parameter.SG_LEVEL, settings.getIntOption(Parameter.SG_LEVEL));
 
-		return getDataTableSpec(data, new Parameter[] { Parameter.PEAK_COLUMN, Parameter.DATA_COLUMN },
-				Parameter.PEAK_COLUMN, false);
+		return getDataTableSpec(data, new Parameter[] { Parameter.FEATURE_COLUMN, Parameter.DATA_COLUMN },
+				Parameter.FEATURE_COLUMN, false);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class SavitzkyGolayDeconvolutionNodeModel extends DefaultModel {
 		}
 
 		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.DATA_COLUMN);
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_COLUMN);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class SavitzkyGolayDeconvolutionNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MIN_FEATURE_INTENSITY);

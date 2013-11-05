@@ -78,7 +78,7 @@ public class MassTraceSplitterNodeFactory extends NodeFactory<MassTraceSplitterN
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 
 		return dialog.build();
 	}

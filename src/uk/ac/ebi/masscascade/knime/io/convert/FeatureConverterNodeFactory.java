@@ -78,7 +78,7 @@ public class FeatureConverterNodeFactory extends NodeFactory<FeatureConverterNod
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class, FeatureSetValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class, FeatureSetValue.class);
 		dialog.addTextOption("Select Profile", 8);
 
 		return dialog.build();

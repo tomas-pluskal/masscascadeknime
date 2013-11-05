@@ -43,7 +43,7 @@ public class FeatureTwoDNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public ViewerModel createNodeModel() {
-		return new ViewerModel(Parameter.PEAK_COLUMN, Parameter.FEATURE_SET_COLUMN);
+		return new ViewerModel(Parameter.FEATURE_COLUMN, Parameter.FEATURE_SET_COLUMN);
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class FeatureTwoDNodeFactory extends NodeFactory<ViewerModel> {
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class, FeatureSetValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class, FeatureSetValue.class);
 
 		return dialog.build();
 	}

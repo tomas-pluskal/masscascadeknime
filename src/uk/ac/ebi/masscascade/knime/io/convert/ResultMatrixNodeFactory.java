@@ -82,7 +82,7 @@ public class ResultMatrixNodeFactory extends NodeFactory<ResultMatrixNodeModel> 
 	public NodeDialogPane createNodeDialogPane() {
 
 		DefaultDialog dialog = new DefaultDialog();
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class, FeatureSetValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class, FeatureSetValue.class);
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
 		dialog.addColumnSelection(Parameter.LABEL_COLUMN, IntValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);

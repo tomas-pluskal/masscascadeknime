@@ -68,7 +68,7 @@ public class MassTraceFilterNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
 		parameterMap.put(Parameter.MZ_FOR_REMOVAL, massesForRemoval);
 
-		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_COLUMN, Parameter.FEATURE_COLUMN, false);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class MassTraceFilterNodeModel extends DefaultModel {
 		}
 
 		NodeUtils.getDataTableSpec(inSpecs[1], settings, Parameter.VALUE_COLUMN);
-		return getDataTableSpec(inSpecs, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
+		return getDataTableSpec(inSpecs, Parameter.FEATURE_COLUMN, Parameter.FEATURE_COLUMN, false);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class MassTraceFilterNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.VALUE_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 	}

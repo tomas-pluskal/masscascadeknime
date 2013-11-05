@@ -78,7 +78,7 @@ public class CodaFilterNodeFactory extends NodeFactory<CodaFilterNodeModel> {
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addTextOption(Parameter.CODA, 3);
 		dialog.addTextOption(Parameter.SCAN_WINDOW, 3);
 

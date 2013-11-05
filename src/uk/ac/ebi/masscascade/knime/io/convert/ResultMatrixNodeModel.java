@@ -100,8 +100,8 @@ public class ResultMatrixNodeModel extends NodeModel {
 		Multimap<Integer, Container> profileContainers = HashMultimap.create();
 		List<ScanContainer> rawContainers = new ArrayList<ScanContainer>();
 
-		String colName = settings.getColumnName(Parameter.PEAK_COLUMN) == null ? settings
-				.getColumnName(Parameter.FEATURE_SET_COLUMN) : settings.getColumnName(Parameter.PEAK_COLUMN);
+		String colName = settings.getColumnName(Parameter.FEATURE_COLUMN) == null ? settings
+				.getColumnName(Parameter.FEATURE_SET_COLUMN) : settings.getColumnName(Parameter.FEATURE_COLUMN);
 		int colIndex = inData[0].getDataTableSpec().findColumnIndex(colName);
 
 		String colNamRaw = settings.getColumnName(Parameter.DATA_COLUMN);
@@ -320,7 +320,7 @@ public class ResultMatrixNodeModel extends NodeModel {
 		}
 
 		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.DATA_COLUMN);
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN, Parameter.FEATURE_SET_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_COLUMN, Parameter.FEATURE_SET_COLUMN);
 		return null;
 	}
 
@@ -333,10 +333,10 @@ public class ResultMatrixNodeModel extends NodeModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		if (tmpSettings.getColumnName(Parameter.PEAK_COLUMN) == null)
+		if (tmpSettings.getColumnName(Parameter.FEATURE_COLUMN) == null)
 			NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		else
-			NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+			NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.TIME_WINDOW);

@@ -78,7 +78,7 @@ public class MassTraceFilterNodeFactory extends NodeFactory<MassTraceFilterNodeM
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addColumnSelection(Parameter.VALUE_COLUMN, 1, DoubleValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 5);
 

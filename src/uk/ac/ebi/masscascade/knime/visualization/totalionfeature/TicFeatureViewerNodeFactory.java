@@ -43,7 +43,7 @@ public class TicFeatureViewerNodeFactory extends NodeFactory<ViewerModel> {
 	 */
 	@Override
 	public ViewerModel createNodeModel() {
-		return new ViewerModel(Parameter.FEATURE_SET_COLUMN, Parameter.PEAK_COLUMN);
+		return new ViewerModel(Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_COLUMN);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class TicFeatureViewerNodeFactory extends NodeFactory<ViewerModel> {
 	public NodeDialogPane createNodeDialogPane() {
 
 		DefaultDialog dialog = new DefaultDialog();
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureSetValue.class, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureSetValue.class, FeatureValue.class);
 		return dialog.build();
 	}
 }

@@ -40,7 +40,7 @@ public class FeatureRenderer extends AbstractPainterDataValueRenderer {
 
 	public FeatureRenderer(final String description) {
 
-		this.description = description == null ? "PeakDataCell" : description;
+		this.description = description == null ? "FeatureDataCell" : description;
 	}
 
 	public void setValue(final Object value) {

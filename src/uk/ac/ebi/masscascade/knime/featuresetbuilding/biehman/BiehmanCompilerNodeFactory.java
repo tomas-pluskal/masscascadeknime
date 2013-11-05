@@ -77,7 +77,7 @@ public class BiehmanCompilerNodeFactory extends NodeFactory<BiehmanCompilerNodeM
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addTextOption(Parameter.BINS, 5);
 		dialog.addTextOption(Parameter.TIME_WINDOW, 5);
 

@@ -66,9 +66,8 @@ public class FeatureFilterNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.FEATURE_RANGE, rangeP);
 		parameterMap.put(Parameter.TIME_RANGE, rangeT);
 		parameterMap.put(Parameter.MIN_FEATURE_INTENSITY, settings.getDoubleOption(Parameter.MIN_FEATURE_INTENSITY));
-		parameterMap.put(Parameter.KEEP_ISOTOPES, settings.getBooleanOption("Keep isotopes"));
 
-		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_COLUMN, Parameter.FEATURE_COLUMN, false);
 	}
 
 	/**
@@ -84,7 +83,7 @@ public class FeatureFilterNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.MIN_FEATURE_INTENSITY, "" + Parameter.MIN_FEATURE_INTENSITY.getDefaultValue());
 		}
 
-		return getDataTableSpec(inSpecs, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
+		return getDataTableSpec(inSpecs, Parameter.FEATURE_COLUMN, Parameter.FEATURE_COLUMN, false);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class FeatureFilterNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 		
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 		NodeUtils.validateDoubleRange(tmpSettings, Parameter.MZ_RANGE);
 		NodeUtils.validateDoubleRange(tmpSettings, Parameter.TIME_RANGE);
 		NodeUtils.validateDoubleRange(tmpSettings, Parameter.FEATURE_RANGE);

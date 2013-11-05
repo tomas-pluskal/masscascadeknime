@@ -76,7 +76,7 @@ public class TicFeatureViewerNodeView extends DefaultView {
 	 */
 	protected TicFeatureViewerNodeView(final ViewerModel nodeModel) {
 
-		super(nodeModel, Parameter.PEAK_COLUMN, new GroupFeatureTable());
+		super(nodeModel, Parameter.FEATURE_COLUMN, new GroupFeatureTable());
 
 		selectedRun = 1;
 		graphColor = new GraphColor();

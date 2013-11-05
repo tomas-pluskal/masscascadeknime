@@ -228,14 +228,14 @@ public class FeatureTableNodeView extends NodeView<ViewerModel> {
 
 		TableContentModel tableContentModel = nodeModel.getContentModel();
 
-		String columnName = nodeModel.getSettings().getColumnName(Parameter.PEAK_COLUMN);
+		String columnName = nodeModel.getSettings().getColumnName(Parameter.FEATURE_COLUMN);
 
 		// hack to avoid "null" value in auto-configured data column
 		if (columnName == null) {
 			try {
 				NodeUtils.getDataTableSpec(nodeModel.getContentModel().getDataTableSpec(), nodeModel.getSettings(),
-						Parameter.PEAK_COLUMN);
-				columnName = nodeModel.getSettings().getColumnName(Parameter.PEAK_COLUMN);
+						Parameter.FEATURE_COLUMN);
+				columnName = nodeModel.getSettings().getColumnName(Parameter.FEATURE_COLUMN);
 			} catch (InvalidSettingsException e) {
 				e.printStackTrace();
 			}

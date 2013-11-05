@@ -75,7 +75,7 @@ public class FeatureViewerNodeModel extends NodeModel {
 
 		Multimap<Integer, Container> profileContainers = HashMultimap.create();
 		
-		int colIndex = inData[0].getDataTableSpec().findColumnIndex(settings.getColumnName(Parameter.PEAK_COLUMN));
+		int colIndex = inData[0].getDataTableSpec().findColumnIndex(settings.getColumnName(Parameter.FEATURE_COLUMN));
 		int colGroupIndex = inData[0].getDataTableSpec().findColumnIndex(settings.getColumnName(Parameter.LABEL_COLUMN));
 		for (DataRow row : inData[0]) {
 			DataCell cell = row.getCell(colIndex);
@@ -109,7 +109,7 @@ public class FeatureViewerNodeModel extends NodeModel {
 			settings.setTextOption(Parameter.MISSINGNESS, "" + Parameter.MISSINGNESS.getDefaultValue());
 		}
 		
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_COLUMN);
 		return new DataTableSpec[0];
 	}
 
@@ -122,7 +122,7 @@ public class FeatureViewerNodeModel extends NodeModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.TIME_WINDOW);
 		NodeUtils.validateDoubleGreaterOrEqualZero(tmpSettings, Parameter.MISSINGNESS);

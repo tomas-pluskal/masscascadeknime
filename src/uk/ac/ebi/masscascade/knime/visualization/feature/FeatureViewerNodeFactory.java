@@ -77,7 +77,7 @@ public class FeatureViewerNodeFactory extends NodeFactory<FeatureViewerNodeModel
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addColumnSelection(Parameter.LABEL_COLUMN, IntValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
 		dialog.addTextOption(Parameter.TIME_WINDOW, 8);

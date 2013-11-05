@@ -57,7 +57,7 @@ public class TraceBuilderNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.MIN_FEATURE_WIDTH, settings.getIntOption(Parameter.MIN_FEATURE_WIDTH));
 		parameterMap.put(Parameter.MIN_FEATURE_INTENSITY, settings.getDoubleOption(Parameter.MIN_FEATURE_INTENSITY));
 
-		return getDataTableSpec(data, Parameter.DATA_COLUMN, Parameter.PEAK_COLUMN, true);
+		return getDataTableSpec(data, Parameter.DATA_COLUMN, Parameter.FEATURE_COLUMN, true);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class TraceBuilderNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.MIN_FEATURE_INTENSITY,"" + Parameter.MIN_FEATURE_INTENSITY.getDefaultValue());
 		}
 
-		return getDataTableSpec(inSpecs, Parameter.DATA_COLUMN, Parameter.PEAK_COLUMN, true);
+		return getDataTableSpec(inSpecs, Parameter.DATA_COLUMN, Parameter.FEATURE_COLUMN, true);
 	}
 
 	/**

@@ -57,7 +57,7 @@ public class FeatureTwoDNodeView extends DefaultView {
 	 */
 	protected FeatureTwoDNodeView(final ViewerModel nodeModel) {
 
-		super(nodeModel, Parameter.PEAK_COLUMN, null);
+		super(nodeModel, Parameter.FEATURE_COLUMN, null);
 
 		selectedRows = new int[] { 1 };
 		graphColor = new GraphColor();

@@ -95,8 +95,8 @@ public class FeatureConverterNodeModel extends ThreadedTableBuilderNodeModel {
 
 		DataTableSpec inSpec = data[0].getDataTableSpec();
 
-		String colName = settings.getColumnName(Parameter.PEAK_COLUMN) == null ? settings
-				.getColumnName(Parameter.FEATURE_SET_COLUMN) : settings.getColumnName(Parameter.PEAK_COLUMN);
+		String colName = settings.getColumnName(Parameter.FEATURE_COLUMN) == null ? settings
+				.getColumnName(Parameter.FEATURE_SET_COLUMN) : settings.getColumnName(Parameter.FEATURE_COLUMN);
 		colIndex = inSpec.findColumnIndex(colName);
 		dataColumnSpecs = createOutputTableSpecification();
 
@@ -221,7 +221,7 @@ public class FeatureConverterNodeModel extends ThreadedTableBuilderNodeModel {
 	@Override
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN, Parameter.PEAK_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_COLUMN);
 		return new DataTableSpec[] { new DataTableSpec(createOutputTableSpecification()) };
 	}
 
@@ -234,10 +234,10 @@ public class FeatureConverterNodeModel extends ThreadedTableBuilderNodeModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		if (tmpSettings.getColumnName(Parameter.PEAK_COLUMN) == null)
+		if (tmpSettings.getColumnName(Parameter.FEATURE_COLUMN) == null)
 			NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		else
-			NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+			NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 	}
 
 	@Override

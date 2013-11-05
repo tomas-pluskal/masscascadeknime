@@ -56,7 +56,7 @@ public class BiehmanCompilerNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.BINS, settings.getIntOption(Parameter.BINS));
 		parameterMap.put(Parameter.TIME_WINDOW, settings.getDoubleOption(Parameter.TIME_WINDOW));
 
-		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.FEATURE_SET_COLUMN, true);
+		return getDataTableSpec(data, Parameter.FEATURE_COLUMN, Parameter.FEATURE_SET_COLUMN, true);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class BiehmanCompilerNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.TIME_WINDOW, "" + Parameter.TIME_WINDOW.getDefaultValue());
 		}
 
-		return getDataTableSpec(inSpecs, Parameter.PEAK_COLUMN, Parameter.FEATURE_SET_COLUMN, true);
+		return getDataTableSpec(inSpecs, Parameter.FEATURE_COLUMN, Parameter.FEATURE_SET_COLUMN, true);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class BiehmanCompilerNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.BINS);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.TIME_WINDOW);
 	}

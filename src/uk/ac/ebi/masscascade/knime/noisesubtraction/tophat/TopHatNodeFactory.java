@@ -76,7 +76,7 @@ public class TopHatNodeFactory extends NodeFactory<TopHatNodeModel> {
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addTextOption(Parameter.SCAN_WINDOW, 3);
 
 		return dialog.build();

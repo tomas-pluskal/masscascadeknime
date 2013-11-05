@@ -39,7 +39,7 @@ public class FeatureSetRenderer extends AbstractPainterDataValueRenderer {
 	private Font currentFont;
 
 	public FeatureSetRenderer(final String description) {
-		this.description = description == null ? "SpectraDataCell" : description;
+		this.description = description == null ? "FeatureSetDataCell" : description;
 	}
 
 	public void setValue(final Object value) {

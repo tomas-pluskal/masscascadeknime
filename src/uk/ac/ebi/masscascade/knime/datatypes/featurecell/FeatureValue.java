@@ -62,7 +62,7 @@ public interface FeatureValue extends DataValue {
 
 		protected DataValueRendererFamily getRendererFamily(final DataColumnSpec spec) {
 
-			return new DefaultDataValueRendererFamily(new FeatureRenderer("Peak Renderer"));
+			return new DefaultDataValueRendererFamily(new FeatureRenderer("Feature Renderer"));
 		}
 	}
 }

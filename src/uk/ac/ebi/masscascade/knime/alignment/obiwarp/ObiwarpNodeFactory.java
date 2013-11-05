@@ -76,7 +76,7 @@ public class ObiwarpNodeFactory extends NodeFactory<ObiwarpNodeModel> {
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addColumnSelection(Parameter.REFERENCE_FEATURE_COLUMN, 1, FeatureValue.class);
 		dialog.addTextOption(Parameter.EXECUTABLE, 20);
 		dialog.addTextOption(Parameter.GAP_INIT, 5);

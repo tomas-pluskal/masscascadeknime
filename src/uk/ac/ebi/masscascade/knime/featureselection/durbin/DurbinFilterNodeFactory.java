@@ -77,7 +77,7 @@ public class DurbinFilterNodeFactory extends NodeFactory<DurbinFilterNodeModel> 
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addTextOption(Parameter.DURBIN, 3);
 
 		return dialog.build();

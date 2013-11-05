@@ -79,7 +79,7 @@ public class MsFileWriterNodeFactory extends NodeFactory<MsFileWriterNodeModel> 
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class, FeatureSetValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class, FeatureSetValue.class);
 
 		FilesHistoryPanel fileName = new FilesHistoryPanel(this.getClass().getPackage().toString());
 		fileName.setSelectMode(JFileChooser.DIRECTORIES_ONLY);

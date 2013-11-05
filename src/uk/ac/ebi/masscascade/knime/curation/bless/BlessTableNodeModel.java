@@ -89,8 +89,8 @@ public class BlessTableNodeModel extends NodeModel {
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
 
-		String colName = settings.getColumnName(Parameter.PEAK_COLUMN) == null ? settings
-				.getColumnName(Parameter.FEATURE_SET_COLUMN) : settings.getColumnName(Parameter.PEAK_COLUMN);
+		String colName = settings.getColumnName(Parameter.FEATURE_COLUMN) == null ? settings
+				.getColumnName(Parameter.FEATURE_SET_COLUMN) : settings.getColumnName(Parameter.FEATURE_COLUMN);
 		colIndex = inData[0].getSpec().findColumnIndex(colName);
 		int groupIndex = inData[0].getSpec().findColumnIndex(settings.getColumnName(Parameter.LABEL_COLUMN));
 		gid = 0;

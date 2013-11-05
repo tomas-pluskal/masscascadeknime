@@ -59,7 +59,7 @@ public class SavitzkyGolaySmootherNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.POLYNOMIAL_ORDER, settings.getIntOption(Parameter.POLYNOMIAL_ORDER));
 		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
 
-		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_COLUMN, Parameter.FEATURE_COLUMN, false);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class SavitzkyGolaySmootherNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.SCAN_WINDOW, "" + Parameter.SCAN_WINDOW.getDefaultValue());
 		}
 
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_COLUMN);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class SavitzkyGolaySmootherNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.POLYNOMIAL_ORDER);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
 	}

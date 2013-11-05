@@ -8,7 +8,7 @@
 	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./filter.png" type="Manipulator">
-	<name>Spectrum Filter</name>
+	<name>Feature Set Filter</name>
 
 	<shortDescription>
 		Filters spectra and their profiles based on a m/z, time range, and minimum intensity.

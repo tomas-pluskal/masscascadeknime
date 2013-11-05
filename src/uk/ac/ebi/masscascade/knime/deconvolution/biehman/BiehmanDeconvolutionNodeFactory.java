@@ -80,7 +80,7 @@ public class BiehmanDeconvolutionNodeFactory extends NodeFactory<BiehmanDeconvol
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
 		dialog.addTextOption(Parameter.NOISE_FACTOR, 5);
 		dialog.addCustomOption(Parameter.CENTER, new JCheckBox("", true));

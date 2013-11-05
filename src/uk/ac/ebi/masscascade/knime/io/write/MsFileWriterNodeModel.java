@@ -70,7 +70,7 @@ public class MsFileWriterNodeModel extends NodeModel {
 			throws Exception {
 
 		DataTableSpec inSpec = inData[0].getDataTableSpec();
-		final int colIndex = inSpec.findColumnIndex(settings.getColumnName(Parameter.PEAK_COLUMN));
+		final int colIndex = inSpec.findColumnIndex(settings.getColumnName(Parameter.FEATURE_COLUMN));
 
 		final List<Future<Container>> tasks = new ArrayList<Future<Container>>();
 
@@ -126,7 +126,7 @@ public class MsFileWriterNodeModel extends NodeModel {
 			settings.setTextOption(Parameter.OUTPUT_DIRECTORY, "" + Parameter.OUTPUT_DIRECTORY.getDefaultValue());
 		}
 
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN, Parameter.FEATURE_SET_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_COLUMN, Parameter.FEATURE_SET_COLUMN);
 		return new DataTableSpec[] {};
 	}
 

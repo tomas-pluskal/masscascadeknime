@@ -134,7 +134,7 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 			return new DataTableSpec[] { inSpec };
 
 		DataColumnSpecCreator specCreator = null;
-		if (dataColumnOut == Parameter.PEAK_COLUMN)
+		if (dataColumnOut == Parameter.FEATURE_COLUMN)
 			specCreator = new DataColumnSpecCreator(dataColumnOut.getDescription(), FeatureCell.TYPE);
 		else if (dataColumnOut == Parameter.DATA_COLUMN)
 			specCreator = new DataColumnSpecCreator(dataColumnOut.getDescription(), MsCell.TYPE);
@@ -202,7 +202,7 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 				if (columnIn == Parameter.DATA_COLUMN) {
 					file = ((MsValue) cell).getMsDataValue();
 					taskParms.put(Parameter.SCAN_CONTAINER, file);
-				} else if (columnIn.equals(Parameter.PEAK_COLUMN)) {
+				} else if (columnIn.equals(Parameter.FEATURE_COLUMN)) {
 					file = ((FeatureValue) cell).getPeakDataValue();
 					taskParms.put(Parameter.FEATURE_CONTAINER, file);
 				} else if (columnIn.equals(Parameter.FEATURE_SET_COLUMN)) {

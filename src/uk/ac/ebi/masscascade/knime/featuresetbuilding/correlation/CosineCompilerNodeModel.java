@@ -57,7 +57,7 @@ public class CosineCompilerNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.CORRELATION_THRESHOLD, settings.getDoubleOption(Parameter.CORRELATION_THRESHOLD));
 		parameterMap.put(Parameter.BINS, settings.getIntOption(Parameter.BINS));
 
-		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.FEATURE_SET_COLUMN, true);
+		return getDataTableSpec(data, Parameter.FEATURE_COLUMN, Parameter.FEATURE_SET_COLUMN, true);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class CosineCompilerNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.BINS, "" + Parameter.BINS.getDefaultValue());
 		}
 
-		return getDataTableSpec(inSpecs, Parameter.PEAK_COLUMN, Parameter.FEATURE_SET_COLUMN, true);
+		return getDataTableSpec(inSpecs, Parameter.FEATURE_COLUMN, Parameter.FEATURE_SET_COLUMN, true);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class CosineCompilerNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.CORRELATION_THRESHOLD);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.BINS);
 	}

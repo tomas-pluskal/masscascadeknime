@@ -232,8 +232,8 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 			settings.setTextOption(Parameter.TIME_WINDOW, "" + Parameter.TIME_WINDOW.getDefaultValue());
 		}
 
-		NodeUtils.getDataTableSpec(inSpecs[1], settings, Parameter.PEAK_COLUMN);
-		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[1], settings, Parameter.FEATURE_COLUMN);
+		NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_COLUMN);
 
 		return new DataTableSpec[] { inSpecs[0], new DataTableSpec(createOutputTableSpecification()) };
 	}
@@ -247,7 +247,7 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 
 		String exe = tmpSettings.getTextOption(Parameter.EXECUTABLE);
 		File exeFile = new File(exe);

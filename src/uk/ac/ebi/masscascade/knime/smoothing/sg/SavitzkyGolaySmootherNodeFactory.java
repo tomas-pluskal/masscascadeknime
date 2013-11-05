@@ -77,7 +77,7 @@ public class SavitzkyGolaySmootherNodeFactory extends NodeFactory<SavitzkyGolayS
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addTextOption(Parameter.SCAN_WINDOW, 3);
 		dialog.addTextOption(Parameter.POLYNOMIAL_ORDER, 3);
 

@@ -56,7 +56,7 @@ public class DurbinFilterNodeModel extends DefaultModel {
 
 		parameterMap.put(Parameter.DURBIN, settings.getDoubleOption(Parameter.DURBIN));
 
-		return getDataTableSpec(data, Parameter.PEAK_COLUMN, Parameter.PEAK_COLUMN, false);
+		return getDataTableSpec(data, Parameter.FEATURE_COLUMN, Parameter.FEATURE_COLUMN, false);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class DurbinFilterNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.DURBIN, "" + Parameter.DURBIN.getDefaultValue());
 		}
 
-		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.PEAK_COLUMN);
+		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_COLUMN);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class DurbinFilterNodeModel extends DefaultModel {
 		Settings tmpSettings = new DefaultSettings();
 		tmpSettings.loadSettings(settings);
 
-		NodeUtils.validateColumnSetting(tmpSettings, Parameter.PEAK_COLUMN);
+		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.DURBIN);
 	}
 }

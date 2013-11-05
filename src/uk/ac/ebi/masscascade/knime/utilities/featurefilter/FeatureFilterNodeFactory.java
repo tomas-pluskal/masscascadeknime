@@ -20,8 +20,6 @@
  */
 package uk.ac.ebi.masscascade.knime.utilities.featurefilter;
 
-import javax.swing.JCheckBox;
-
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
@@ -78,12 +76,11 @@ public class FeatureFilterNodeFactory extends NodeFactory<FeatureFilterNodeModel
 
 		DefaultDialog dialog = new DefaultDialog();
 
-		dialog.addColumnSelection(Parameter.PEAK_COLUMN, FeatureValue.class);
+		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
 		dialog.addTextOption(Parameter.TIME_RANGE, 8);
 		dialog.addTextOption(Parameter.MZ_RANGE, 8);
 		dialog.addTextOption(Parameter.FEATURE_RANGE, 8);
 		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 8);
-		dialog.addCustomOption("Keep isotopes", new JCheckBox());
 
 		return dialog.build();
 	}

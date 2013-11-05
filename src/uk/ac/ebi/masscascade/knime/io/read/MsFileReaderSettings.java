@@ -30,7 +30,7 @@ public class MsFileReaderSettings {
 
 	private File[] files;
 	private String filePath;
-	private boolean retainData;
+//	private boolean retainData;
 
 	/**
 	 * Returns the file.
@@ -38,7 +38,6 @@ public class MsFileReaderSettings {
 	 * @return the file
 	 */
 	public File[] files() {
-
 		return files;
 	}
 
@@ -48,7 +47,6 @@ public class MsFileReaderSettings {
 	 * @param name the file
 	 */
 	public void files(final File[] files) {
-
 		this.files = files;
 	}
 
@@ -58,7 +56,6 @@ public class MsFileReaderSettings {
 	 * @return the file path
 	 */
 	public String filePath() {
-
 		return filePath;
 	}
 
@@ -68,7 +65,6 @@ public class MsFileReaderSettings {
 	 * @param path the file path
 	 */
 	public void filePath(final String path) {
-
 		this.filePath = path;
 	}
 
@@ -77,20 +73,18 @@ public class MsFileReaderSettings {
 	 * 
 	 * @return boolean
 	 */
-	public boolean retainData() {
-
-		return retainData;
-	}
+//	public boolean retainData() {
+//		return retainData;
+//	}
 
 	/**
 	 * If data should be retained after reset.
 	 * 
 	 * @param retainData boolean
 	 */
-	public void retainData(boolean retainData) {
-
-		this.retainData = retainData;
-	}
+//	public void retainData(boolean retainData) {
+//		this.retainData = retainData;
+//	}
 
 	/**
 	 * Saves all settings into the given node settings object.
@@ -101,7 +95,7 @@ public class MsFileReaderSettings {
 
 		settings.addStringArray("files", getFileStrings());
 		settings.addString("path", filePath);
-		settings.addBoolean("retain", retainData);
+//		settings.addBoolean("retain", retainData);
 	}
 
 	/**
@@ -114,7 +108,7 @@ public class MsFileReaderSettings {
 
 		getFiles(settings.getStringArray("files"));
 		filePath = settings.getString("path");
-		retainData = settings.getBoolean("retain");
+//		retainData = settings.getBoolean("retain");
 	}
 
 	private String[] getFileStrings() {

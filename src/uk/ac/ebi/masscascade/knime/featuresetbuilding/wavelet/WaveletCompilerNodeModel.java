@@ -43,7 +43,6 @@ public class WaveletCompilerNodeModel extends DefaultModel {
 	 * Constructor for the node model template.
 	 */
 	protected WaveletCompilerNodeModel() {
-
 		super(1, 1, CoreTasks.WAVELET.getCallableClass());
 	}
 

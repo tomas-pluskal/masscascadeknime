@@ -190,8 +190,8 @@ public class MsFileReaderNodeModel extends NodeModel {
 	@Override
 	protected void reset() {
 
-		if (this.settings.retainData())
-			return;
+//		if (this.settings.retainData())
+//			return;
 
 		NodeUtils.deleteScanFiles(scanFileIds);
 	}

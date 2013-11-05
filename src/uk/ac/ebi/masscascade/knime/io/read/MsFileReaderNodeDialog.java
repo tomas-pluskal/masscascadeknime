@@ -23,7 +23,6 @@ package uk.ac.ebi.masscascade.knime.io.read;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -31,7 +30,6 @@ import java.io.FilenameFilter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -58,7 +56,7 @@ public class MsFileReaderNodeDialog extends NodeDialogPane {
 	private final JFileChooser fileChooser = new JFileChooser();
 	private final JTextField filePath = new JTextField(30);
 	private final MsFileReaderSettings settings = new MsFileReaderSettings();
-	private final JCheckBox retainData = new JCheckBox();
+//	private final JCheckBox retainData = new JCheckBox();
 	private final JPanel dialogPanel = new JPanel(new GridLayout(2, 1));
 	static final FilenameFilter FILTER = new FilenameFilter() {
 
@@ -122,13 +120,13 @@ public class MsFileReaderNodeDialog extends NodeDialogPane {
 
 		i.add(browse, c);
 
-		c.gridy = 0;
-		c.gridx = 0;
-		c.insets = new Insets(10, 0, 0, 0);
-		c.gridx = 0;
-		r.add(new JLabel("Retain Data (Loop)   "), c);
-		c.gridx++;
-		r.add(retainData, c);
+//		c.gridy = 0;
+//		c.gridx = 0;
+//		c.insets = new Insets(10, 0, 0, 0);
+//		c.gridx = 0;
+//		r.add(new JLabel("Retain Data (Loop)   "), c);
+//		c.gridx++;
+//		r.add(retainData, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = 0;
@@ -186,7 +184,7 @@ public class MsFileReaderNodeDialog extends NodeDialogPane {
 		filePath.setText(this.settings.filePath());
 		fileChooser.setSelectedFiles(this.settings.files());
 		fileChooser.setCurrentDirectory(new File(this.settings.filePath()));
-		retainData.setSelected(this.settings.retainData());
+//		retainData.setSelected(this.settings.retainData());
 	}
 
 	/**
@@ -197,7 +195,7 @@ public class MsFileReaderNodeDialog extends NodeDialogPane {
 
 		this.settings.files(fileChooser.getSelectedFiles());
 		this.settings.filePath(filePath.getText());
-		this.settings.retainData(retainData.isSelected());
+//		this.settings.retainData(retainData.isSelected());
 
 		this.settings.saveSettings(settings);
 	}

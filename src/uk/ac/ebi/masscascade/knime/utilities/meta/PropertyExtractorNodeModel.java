@@ -130,7 +130,7 @@ public class PropertyExtractorNodeModel extends NodeModel {
 
 				ScanContainer rawFile = ((MsValue) dataCell).getMsDataValue();
 
-				newCells[0] = new StringCell(TextUtils.cleanId(rawFile.getScanInfo().getId()));
+				newCells[0] = new StringCell(TextUtils.cleanId(rawFile.getScanInfo().getId())[0]);
 				newCells[1] = new StringCell(rawFile.getScanInfo().getDate());
 				newCells[2] = new StringCell(rawFile.getScanInfo().getAuthors());
 

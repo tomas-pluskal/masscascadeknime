@@ -32,6 +32,7 @@ import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
 import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.utilities.DataSet;
 import uk.ac.ebi.masscascade.utilities.Labels;
+import uk.ac.ebi.masscascade.utilities.TextUtils;
 import uk.ac.ebi.masscascade.utilities.math.LinearEquation;
 import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
 
@@ -55,7 +56,8 @@ public final class MsRenderer extends AbstractPainterDataValueRenderer {
 	/**
 	 * Sets a new object to be rendered.
 	 * 
-	 * @param sample the new mass spec sample to be rendered (<code>null</code> is ok)
+	 * @param sample the new mass spec sample to be rendered (<code>null</code>
+	 *        is ok)
 	 */
 	protected void setScanFile(final ScanContainer sample) {
 		scanContainer = sample;
@@ -77,7 +79,9 @@ public final class MsRenderer extends AbstractPainterDataValueRenderer {
 		Chromatogram chromatogram = scanContainer.getTicChromatogram(Constants.MSN.MS1);
 		if (chromatogram == null || chromatogram.getData().size() == 0) {
 			g.drawString("Container empty", 3, getHeight() - 15);
-			g.drawString(scanContainer.getId(), 3, getHeight() - 3);
+			String[] idParts = TextUtils.cleanId(scanContainer.getId());
+			g.drawString(idParts[1], 3, 8);
+			g.drawString(idParts[0] + " (" + scanContainer.size() + ")", 3, getHeight() - 3);
 			return;
 		}
 
@@ -100,14 +104,19 @@ public final class MsRenderer extends AbstractPainterDataValueRenderer {
 		LinearEquation eqY = new LinearEquation(new XYPoint(minInt, getHeight() - 15), new XYPoint(maxInt, 0));
 
 		for (XYPoint point : dataSet.getDataSet()) {
-			g.drawString(".", (int) eqX.getY(point.x), (int) eqY.getY(point.y));
+			int y = (int) eqY.getY(point.y);
+			if (y < 9) {
+				y = 9;
+			}
+			g.drawString(".", (int) eqX.getY(point.x), y);
 		}
 
-		g.drawString(scanContainer.getId(), 3, getHeight() - 3);
+		String[] idParts = TextUtils.cleanId(scanContainer.getId());
+		g.drawString(idParts[1], 3, 8);
+		g.drawString(idParts[0] + " (" + scanContainer.size() + ")", 3, getHeight() - 3);
 	}
 
 	public String getDescription() {
-
 		return "Mass Spectrometry Sample";
 	}
 
@@ -134,6 +143,6 @@ public final class MsRenderer extends AbstractPainterDataValueRenderer {
 	 */
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(150, 100);
+		return new Dimension(180, 100);
 	}
 }

@@ -29,6 +29,7 @@ import org.apache.commons.math3.util.FastMath;
 import org.knime.core.data.renderer.AbstractPainterDataValueRenderer;
 
 import uk.ac.ebi.masscascade.interfaces.container.FeatureContainer;
+import uk.ac.ebi.masscascade.utilities.TextUtils;
 
 import com.google.common.collect.TreeMultimap;
 
@@ -56,7 +57,8 @@ public class FeatureRenderer extends AbstractPainterDataValueRenderer {
 	/**
 	 * Sets a new object to be rendered.
 	 * 
-	 * @param sample the new peak collection to be rendered (<code>null</code> is ok)
+	 * @param sample the new peak collection to be rendered (<code>null</code>
+	 *        is ok)
 	 */
 	protected void setFeatureContainer(final FeatureContainer featureContainer) {
 		this.featureContainer = featureContainer;
@@ -77,32 +79,40 @@ public class FeatureRenderer extends AbstractPainterDataValueRenderer {
 
 		TreeMultimap<Double, Integer> peakTimes = featureContainer.getTimes();
 		if (peakTimes.isEmpty()) {
-			g.drawString(featureContainer.getId(), 3, getHeight() - 3);
+			String[] idParts = TextUtils.cleanId(featureContainer.getId());
+			g.drawString(idParts[1], 3, 8);
+			g.drawString(idParts[0] + " (" + featureContainer.size() + ")", 3, getHeight() - 3);
 			return;
 		}
 
 		int[] bins = new int[51];
 		SortedSet<Double> times = peakTimes.keySet();
 		double maxRt = times.last();
-		
+
 		int maxCount = 0;
 		for (double rt : times) {
 			int binIndex = (int) FastMath.round(rt * 50 / maxRt);
 			bins[binIndex]++;
-			if (bins[binIndex] > maxCount) maxCount = bins[binIndex];
+			if (bins[binIndex] > maxCount) {
+				maxCount = bins[binIndex];
+			}
 		}
 
 		for (double rt : times) {
 			int x = (int) (rt * getWidth() / maxRt);
 			int y = getHeight() - 15 - (bins[(int) FastMath.round(rt * 50 / maxRt)] * (getHeight() - 15) / maxCount);
+			if (y < 9) {
+				y = 9;
+			}
 			g.drawLine(x, y, x, getHeight() - 15);
 		}
 
-		g.drawString(featureContainer.getId(), 3, getHeight() - 3);
+		String[] idParts = TextUtils.cleanId(featureContainer.getId());
+		g.drawString(idParts[1], 3, 8);
+		g.drawString(idParts[0] + " (" + featureContainer.size() + ")", 3, getHeight() - 3);
 	}
 
 	public String getDescription() {
-
 		return description;
 	}
 
@@ -130,6 +140,6 @@ public class FeatureRenderer extends AbstractPainterDataValueRenderer {
 	@Override
 	public Dimension getPreferredSize() {
 
-		return new Dimension(100, 30);
+		return new Dimension(180, 30);
 	}
 }

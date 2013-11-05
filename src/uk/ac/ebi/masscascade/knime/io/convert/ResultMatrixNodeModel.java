@@ -220,7 +220,7 @@ public class ResultMatrixNodeModel extends NodeModel {
 
 		FeatureBinFiller filler = new FeatureBinFiller(DEFAULT_RT_DELTA, DEFAULT_PPM_DELTA, defaultValue);
 		for (Integer containerId : containerToRowId.keySet()) {
-			String rawContainerId = TextUtils.cleanId(rawContainers.get(containerId).getId());
+			String rawContainerId = TextUtils.cleanId(rawContainers.get(containerId).getId())[0];
 			if (!containerToTimeToShift.isEmpty() && containerToTimeToShift.containsKey(rawContainerId))
 				filler.setShifts(containerToTimeToShift.get(rawContainerId));
 			filler.reverseFill(containerId, rawContainers.get(containerId), rows, containerToRowId.get(containerId));
@@ -291,7 +291,7 @@ public class ResultMatrixNodeModel extends NodeModel {
 		createColumnSpec(dataColumnSpecs, "label", StringCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "m/z dev", DoubleCell.TYPE);
 		for (int i = 0; i < profileContainerIds.size(); i++)
-			createColumnSpec(dataColumnSpecs, TextUtils.cleanId(profileContainerIds.get(i)), DoubleCell.TYPE);
+			createColumnSpec(dataColumnSpecs, TextUtils.cleanId(profileContainerIds.get(i))[0], DoubleCell.TYPE);
 		// }
 		return dataColumnSpecs.toArray(new DataColumnSpec[] {});
 	}

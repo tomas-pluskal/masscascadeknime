@@ -20,16 +20,15 @@
  */
 package uk.ac.ebi.masscascade.knime.datatypes.featuresetcell;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.util.List;
 
 import org.knime.core.data.renderer.AbstractPainterDataValueRenderer;
 
 import uk.ac.ebi.masscascade.interfaces.container.FeatureSetContainer;
+import uk.ac.ebi.masscascade.utilities.TextUtils;
 import uk.ac.ebi.masscascade.utilities.xyz.XYPoint;
 
 public class FeatureSetRenderer extends AbstractPainterDataValueRenderer {
@@ -74,8 +73,6 @@ public class FeatureSetRenderer extends AbstractPainterDataValueRenderer {
 			return;
 		}
 
-		int containerSize = featureSetContainer.size();
-		
 		int height = getHeight();
 		int width = getWidth();
 		
@@ -87,15 +84,16 @@ public class FeatureSetRenderer extends AbstractPainterDataValueRenderer {
 			if (maxMz < basePeak.y) maxMz = basePeak.y;
 		}
 		
-		for (int i = 0; i < basePeaks.size(); i++) 
-			g.drawString(".", (int) (basePeaks.get(i).x * width / maxRt), height - 5 - (int) (basePeaks.get(i).y * height / maxMz));
-		
-		Rectangle bounds = g.getFontMetrics().getStringBounds(containerSize + "", g).getBounds();
-		g.setColor(Color.WHITE);
-		g.fillRect((int) (width / 3) - 1, (int) (height - height / 2) - (int) (bounds.getHeight() * 0.75), (int) bounds.getWidth() + 2, (int) (bounds.getHeight() * 0.75));
-		g.setColor(Color.BLACK);
-		g.drawString(containerSize + "", (int) (width / 3), (int) (height - height / 2));
-		g.drawString(featureSetContainer.getId(), 3, height - 3);
+		for (int i = 0; i < basePeaks.size(); i++) {
+			int y = height - 5 - (int) (basePeaks.get(i).y * height / maxMz);
+			if (y < 9) {
+				y = 9;
+			}
+			g.drawString(".", (int) (basePeaks.get(i).x * width / maxRt), y);
+		}
+		String[] idParts = TextUtils.cleanId(featureSetContainer.getId());
+		g.drawString(idParts[1], 3, 8);
+		g.drawString(idParts[0] + " (" + featureSetContainer.size() + ")", 3, getHeight() - 3);
 	}
 
 	public String getDescription() {
@@ -125,6 +123,6 @@ public class FeatureSetRenderer extends AbstractPainterDataValueRenderer {
 	 */
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(100, 30);
+		return new Dimension(180, 30);
 	}
 }

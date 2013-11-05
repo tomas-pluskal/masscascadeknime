@@ -204,7 +204,7 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 
 			DataCell[] cells = new DataCell[4];
 			for (Entry<Integer, Double[]> entry : obiwarp.getTimeDiffMap().entrySet()) {
-				cells[0] = new StringCell(TextUtils.cleanId(file.getId()));
+				cells[0] = new StringCell(TextUtils.cleanId(file.getId())[0]);
 				cells[1] = new IntCell(entry.getKey());
 				cells[2] = new DoubleCell(entry.getValue()[0]);
 				cells[3] = new DoubleCell(entry.getValue()[1]);

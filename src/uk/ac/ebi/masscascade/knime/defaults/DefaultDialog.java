@@ -52,6 +52,7 @@ import org.knime.core.node.util.FilesHistoryPanel;
 import uk.ac.ebi.masscascade.exception.MassCascadeException;
 import uk.ac.ebi.masscascade.interfaces.Option;
 import uk.ac.ebi.masscascade.knime.defaults.elements.BooleanTableModel;
+import uk.ac.ebi.masscascade.knime.defaults.elements.RangeComponent;
 import uk.ac.ebi.masscascade.knime.io.reference.OptionalColumnPanel;
 
 /**
@@ -193,7 +194,7 @@ public class DefaultDialog extends NodeDialogPane {
 	public void addCustomOption(final String label, final JComponent component) {
 
 		if (component instanceof FilesHistoryPanel || component instanceof JRadioButton
-				|| component instanceof JCheckBox)
+				|| component instanceof JCheckBox || component instanceof RangeComponent)
 			customField.put(label, component);
 		else
 			throw new MassCascadeException("Dialog component not supported: " + component.getClass());
@@ -449,6 +450,8 @@ public class DefaultDialog extends NodeDialogPane {
 				((FilesHistoryPanel) customField.get(label)).setSelectedFile(this.settings.getTextOption(label));
 			} else if (customField.get(label) instanceof JCheckBox) {
 				((JCheckBox) customField.get(label)).setSelected(this.settings.getBooleanOption(label));
+			} else if (customField.get(label) instanceof RangeComponent) {
+				((RangeComponent) customField.get(label)).setRange(this.settings.getTextOption(label));
 			}
 		}
 
@@ -519,6 +522,8 @@ public class DefaultDialog extends NodeDialogPane {
 				this.settings.setTextOption(label, ((FilesHistoryPanel) customField.get(label)).getSelectedFile());
 			} else if (customField.get(label) instanceof JCheckBox) {
 				this.settings.setTextOption(label, ((JCheckBox) customField.get(label)).isSelected() + "");
+			} else if (customField.get(label) instanceof RangeComponent) {
+				this.settings.setTextOption(label, ((RangeComponent) customField.get(label)).getRange() + "");
 			}
 		}
 

@@ -16,15 +16,15 @@
 
 	<fullDescription>
 		<intro>
-			Extracts and appends the file id, creation date, authors and collected MSn information in the order: scan range 
-			(min, max), mass range (min, max) and number of scans for each MSn level.
+			Extracts and appends the file id, creation date, authors, and collected MSn information in the order: scan range 
+			(min, max), mass range (min, max), and number of scans for each MSn level. MSn information is collected in a collection cell.
 		</intro>
 
 		<option name="Data column">A MS data column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing MS Data.</inPort>
-		<outPort index="0" name="Extended data table">Table containing MS plus meta data.</outPort>
+		<inPort index="0" name="Data table">Table containing MS data cells.</inPort>
+		<outPort index="0" name="Extended data table">Table containing MS plus meta data cells.</outPort>
 	</ports>
 </knimeNode>

@@ -11,23 +11,24 @@
 	<name>Noise Reduction</name>
 
 	<shortDescription>
-		Removes noise from all mass spectrometry spectra.
+		Removes random noise from MS data cells.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Removes random noise in a spectrum based on a minimum number of successive scans for a m/z trace within a mass tolerance. 
-			For every data point in a spectra adjacent scans within the specified time window are checked for data points within the mass tolerance. Only data points 
-			that are represented in adjacent scans are kept.
+			Removes random noise in scans based on a minimum number of successive scans for a m/z trace. 
+			For every data point in a scan, adjacent scans within the specified time window are checked for data 
+			points within the mass tolerance. Only data points that are represented in adjacent scans are kept.
 		</intro>
 
-		<option name="Mass Spec Data">A MS data column.</option>
-		<option name="Scan Window">A minimum number of scans.</option>
-		<option name="Mass tolerance">A mass tolerance in ppm.</option>
+		<option name="Data Column">A MS data column.</option>
+		<option name="m/z tolerance">A m/z tolerance in ppm.</option>
+		<option name="Length">A minimum acceptable length of m/z traces, 
+		measured in consecutive scans where the m/z signals are present.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Samples">Table containing MS Data.</inPort>
-		<outPort index="0" name="Processed Samples">Table containing noise reduced MS Data.</outPort>
+		<inPort index="0" name="Samples">Table containing MS data cells.</inPort>
+		<outPort index="0" name="Processed Samples">Table containing noise reduced MS data cells.</outPort>
 	</ports>
 </knimeNode>

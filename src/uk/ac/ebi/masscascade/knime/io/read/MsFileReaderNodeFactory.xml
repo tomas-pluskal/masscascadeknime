@@ -11,32 +11,29 @@
 	<name>File Reader</name>
 
 	<shortDescription>
-		File reader node for centroid Thermo RAW and PSI mzML mass spectrometry files.
+		File reader for centroid Thermo RAW and PSI mzML mass spectrometry data files.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The node iterates over a given directory and reads the containing files.
-			<br />
-			PSI's
-			<a href="http://www.psidev.info/mzml/">mzML</a>
-			and Thermo's
-			<a href="http://sjsupport.thermofinnigan.com/public/detail.asp?id=703">RAW</a>
-			formats are supported as input formats. The File 
-			Reader node supports selection of whole directories and individual 
-			files. The file counter can be set to limit the 
-			number of files to be read in. Broken files which cannot be parsed get 
-			excluded. File names must be unique. See 
-			<a href="https://github.com/SBeisken/MassCascadeKnime/wiki/FileFormats">Supported File Formats</a>
+			The file reader converts Thermo 
+			<a href="http://sjsupport.thermofinnigan.com/public/detail.asp?id=703">RAW</a> 
+			and PSI <a href="http://www.psidev.info/mzml/">mzML</a> data files into KNIME cells. 
+			Files can either be selected directly (single or multiple selection) or by directory.
+			<br /><br />
+			File names must be unique. See 
+			'<a href="https://bitbucket.org/sbeisken/masscascadeknime/wiki/FileFormats">Supported File Formats</a>'
 			for additional 
-			information. RAW files require the vendor library to be installed and are centroided by default using the vendor library. 
+			information. 
+			<br /><br />
+			RAW files require the vendor library to be installed. 
 		</intro>
 
-		<option name="Directory / File(s)">A directory or file(s) to be read in.</option>
+		<option name="Directory / File(s)">A directory or file(s) to be converted.</option>
 	</fullDescription>
 
 	<ports>
-		<outPort index="0" name="Loaded files">Table containing successfully loaded MS Data cells.</outPort>
+		<outPort index="0" name="Loaded files">Table containing successfully loaded KNIME cells.</outPort>
 		<outPort index="1" name="Broken files">Table containing broken files.</outPort>
 	</ports>
 </knimeNode>

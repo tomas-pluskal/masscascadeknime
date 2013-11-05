@@ -74,8 +74,8 @@ public class TraceBuilderNodeFactory extends NodeFactory<TraceBuilderNodeModel> 
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
-		dialog.addTextOption(Parameter.MIN_FEATURE_WIDTH, 8);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
+		dialog.addTextOption(Parameter.MIN_FEATURE_WIDTH, 8);
 		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 8);
 
 		return dialog.build();

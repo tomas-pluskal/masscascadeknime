@@ -26,6 +26,7 @@ import org.knime.core.node.NodeView;
 
 import uk.ac.ebi.masscascade.knime.datatypes.mscell.MsValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
+import uk.ac.ebi.masscascade.knime.defaults.elements.RangeComponent;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
@@ -76,8 +77,8 @@ public class ScanFilterNodeFactory extends NodeFactory<ScanFilterNodeModel> {
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
-		dialog.addTextOption(Parameter.TIME_RANGE, 8);
-		dialog.addTextOption(Parameter.MZ_RANGE, 8);
+		dialog.addCustomOption(Parameter.MZ_RANGE,  new RangeComponent(5));
+		dialog.addCustomOption(Parameter.TIME_RANGE, new RangeComponent(5));
 
 		return dialog.build();
 	}

@@ -86,8 +86,8 @@ public class MsFileReaderNodeDialog extends NodeDialogPane {
 		c.anchor = GridBagConstraints.NORTHWEST;
 		c.gridx = 0;
 		c.gridy = 0;
-		i.add(new JLabel("Select directory/files    "), c);
-		c.gridx++;
+		i.add(new JLabel("Select directory or (multiple) files:"), c);
+		c.gridy++;
 		i.add(filePath, c);
 		filePath.setText(settings.filePath());
 		filePath.setEditable(false);

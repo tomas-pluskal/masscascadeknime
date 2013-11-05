@@ -26,6 +26,7 @@ import org.knime.core.node.NodeView;
 
 import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
+import uk.ac.ebi.masscascade.knime.defaults.elements.RangeComponent;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
@@ -77,10 +78,10 @@ public class FeatureFilterNodeFactory extends NodeFactory<FeatureFilterNodeModel
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
-		dialog.addTextOption(Parameter.TIME_RANGE, 8);
-		dialog.addTextOption(Parameter.MZ_RANGE, 8);
-		dialog.addTextOption(Parameter.FEATURE_RANGE, 8);
-		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 8);
+		dialog.addCustomOption(Parameter.TIME_RANGE, new RangeComponent(5));
+		dialog.addCustomOption(Parameter.MZ_RANGE, new RangeComponent(5));
+		dialog.addCustomOption(Parameter.FEATURE_RANGE, new RangeComponent(5));
+		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 5);
 
 		return dialog.build();
 	}

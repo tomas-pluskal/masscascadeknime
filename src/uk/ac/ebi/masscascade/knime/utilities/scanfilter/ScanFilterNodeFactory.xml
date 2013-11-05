@@ -11,7 +11,7 @@
 	<name>Scan Filter</name>
 
 	<shortDescription>
-		Filters the scans of a mass spec sample by retention time and m/z.
+		Filters the scans of a MS data cell by time and m/z.
 	</shortDescription>
 
 	<fullDescription>
@@ -19,13 +19,12 @@
 			Filters the scans of a MS data cell by retention time and m/z.
 		</intro>
 		<option name="Data column">A MS data column.</option>
-		<option name="Mass range">A lower and upper mass limit (ll-ul).</option>
-		<option name="Time range">A lower and upper time limit (ll-ul).</option>
+		<option name="m/z range">A lower and upper m/z limit (from - to).</option>
+		<option name="Time range">A lower and upper time limit (from - to).</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing MS Data.</inPort>
-		<outPort index="0" name="Filtered data table">Table containing filtered MS Data.
-		</outPort>
+		<inPort index="0" name="Data table">Table containing MS data cells.</inPort>
+		<outPort index="0" name="Filtered data table">Table containing filtered MS data cells.</outPort>
 	</ports>
 </knimeNode>

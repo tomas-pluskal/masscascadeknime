@@ -96,8 +96,7 @@ public class MsFileReaderNodeModel extends NodeModel {
 
 		Map<Future<Container>, String> fTasks = new HashMap<Future<Container>, String>();
 
-		int threadNumber = NodePlugin.getNumberOfThreads();
-		ThreadPool threadPool = new ThreadPool(threadNumber);
+		ThreadPool threadPool = new ThreadPool(ThreadPool.currentPool().getMaxThreads());
 
 		double currentRow = 1;
 		double threadCounter = 1;
@@ -118,7 +117,7 @@ public class MsFileReaderNodeModel extends NodeModel {
 
 				fTasks.put(threadPool.enqueue(getReader(file.getName(), file)), file.getName());
 
-				if (threadPool.getRunningThreads() == threadNumber) {
+				if (threadPool.getRunningThreads() == threadPool.getMaxThreads()) {
 					threadPool.waitForTermination();
 					threadCounter = 0;
 				}

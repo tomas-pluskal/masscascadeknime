@@ -38,7 +38,6 @@ import org.knime.core.util.ThreadPool;
 
 import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.io.MzTabWriter;
-import uk.ac.ebi.masscascade.knime.NodePlugin;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.featurecell.FeatureCell;
 import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetCell;
@@ -75,8 +74,7 @@ public class MsFileWriterNodeModel extends NodeModel {
 
 		final List<Future<Container>> tasks = new ArrayList<Future<Container>>();
 
-		int threadNumber = NodePlugin.getNumberOfThreads();
-		ThreadPool threadPool = new ThreadPool(threadNumber);
+		ThreadPool threadPool = new ThreadPool(ThreadPool.currentPool().getMaxThreads());
 
 		String path = settings.getTextOption(Parameter.OUTPUT_DIRECTORY);
 		double currentRow = 1;
@@ -99,7 +97,7 @@ public class MsFileWriterNodeModel extends NodeModel {
 				MzTabWriter task = new MzTabWriter(params);
 				tasks.add(threadPool.enqueue(task));
 			}
-			if (threadPool.getRunningThreads() == threadNumber) {
+			if (threadPool.getRunningThreads() == threadPool.getMaxThreads()) {
 				threadPool.waitForTermination();
 				threadCounter = 0;
 			}

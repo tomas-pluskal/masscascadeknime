@@ -86,7 +86,7 @@ public class BasePeakViewerNodeView extends DefaultView {
 		spectrumMenu.add(sumBicMenuItem);
 		
 		Map<SimpleSpectrum.PAINTERS, Boolean> tracePainter = new HashMap<SimpleSpectrum.PAINTERS, Boolean>();
-		tracePainter.put(PAINTERS.POLY, true);
+		tracePainter.put(PAINTERS.SPLINE, true);
 		chart.setDefaultTracePainter(tracePainter);
 	}
 

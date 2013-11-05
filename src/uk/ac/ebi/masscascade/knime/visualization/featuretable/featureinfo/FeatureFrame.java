@@ -230,7 +230,7 @@ public class FeatureFrame extends JFrame {
 		chromatrogam.setAxisTitle("", "");
 		ChartPanel chart = new ChartPanel(chromatrogam);
 		Map<SimpleSpectrum.PAINTERS, Boolean> tracePainter = new HashMap<SimpleSpectrum.PAINTERS, Boolean>();
-		tracePainter.put(PAINTERS.POLY, false);
+		tracePainter.put(PAINTERS.SPLINE, false);
 		tracePainter.put(PAINTERS.DISC, false);
 		chromatrogam.setDefaultTracePainter(tracePainter);
 		profilePanel.add(chart);
@@ -436,16 +436,16 @@ public class FeatureFrame extends JFrame {
 				if (featureSet.getFeature(pid) != null)
 					break;
 			}
-			Feature pProfile = featureSet.getFeature(pid);
-			Chromatogram pTrace = pProfile.getTrace(Constants.PADDING);
+			Feature pFeature = featureSet.getFeature(pid);
+			Chromatogram pTrace = pFeature.getTrace(Constants.PADDING);
 			Color pColor = graphColorTraces.nextColor();
-			DataSet pDataSet = new DataSet.Builder(pTrace.getData(), "" + pProfile.getId()).color(pColor).build();
+			DataSet pDataSet = new DataSet.Builder(pTrace.getData(), "" + pFeature.getId()).color(pColor).build();
 			chromatrogam.addData(pDataSet);
 
-			Feature dProfile = featureSet.getFeature(did);
-			Chromatogram dTrace = dProfile.getTrace(Constants.PADDING);
+			Feature dFeature = featureSet.getFeature(did);
+			Chromatogram dTrace = dFeature.getTrace(Constants.PADDING);
 			Color dColor = graphColorTraces.nextColor();
-			DataSet dDataSet = new DataSet.Builder(dTrace.getData(), "" + dProfile.getId()).color(dColor).build();
+			DataSet dDataSet = new DataSet.Builder(dTrace.getData(), "" + dFeature.getId()).color(dColor).build();
 			chromatrogam.addData(dDataSet);
 		}
 

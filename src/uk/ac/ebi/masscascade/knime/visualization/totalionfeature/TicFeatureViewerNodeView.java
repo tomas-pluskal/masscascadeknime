@@ -84,7 +84,7 @@ public class TicFeatureViewerNodeView extends DefaultView {
 		tableView.getContentTable().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		Map<SimpleSpectrum.PAINTERS, Boolean> tracePainter = new HashMap<SimpleSpectrum.PAINTERS, Boolean>();
-		tracePainter.put(PAINTERS.POLY, true);
+		tracePainter.put(PAINTERS.SPLINE, true);
 		chart.setDefaultTracePainter(tracePainter);
 	}
 

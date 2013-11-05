@@ -92,7 +92,7 @@ public class TicViewerNodeView extends DefaultView {
 		spectrumMenu.add(sumTicMenuItem);
 
 		Map<SimpleSpectrum.PAINTERS, Boolean> tracePainter = new HashMap<SimpleSpectrum.PAINTERS, Boolean>();
-		tracePainter.put(PAINTERS.POLY, true);
+		tracePainter.put(PAINTERS.SPLINE, true);
 		chart.setDefaultTracePainter(tracePainter);
 	}
 

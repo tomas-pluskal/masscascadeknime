@@ -38,7 +38,6 @@ public class NodePlugin extends AbstractUIPlugin {
 	private static NodePlugin plugin;
 
 	private static String projectDirectory = "";
-	private static int threads = 5;
 
 	/**
 	 * The constructor.
@@ -68,12 +67,10 @@ public class NodePlugin extends AbstractUIPlugin {
 
 				if (event.getProperty().equals(PreferenceInitializer.PROJECT_DIRECTORY)) {
 					projectDirectory = pStore.getString(PreferenceInitializer.PROJECT_DIRECTORY);
-					threads = pStore.getInt(PreferenceInitializer.THREADS);
 				}
 			}
 		});
 		projectDirectory = pStore.getString(PreferenceInitializer.PROJECT_DIRECTORY);
-		threads = pStore.getInt(PreferenceInitializer.THREADS);
 	}
 
 	/**
@@ -95,7 +92,6 @@ public class NodePlugin extends AbstractUIPlugin {
 	 * @return Singleton instance of the Plugin
 	 */
 	public static NodePlugin getDefault() {
-
 		return plugin;
 	}
 
@@ -105,17 +101,6 @@ public class NodePlugin extends AbstractUIPlugin {
 	 * @return the project directory
 	 */
 	public static String getProjectDirectory() {
-
 		return projectDirectory;
-	}
-	
-	/**
-	 * Returns the number of threads.
-	 * 
-	 * @return the number of threads
-	 */
-	public static int getNumberOfThreads() {
-		
-		return threads;
 	}
 }

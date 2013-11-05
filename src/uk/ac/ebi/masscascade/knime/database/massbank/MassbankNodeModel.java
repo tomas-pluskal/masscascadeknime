@@ -48,7 +48,6 @@ import org.knime.core.util.ThreadPool;
 import uk.ac.ebi.masscascade.interfaces.CallableWebservice;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.interfaces.container.FeatureSetContainer;
-import uk.ac.ebi.masscascade.knime.NodePlugin;
 import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetCell;
 import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.parameters.Constants;
@@ -88,8 +87,8 @@ public class MassbankNodeModel extends NodeModel {
 
 		final int colIndex = findDataColumn(inSpec);
 
-		int threadNumber = NodePlugin.getNumberOfThreads();
-		ThreadPool threadPool = new ThreadPool(threadNumber);
+		ThreadPool threadPool = new ThreadPool(ThreadPool.currentPool().getMaxThreads());
+		int threadNumber = threadPool.getMaxThreads();
 
 		tasks = new ArrayList<Future<Container>>();
 

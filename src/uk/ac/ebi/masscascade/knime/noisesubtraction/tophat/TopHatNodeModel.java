@@ -63,7 +63,7 @@ public class TopHatNodeModel extends DefaultModel {
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 
 		if (settings.getOptionMapSize() == 0) {
-			settings.setTextOption(Parameter.SCAN_WINDOW, "" + Parameter.SCAN_WINDOW.getDefaultValue());
+			settings.setTextOption(Parameter.SCAN_WINDOW, "" + 6);
 		}
 
 		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_COLUMN);

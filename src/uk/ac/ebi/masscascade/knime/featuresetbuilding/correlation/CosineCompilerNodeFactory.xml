@@ -11,21 +11,24 @@
 	<name>Cosine Compiler</name>
 
 	<shortDescription>
-		Node to generate pseudospectra based on the pairwise cosine similarity between profiles.
+		Generates feature sets based on the pairwise cosine similarity between features.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The node generates peusodespectra based on a cosine similarity matrix. Only profiles which similarity value is 
+			Generates feature sets based on a cosine similarity matrix. Only profiles which similarity value is 
 			above the threshold are grouped together.
+			<br />
+			<br />
+			Typical values for the similarity threshold are around 0.95.
 		</intro>
 
-		<option name="Bins">The number of bins in the time domain.</option>
-		<option name="Similarity">The similarity threshold (cosine angle [-1,+1]).</option>
+		<option name="Bins">Total number of bins for feature alignment.</option>
+		<option name="Similarity">Similarity threshold that two features must exceed to be grouped together (0-1).</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
-		<outPort index="0" name="Spectrum table">Table containing Spectra Data.</outPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
+		<outPort index="0" name="Feature Set table">Table containing Feature Set data cells.</outPort>
 	</ports>
 </knimeNode>

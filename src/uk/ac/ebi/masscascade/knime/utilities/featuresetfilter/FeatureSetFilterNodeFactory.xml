@@ -11,22 +11,26 @@
 	<name>Feature Set Filter</name>
 
 	<shortDescription>
-		Filters spectra and their profiles based on a m/z, time range, and minimum intensity.
+		Filters feature sets based on a m/z-, and time-range as well as a minimum intensity threshold.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Filters spectra and their profiles based on a m/z, time range, and minimum intensity.
+			Filters feature sets based on a m/z-, and time-range as well as a minimum intensity threshold.
+			<br />
+			<br />
+			Isotopes can be excluded from the min. intensity threshold.	
 		</intro>
 
-		<option name="Data column">A Spectrum Data column.</option>
-		<option name="Mass range">A lower and upper m/z limit (ll-ul).</option>
-		<option name="Time range">A lower and upper time limit (ll-ul).</option>
-		<option name="Min. profile intensity">A minimum profile intensity.</option>
+		<option name="Feature Set column">Feature Set data column.</option>
+		<option name="m/z range">Lower and upper m/z limit (from - to).</option>
+		<option name="Time range">Lower and upper time limit (from - to).</option>
+		<option name="Min. intensity">Minimum feature intensity.</option>
+		<option name="Keep isotopes">Excludes isotopes from the min. intensity threshold.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Spectrum table">Table containing Spectrum Data.</inPort>
-		<outPort index="0" name="Processed profile table">Table containing filtered Spectrum Data.</outPort>
+		<inPort index="0" name="Feature Set table">Table containing Feature Set data cells.</inPort>
+		<outPort index="0" name="Processed Feature Set table">Table containing filtered Feature Set data cells.</outPort>
 	</ports>
 </knimeNode>

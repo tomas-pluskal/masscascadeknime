@@ -11,21 +11,28 @@
 	<name>Biemann Compiler</name>
 
 	<shortDescription>
-		Node to generate pseudospectra based on a modified Biehman approach.
+		Generates feature sets based on a modified Biemann similarity approach.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The node uses a modified Biehman algorithm to group similar profiles into pseudo spectra. The algorithm relies 
-			on the peak shape and retention time of the profiles.
+			Uses a modified Biemann peak shape similarity approach to group features into compound spectra (feature sets).
+			<br />
+			<br />
+			The algorithm relies on the peak shape and retention time of the features.
+			<br />
+			<br />
+			The number of bins defines the granularity of the similarity measure. A single bin is defined by the given length divided 
+			by the number of bins. For this method, the length should approximate the distance of two adjacent scans for fine resolution.
+			Higher length values will yield larger feature sets with less similar features grouped together.
 		</intro>
 
-		<option name="Bins">A number of bins in the time domain.</option>
-		<option name="Scan distance">An approximate distance between two successive scans (seconds).</option>
+		<option name="Bins">Total number of bins.</option>
+		<option name="Length">Approximate distance between two successive scans (seconds).</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
-		<outPort index="0" name="Spectrum table">Table containing Spectra Data.</outPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
+		<outPort index="0" name="Feature Set table">Table containing Feature Set data cells.</outPort>
 	</ports>
 </knimeNode>

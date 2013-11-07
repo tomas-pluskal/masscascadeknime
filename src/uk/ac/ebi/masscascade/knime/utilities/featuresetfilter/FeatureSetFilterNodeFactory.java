@@ -28,6 +28,7 @@ import org.knime.core.node.NodeView;
 
 import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultDialog;
+import uk.ac.ebi.masscascade.knime.defaults.elements.RangeComponent;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
 /**
@@ -79,9 +80,9 @@ public class FeatureSetFilterNodeFactory extends NodeFactory<FeatureSetFilterNod
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
-		dialog.addTextOption(Parameter.TIME_RANGE, 8);
-		dialog.addTextOption(Parameter.MZ_RANGE, 8);
-		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 8);
+		dialog.addCustomOption(Parameter.MZ_RANGE, new RangeComponent(5));
+		dialog.addCustomOption(Parameter.TIME_RANGE, new RangeComponent(5));
+		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 5);
 		dialog.addCustomOption("Keep isotopes", new JCheckBox());
 
 		return dialog.build();

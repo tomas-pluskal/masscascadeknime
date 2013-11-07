@@ -78,8 +78,8 @@ public class FeatureFilterNodeFactory extends NodeFactory<FeatureFilterNodeModel
 		DefaultDialog dialog = new DefaultDialog();
 
 		dialog.addColumnSelection(Parameter.FEATURE_COLUMN, FeatureValue.class);
-		dialog.addCustomOption(Parameter.TIME_RANGE, new RangeComponent(5));
 		dialog.addCustomOption(Parameter.MZ_RANGE, new RangeComponent(5));
+		dialog.addCustomOption(Parameter.TIME_RANGE, new RangeComponent(5));
 		dialog.addCustomOption(Parameter.FEATURE_RANGE, new RangeComponent(5));
 		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 5);
 

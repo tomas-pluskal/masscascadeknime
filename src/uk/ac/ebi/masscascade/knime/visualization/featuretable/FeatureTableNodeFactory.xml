@@ -11,24 +11,26 @@
 	<name>Feature Table</name>
 
 	<shortDescription>
-		Shows a profile set as expanded table.
+		Shows features in an expanded table.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Visualises profile sets in a table including peak id, 
+			Visualises features in a table including peak id, 
 			retention time, signal width, mass, mass deviation, 
-			area and shape of the 
-			peak. Double clicking on a single profile opens a window with profile annotations.
+			area and shape of the peak. 
+			<br />
+			<br />
+			Double clicking a single feature opens a window with feature annotations.
 		</intro>
 
-		<option name="Data column">A Profile or Spectrum data column.</option>
+		<option name="Feature column">Feature or Feature Set data column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
 	</ports>
 	<views>
-		<view index="0" name="Profile view">Displays all profiles in a table.</view>
+		<view index="0" name="Feature view">Displays features in a table.</view>
 	</views>
 </knimeNode>

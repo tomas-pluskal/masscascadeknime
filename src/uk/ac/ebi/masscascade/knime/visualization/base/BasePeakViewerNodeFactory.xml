@@ -11,22 +11,22 @@
 	<name>Base Peak Viewer</name>
 
 	<shortDescription>
-		Shows the base peak chromatogram of the selected MS Data cells.
+		Shows base peak chromatograms of selected MS data cells.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The node shows the base peak chromatogram for the selected MS Data cells. 
+			Shows base peak chromatograms of selected MS data cells. 
 			The view supports zooming and highlighting of individual data segments.
 		</intro>
 
-		<option name="Data column">A MS Data column.</option>
+		<option name="Data column">MS data column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing MS Data.</inPort>
+		<inPort index="0" name="Data table">Table containing MS data cells.</inPort>
 	</ports>
 	<views>
-		<view index="0" name="Base Peak Chromatogram">Interactive view to explore the base peak chromatogram.</view>
+		<view index="0" name="Base Peak Chromatogram">Interactive view to explore base peak chromatograms.</view>
 	</views>
 </knimeNode>

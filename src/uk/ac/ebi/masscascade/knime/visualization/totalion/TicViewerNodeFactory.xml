@@ -11,23 +11,22 @@
 	<name>TIC Viewer</name>
 
 	<shortDescription>
-		Shows the total ion chromatogram (TIC) of the selected MS Data cell.
+		Shows total ion chromatograms of selected MS data cells.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The node shows the total ion chromatogram for the selected MS Data cell. The 
-			total ion intensity at a particular time is the sum of all intensities of the corresponding scan. 
+			Shows total ion chromatograms of selected MS data cells.
 			The view supports zooming and highlighting of individual data points.
 		</intro>
 
-		<option name="Data column">A MS data column.</option>
+		<option name="Data column">MS data column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing MS Data.</inPort>
+		<inPort index="0" name="Data table">Table containing MS data cells.</inPort>
 	</ports>
 	<views>
-		<view index="0" name="TIC">Interactive view to explore the total ion chromatogram.</view>
+		<view index="0" name="TIC">Interactive view to explore total ion chromatograms.</view>
 	</views>
 </knimeNode>

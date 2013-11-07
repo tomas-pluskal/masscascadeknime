@@ -11,21 +11,21 @@
 	<name>Pseudo Spectrum</name>
 
 	<shortDescription>
-		Shows grouped profiles including their annotations.
+		Shows feature sets.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Shows the pseudo mass spectra of Spectra Data cells including all annotations.
+			Shows compound spectra of Feature Set data cells.
 		</intro>
 
-		<option name="Spectrum column">A Spectra Data column.</option>
+		<option name="Feature Set column">Feature Set column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Spectrum table">Table containing Spectra Data.</inPort>
+		<inPort index="0" name="Feature Set table">Table containing Feature Set data cells.</inPort>
 	</ports>
 	<views>
-		<view index="0" name="Spectrum view">Interactive view to explore pseudo spectra and extracted traces.</view>
+		<view index="0" name="Feature Set view">Interactive view to explore compound spectra and feature traces.</view>
 	</views>
 </knimeNode>

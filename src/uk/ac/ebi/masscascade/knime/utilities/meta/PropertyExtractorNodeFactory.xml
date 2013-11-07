@@ -20,7 +20,7 @@
 			(min, max), mass range (min, max), and number of scans for each MSn level. MSn information is collected in a collection cell.
 		</intro>
 
-		<option name="Data column">A MS data column.</option>
+		<option name="Data column">MS data column.</option>
 	</fullDescription>
 
 	<ports>

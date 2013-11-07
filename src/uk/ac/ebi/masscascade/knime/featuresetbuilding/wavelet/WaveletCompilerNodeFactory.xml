@@ -8,25 +8,32 @@
 	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./peak_picker.png" type="Manipulator">
-	<name>Wavelet Compiler</name>
+	<name>Wavelet Centroider</name>
 
 	<shortDescription>
-		Compiles spectra using a wavelet transform.
+		Centroids scans using a continuous wavelet transform.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Performs peak picking using a continuous wavelet transform.
+			Centroids scans using a continuous wavelet transform.
+			<br />
+			A scale of one defines five data points to be considered for convolution to the left and right of a signal.
+			Higher integral values increase the window size by multiples of five.
+			Scale values of one or two should be used for narrow signal shapes.
+			<br />
+			The width of the wavelet defines the breadth of the wavelet. 
+			It takes values between 0 and 1. A width of 0.02 works well for narrow signals.
 		</intro>
 
-		<option name="Data column">A MS Data column.</option>
-		<option name="Scale">A scale parameter of the continuous wavelet transform.</option>
-		<option name="Scan window">A maximum peak width in scan numbers.</option>
-		<option name="Noise">An estimated noise intensity.</option>
+		<option name="Data column">A MS data column.</option>
+		<option name="Scale">Scale factor of the continuous wavelet transform.</option>
+		<option name="Width of the wavelet">Width of the wavelet (0-1).</option>
+		<option name="Min. intensity">Minimum centroid signal intensity to be accepted.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing MS Data.</inPort>
-		<outPort index="0" name="Centroided data table">Table containing centroided MS Data.</outPort>
+		<inPort index="0" name="Data table">Table containing MS data cells.</inPort>
+		<outPort index="0" name="Centroided data table">Table containing centroided MS data cells.</outPort>
 	</ports>
 </knimeNode>

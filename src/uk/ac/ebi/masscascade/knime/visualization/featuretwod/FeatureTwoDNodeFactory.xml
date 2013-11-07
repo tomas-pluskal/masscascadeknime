@@ -11,22 +11,22 @@
 	<name>Feature 2D</name>
 
 	<shortDescription>
-		Shows all profiles in a 2D plot: time vs m/z.
+		Shows all features in a 2D plot: time vs m/z.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The node shows all profiles in a Profile Data cell in a 2D plot. 
+			Shows all features of a Feature data cell in a 2D plot. 
 			Scan time is plotted versus m/z. The plot can be used to inspect extracted profiles.
 		</intro>
 
-		<option name="Profile column">A Profile Data column.</option>
+		<option name="Feature column">Feature column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing Profile Data.</inPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
 	</ports>
 	<views>
-		<view index="0" name="2D Plot">Interactive 2D plot of all profiles.</view>
+		<view index="0" name="2D Plot">Interactive 2D plot of all features.</view>
 	</views>
 </knimeNode>

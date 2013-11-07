@@ -17,14 +17,17 @@
 	<fullDescription>
 		<intro>
 			Applies the vHGW top hat algorithm for baseline subtraction.
+			The node performs an opening, i.e. erosion followed by dilation
+			(<a href="http://en.wikipedia.org/wiki/Opening_(morphology)">wiki</a>).
+			Larger window widths (lengths) result in coarser baseline subtraction. 
 		</intro>
 
-		<option name="Data column">A feature data column.</option>
-		<option name="Scan Window">The data window.</option>
+		<option name="Feature column">Feature data column.</option>
+		<option name="Length">Window width of the top hat filter measured in data points (scans).</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Feature table">Table containing feature data.</inPort>
-		<outPort index="0" name="Processed feature table">Table containing filtered feature data.</outPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
+		<outPort index="0" name="Processed feature table">Table containing filtered Feature data cells.</outPort>
 	</ports>
 </knimeNode>

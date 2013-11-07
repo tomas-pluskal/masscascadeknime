@@ -11,25 +11,24 @@
 	<name>Savitzky Golay Deconvolution</name>
 
 	<shortDescription>
-		Performs Savitzky Golay deconvolution on a collection of peak profiles.
+		Performs deconvolution (peak picking) using a Savitzky Golay approach.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Performs deconvolution using the first and second derivative of a polynomial to determine the 
-			boundaries and maximum intensities of the individual components (peaks) of the mass trace.
+			Performs deconvolution (peak picking) using the second derivative of a fitted polynomial to determine the 
+			boundaries and maximum intensities of a feature's individual components (peaks).
 		</intro>
 
-		<option name="Data column">A Profile Data column.</option>
-		<option name="Scan window">Minimum peak width of the individual deconvoluted components in the time domain [number of scans].
-		</option>
-		<option name="Minimum Intensity">Minimum intensity of the individual deconvoluted components.</option>
-		<option name="Filter Level">The filter level of the SG function [1-12].</option>
-		<option name="Derivative Threshold">Minimum relative intensity of the second derivative [0-1].</option>
+		<option name="Feature column">Feature column.</option>
+		<option name="Length">Minimum acceptable length of resolved m/z traces.</option>
+		<option name="Minimum Intensity">Minimum intensity of resolved peaks.</option>
+		<option name="Derivative Threshold">Minimum relative intensity of the second derivative (0-1).</option>
+		<option name="Filter Level">Filter level of the function (1-12).</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Peak table">Table containing Profile Data.</inPort>
-		<outPort index="0" name="Processed Peak table">Table containing deconvoluted Profile Data.</outPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
+		<outPort index="0" name="Processed Feature table">Table containing deconvoluted Feature data cells.</outPort>
 	</ports>
 </knimeNode>

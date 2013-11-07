@@ -11,22 +11,22 @@
 	<name>Scan Comparator</name>
 
 	<shortDescription>
-		Compares mass spectra from different MS Data cells.
+		Compares scans from different MS data cells.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The node allows to compare mass spectra from several MS data cells.
+			Compares scans from several MS data cells.
 			The view supports zooming and highlighting of individual data points.
 		</intro>
 
-		<option name="Data column">A MS Data column.</option>
+		<option name="Data column">MS Data column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing MS Data.</inPort>
+		<inPort index="0" name="Data table">Table containing MS data cells.</inPort>
 	</ports>
 	<views>
-		<view index="0" name="Spectrum">Interactive view to compare the spectra of the selected samples.</view>
+		<view index="0" name="Scan">Interactive view to compare scans of the selected MS data cells.</view>
 	</views>
 </knimeNode>

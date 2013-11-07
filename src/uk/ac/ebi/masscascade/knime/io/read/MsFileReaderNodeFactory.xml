@@ -29,7 +29,7 @@
 			RAW files require the vendor library to be installed. 
 		</intro>
 
-		<option name="Directory / File(s)">A directory or file(s) to be converted.</option>
+		<option name="Directory / File(s)">Directory or file(s) to be converted.</option>
 	</fullDescription>
 
 	<ports>

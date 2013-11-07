@@ -11,22 +11,23 @@
 	<name>Durbin Filter</name>
 
 	<shortDescription>
-		Filters profiles using the Durbin-Watson criterion.
+		Filters features using a Durbin-Watson statistic.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Uses the Durbin-Watson (DW) cirterion to filter profiles. 
-			Profiles above the DW threshold are removed. The DW 
-			score can take values between 0 and infinity, where non-random signals typically take values below 2.
+			Uses a Durbin-Watson (DW) statistic to filter features by looking for randomness in the feature's ion trace.
+			(<a href="http://en.wikipedia.org/wiki/Durbin-Watson">wiki</a>).
+			The DW statistic can take values between 0 and infinity.
+			Non-random signals typically take values below 2.
 		</intro>
 
-		<option name="Data column">A Profile data column.</option>
-		<option name="DW">A Durbin Watson threshold.</option>
+		<option name="Feature column">Feature data column.</option>
+		<option name="Durbin-Watson threshold">Durbin-Watson threshold (0-inf).</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
-		<outPort index="0" name="Processed profile table">Table containing filtered Profile Data.</outPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
+		<outPort index="0" name="Processed feature table">Table containing filtered Feature data cells.</outPort>
 	</ports>
 </knimeNode>

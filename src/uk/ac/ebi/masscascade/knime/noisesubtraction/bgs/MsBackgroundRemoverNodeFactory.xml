@@ -26,16 +26,17 @@
 			Note that only the first row of the reference table will be read.
 		</intro>
 
-		<option name="Mass Spec Data Column">A MS data column.</option>
-		<option name="Mass Spec Reference Column">A background / blank MS data data column.</option>
-		<option name="Time Window">A time window in seconds defining the scan range in the background control.</option>
-		<option name="Mass Window">A mass tolerance in ppm for background data point sampling.</option>
-		<option name="Scale">A factor by which the background intensity should be scaled.</option>
+		<option name="Data Column">MS data column.</option>
+		<option name="Reference Column">Background data column.</option>
+		<option name="Length">Time length that is searched forward and 
+		backward in the background cell relative to the scan that is processed.</option>
+		<option name="m/z tolerance">m/z tolerance in ppm.</option>
+		<option name="Scale">Factor by which the background intensity should be scaled.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Mass Spec data">Table containing MS Data.</inPort>
-		<inPort index="1" name="Background">Table containing background MS data.</inPort>
-		<outPort index="0" name="Processed Samples">Table containing background-removed MS Data.</outPort>
+		<inPort index="0" name="Data table">Table containing MS data cells.</inPort>
+		<inPort index="1" name="Background data table">Table containing a background MS data cell.</inPort>
+		<outPort index="0" name="Processed data table">Table containing background-removed MS data cells.</outPort>
 	</ports>
 </knimeNode>

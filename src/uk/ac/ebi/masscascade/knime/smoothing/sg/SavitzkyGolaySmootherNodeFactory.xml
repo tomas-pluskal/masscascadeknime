@@ -24,19 +24,24 @@
     <name>Savitzky Golay Smoother</name>
     
     <shortDescription>
-        Applies Savitzky-Golay smoothing to the profiles.
+        Applies Savitzky-Golay smoothing to the features.
     </shortDescription>
     
     <fullDescription>
-        <intro>Smoothes the mass spectra of a run using Savitzky-Golay (polynomial regression).</intro>
+        <intro>
+        	Smoothes features using polynomial regression
+        	(<a href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter_for_smoothing_and_differentiation">Savitzky-Golay</a>).
+        	Higher order polynomials introduce more wobble.
+        	Larger regression windows (length) result in coarser smoothing.
+        </intro>
         
-        <option name="Peak column">The mass spectrometry profile column.</option>
-        <option name="Order">The order for smoothing window.</option>
-        <option name="Points">The number of points in the time domain to be included for regression.</option>
+        <option name="Feature column">Feature data column.</option>
+        <option name="Length">Length of the regression window measured in data points (scans).</option>
+        <option name="Polynomial order">The order of the polynomial.</option>
     </fullDescription>
     
     <ports>
-        <inPort index="0" name="Profile table">Table containing the profile data.</inPort>
-		<outPort index="0" name="Processed profile table">Table containing the smoothed profiles.</outPort>
+        <inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
+		<outPort index="0" name="Processed feature table">Table containing smoothed Feature data cells.</outPort>
     </ports>
 </knimeNode>

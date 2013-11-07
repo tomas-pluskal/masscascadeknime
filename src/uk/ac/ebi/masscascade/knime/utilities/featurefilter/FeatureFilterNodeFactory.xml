@@ -11,25 +11,26 @@
 	<name>Feature Filter</name>
 
 	<shortDescription>
-		Filters and trims the extracted profiles by the set m/z range, time range, minimum and maximum
-		profile width.
+		Filters features of Feature data cells by a m/z-, time-, and feature-length-range.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Filters and trims the extracted profiles by the set m/z range, time range, minimum and maximum 
-			profile width.
+			Filters features by a m/z-, time-, and feature-length-range,
+			as well as by minimum intensity. Features below the minimum intensity or outside
+			any of the ranges are removed.
 		</intro>
 
-		<option name="Data column">A Profile data column.</option>
-		<option name="Mass range">A lower and upper m/z limit (ll-ul).</option>
-		<option name="Time range">A lower and upper time limit (ll-ul).</option>
-		<option name="Profile range">A profile range in no. of scans (ll-ul).</option>
-		<option name="Min. profile intensity">A minimum profile intensity.</option>
+		<option name="Feature column">Feature data column.</option>
+		<option name="m/z range">Lower and upper m/z limit (from - to).</option>
+		<option name="Time range">Lower and upper time limit (from - to).</option>
+		<option name="Width range">Lower and upper width limit (from - to),
+		measured in data points (scans).</option>
+		<option name="Min. intensity">Minimum feature intensity.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
-		<outPort index="0" name="Processed profile table">Table containing filtered Profile Data.</outPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
+		<outPort index="0" name="Processed feature table">Table containing filtered Feature data cells.</outPort>
 	</ports>
 </knimeNode>

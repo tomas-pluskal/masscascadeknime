@@ -44,7 +44,6 @@ public class MsNoiseReductionNodeModel extends DefaultModel {
 	 * Constructor for the node model.
 	 */
 	protected MsNoiseReductionNodeModel() {
-
 		super(1, 1, CoreTasks.NOISE_REDUCTION.getCallableClass());
 	}
 
@@ -54,7 +53,7 @@ public class MsNoiseReductionNodeModel extends DefaultModel {
 	@Override
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
-		parameterMap.put(Parameter.SCAN_WINDOW, settings.getIntOption(Parameter.SCAN_WINDOW));
+		parameterMap.put(Parameter.MIN_FEATURE_WIDTH, settings.getIntOption(Parameter.MIN_FEATURE_WIDTH));
 		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
 
 		return getDataTableSpec(data, Parameter.DATA_COLUMN, Parameter.DATA_COLUMN, false);
@@ -67,7 +66,7 @@ public class MsNoiseReductionNodeModel extends DefaultModel {
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 
 		if (settings.getOptionMapSize() == 0) {
-			settings.setTextOption(Parameter.SCAN_WINDOW, "" + Parameter.SCAN_WINDOW.getDefaultValue());
+			settings.setTextOption(Parameter.MIN_FEATURE_WIDTH, "" + Parameter.MIN_FEATURE_WIDTH.getDefaultValue());
 			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
 		}
 
@@ -84,7 +83,7 @@ public class MsNoiseReductionNodeModel extends DefaultModel {
 		tmpSettings.loadSettings(settings);
 
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.DATA_COLUMN);
-		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.SCAN_WINDOW);
+		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MIN_FEATURE_WIDTH);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 	}
 }

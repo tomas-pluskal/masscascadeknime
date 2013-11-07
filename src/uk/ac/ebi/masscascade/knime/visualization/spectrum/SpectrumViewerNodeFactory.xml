@@ -11,22 +11,22 @@
 	<name>Scan Viewer</name>
 
 	<shortDescription>
-		Displays all mass spectra from a selected MS Data cell.
+		Displays scans from a selected MS data cell.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The node shows all mass spectra for a selected MS Data cell. 
+			The node shows scans for a selected MS data cell. 
 			The view supports zooming and highlighting of individual data points.
 		</intro>
 
-		<option name="Data column">A MS Data column.</option>
+		<option name="Data column">MS data column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing MS Data.</inPort>
+		<inPort index="0" name="Data table">Table containing MS data cells.</inPort>
 	</ports>
 	<views>
-		<view index="0" name="Spectrum">Interactive view to explore the spectra.</view>
+		<view index="0" name="Spectrum">Interactive view to explore scans.</view>
 	</views>
 </knimeNode>

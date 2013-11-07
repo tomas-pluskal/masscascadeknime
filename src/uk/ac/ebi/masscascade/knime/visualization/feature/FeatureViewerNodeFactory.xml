@@ -11,25 +11,32 @@
 	<name>Feature Viewer</name>
 
 	<shortDescription>
-		Shows all cross-sample grouped profiles within the specified m/z and time tolerance.
+		Shows cross-sample grouped features within the specified m/z and time tolerance.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Convenience node to visualise profiles of similar mass along the time domain cross-sample. The node is still in 
-			experimental status.
+			Visualises profiles of similar mass that fall into identical time bins across samples.
+			<br />
+			<br />
+			An additional integer column must be provided that contains group
+			labels for the 'Missingness' option: Missingness indicates the percentage of features that
+			may be absent from a feature group, i.e. missing grouped features not present in some out of all samples.
+			<br />
+			<br />
+			The time tolerance defines the time bin width in seconds.
 		</intro>
 
-		<option name="Data column">A Profile column.</option>
-		<option name="m/z tolerance">A m/z tolerance used for the profile matching in ppm.</option>
-		<option name="Time tolerance">A time window in seconds.</option>
+		<option name="Feature column">Feature column.</option>
+		<option name="m/z tolerance">m/z tolerance in ppm.</option>
+		<option name="Time tolerance">Time bin width in seconds (roughly the distance between two scans).</option>
 		<option name="Missingness">A percentage indicating the maximum number of allowed missing profiles across samples [%].</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
 	</ports>
 	<views>
-		<view index="0" name="Profile view">Displays all grouped profiles along the time domain.</view>
+		<view index="0" name="Feature view">Displays grouped features.</view>
 	</views>
 </knimeNode>

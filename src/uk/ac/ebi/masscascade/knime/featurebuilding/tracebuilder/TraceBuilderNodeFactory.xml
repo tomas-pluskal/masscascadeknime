@@ -11,24 +11,26 @@
 	<name>Mass Trace Builder</name>
 
 	<shortDescription>
-		Extracts ion chromatograms using zero intensity values as boundaries.
+		Extracts ion chromatograms (features) using zero intensity values as boundaries between features.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The ion chromatograms (XICs) is build from mass values within the 
-			mass tolerance range only. All XICs have a maximum length and minimum 
-			intensity as defined by the 'peak width' and 'min. intensity' option.
+			Ion chromatograms (featuers) are extracted by concatenating signals in adjacent scans.
+			Each successive signal of a trace must fall into the range defined by the trace's average m/z value and the m/z tolerance.
+			The minimum length and intensity define the lower boundaries for a feature's length (number of successive scans) and apex intensity.
+			A feature is only extracted if both boundaries are exceeded.
 		</intro>
 
-		<option name="Data column">A MS data column.</option>
-		<option name="Scan window">A maximum profile width in scan numbers.</option>
-		<option name="Mass window">A mass tolerance in ppm.</option>
-		<option name="Min. intensity">A minimum profile intensity in units.</option>
+		<option name="Data column">MS data column.</option>
+		<option name="m/z tolerance">m/z tolerance in ppm.</option>
+		<option name="Min. length">Minimum acceptable length of m/z traces,
+		measured in consecutive scans where the m/z signals are present.</option>
+		<option name="Min. intensity">Minimum feature intensity. Feature candidates that fall below that threshold are removed.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing MS Data.</inPort>
-		<outPort index="0" name="Profile table">Table containing Profile Data.</outPort>
+		<inPort index="0" name="Data table">Table containing MS data cells.</inPort>
+		<outPort index="0" name="Feature table">Table containing Feature data cells.</outPort>
 	</ports>
 </knimeNode>

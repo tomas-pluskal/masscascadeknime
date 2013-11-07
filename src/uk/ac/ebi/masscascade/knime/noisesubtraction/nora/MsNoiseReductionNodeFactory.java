@@ -76,7 +76,7 @@ public class MsNoiseReductionNodeFactory extends NodeFactory<MsNoiseReductionNod
 
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 3);
-		dialog.addTextOption(Parameter.SCAN_WINDOW, 3);
+		dialog.addTextOption(Parameter.MIN_FEATURE_WIDTH, 3);
 
 		return dialog.build();
 	}

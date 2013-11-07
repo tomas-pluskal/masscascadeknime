@@ -16,18 +16,20 @@
 
 	<fullDescription>
 		<intro>
-			Contaminants, solvents and known impurities can be removed from 
-			a profile collection given a list of exact molecular ion masses.
+			Removes features from contaminants, solvents, and known impurities.
+			The second inport takes a list of exact ion masses (m/z). If a feature's
+			m/z value matches any of the exact ion masses within the provided m/z tolerance,
+			the feature is removed.
 		</intro>
 
-		<option name="Data column">A Profile data column.</option>
-		<option name="Mass column">A column containing exact ion masses.</option>
-		<option name="Mass tolerance">A mass tolerance ppm.</option>
+		<option name="Feature column">Feature data column.</option>
+		<option name="Value column">Column containing exact ion masses to be removed.</option>
+		<option name="m/z tolerance">m/z tolerance in ppm.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
-		<inPort index="1" name="Mass table">Table containing exact ion masses.</inPort>
-		<outPort index="0" name="Processed profile table">Table containing filtered Profile Data.</outPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
+		<inPort index="1" name="m/z table">Table containing exact ion masses.</inPort>
+		<outPort index="0" name="Processed profile table">Table containing filtered Feature data cells.</outPort>
 	</ports>
 </knimeNode>

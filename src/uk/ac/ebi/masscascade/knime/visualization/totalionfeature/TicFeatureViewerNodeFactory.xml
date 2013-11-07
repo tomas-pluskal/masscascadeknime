@@ -8,24 +8,23 @@
 	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./feature_viewer.png" type="Visualizer">
-	<name>TIC Feature Viewer</name>
+	<name>Feature TIC Viewer</name>
 
 	<shortDescription>
-		Shows profiles and total ion chromatograms (TIC) for a selected Profile Data cell.
+		Shows features and total ion chromatograms of a selected Feature data cell.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The node shows profiles and total ion chromatograms of a selected Profile data cell. The 
-			total ion intensity at a particular time is the sum of all intensities of the corresponding profiles. 
+			Shows features and total ion chromatograms of a selected Feature data cell.
 			The view supports zooming and highlighting of individual data points.
 		</intro>
 
-		<option name="Data column">A Profile data column.</option>
+		<option name="Feature column">Feature column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile Data.</inPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
 	</ports>
 	<views>
 		<view index="0" name="TIC">Interactive view to explore total ion chromatograms.</view>

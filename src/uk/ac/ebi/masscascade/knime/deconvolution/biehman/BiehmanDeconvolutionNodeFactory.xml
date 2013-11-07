@@ -8,29 +8,33 @@
 	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
 <knimeNode icon="./deconvolution.png" type="Manipulator">
-	<name>Biehman Deconvolution</name>
+	<name>Biemann Deconvolution</name>
 
 	<shortDescription>
-		Performs Biehman deconvolution on a collection of peak profiles.
+		Performs deconvolution (peak picking) using a modified Biemann algorithm.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Performs deconvolution using a Bieman approach. The local maxima of a mass trace is
-			perceived and, after background correction and noise estimation, deconvoluted by scanning 
-			the perceived maxima forwards and backwards for local minima.
+			Performs deconvolution using a modified Biemann approach.
+			Local maxima of a feature's ion trace are detected and, after 
+			background correction and noise estimation, isolated by scanning 
+			the forwards and backwards for local minima.
+			<br />
+			Noise is estimated for every feature individually. Thus low S/N ratios of one or two can be used safely.
+			<br />
+			Optionally, processed features can be centered, i.e. their data points are
+			centered around the apices via a three point parabola.
 		</intro>
 
-		<option name="Data column">A Profile Data column.</option>
-		<option name="Scan window">A window used to perceive peaks from one local minimum to another [number of scans].</option>
-		<option name="Noise factor">A factor by which the background noise estimation is multiplied. Peak perception terminates when
-			intensity signals fall below the resulting threshold.</option>
-		<option name="Center profiles">Whether profiles should be re-centerd using a three-point parabola. The actual data points are
-			moved in this case.</option>
+		<option name="Feature column">Feature data column.</option>
+		<option name="Noise factor">Signal to noise ratio (S/N) threshold. Feature perception terminates when
+			intensity signals fall below the threshold.</option>
+		<option name="Center features">Whether profiles should be centerd using a three-point parabola.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Peak table">Table containing Profile Data.</inPort>
-		<outPort index="0" name="Processed Peak table">Table containing deconvoluted Profile Data.</outPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
+		<outPort index="0" name="Processed Feature table">Table containing deconvoluted Feature data cells.</outPort>
 	</ports>
 </knimeNode>

@@ -11,16 +11,16 @@
 	<name>Scan Filter</name>
 
 	<shortDescription>
-		Filters the scans of a MS data cell by time and m/z.
+		Filters scans of MS data cells by time and m/z.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
 			Filters the scans of a MS data cell by retention time and m/z.
 		</intro>
-		<option name="Data column">A MS data column.</option>
-		<option name="m/z range">A lower and upper m/z limit (from - to).</option>
-		<option name="Time range">A lower and upper time limit (from - to).</option>
+		<option name="Data column">MS data column.</option>
+		<option name="m/z range">Lower and upper m/z limit (from - to).</option>
+		<option name="Time range">Lower and upper time limit (from - to).</option>
 	</fullDescription>
 
 	<ports>

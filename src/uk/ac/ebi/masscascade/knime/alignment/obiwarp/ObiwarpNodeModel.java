@@ -224,12 +224,12 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 
 		if (settings.getOptionMapSize() == 0) {
-			settings.setTextOption(Parameter.EXECUTABLE, "" + Parameter.EXECUTABLE.getDefaultValue());
+			settings.setTextOption(Parameter.EXECUTABLE, "myObiwarp.exe");
 			settings.setTextOption(Parameter.GAP_INIT, "" + Parameter.GAP_INIT.getDefaultValue());
 			settings.setTextOption(Parameter.GAP_EXTEND, "" + Parameter.GAP_EXTEND.getDefaultValue());
 			settings.setTextOption(Parameter.RESPONSE, "" + Parameter.RESPONSE.getDefaultValue());
-			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
-			settings.setTextOption(Parameter.TIME_WINDOW, "" + Parameter.TIME_WINDOW.getDefaultValue());
+			settings.setTextOption(Parameter.BIN_WIDTH_MZ, "" + Parameter.BIN_WIDTH_MZ.getDefaultValue());
+			settings.setTextOption(Parameter.BIN_WIDTH_RT, "" + Parameter.BIN_WIDTH_RT.getDefaultValue());
 		}
 
 		NodeUtils.getDataTableSpec(inSpecs[1], settings, Parameter.FEATURE_COLUMN);

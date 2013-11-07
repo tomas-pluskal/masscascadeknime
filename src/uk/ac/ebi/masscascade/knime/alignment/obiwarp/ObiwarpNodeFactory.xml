@@ -11,34 +11,39 @@
 	<name>Obiwarp</name>
 
 	<shortDescription>
-		Obiwarp alignment for profiles.
+		Obiwarp feature alignment.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
 			The node calls the referenced 
 			<a href="http://obi-warp.sourceforge.net/">Obiwarp</a> 
-			binary with the given parameters. The reference MS Data cell is taken from the first row in the reference table. 
+			binary with the given parameters. The reference Feature cell is taken from the first row in the reference table. 
+			<br />
 			<br />
 			Note that only the first row of the reference is read. 
 			<br />
-			The second output contains the profile time shifts for every sample. These are required whenever profiles need to be 
-			mapped back to raw containers.
+			<br />
+			The m/z and time bin width define the coarseness of the landscape. Less granular landscape are aligned faster but may yield poorer results.
+			<br />
+			<br />
+			The second outport contains feature time shifts for every Feature cell. These are required whenever features need to be 
+			mapped back to scan containers, e.g. for back-filling.
 		</intro>
-		<option name="Data column">A Profile data column.</option>
-		<option name="Reference column">A reference Profile column.</option>
-		<option name="Executable">An absolute path to the Obiwarp executable.</option>
-		<option name="Gap init">A gap penalty for initiating a gap.</option>
-		<option name="Gap ext">A gap penalty for extending a gap.</option>
-		<option name="Response">A responsiveness value for the warping [0 - 100].</option>
-		<option name="Mass window">A width for m/z bins in amu.</option>
-		<option name="Time window">A width for time bins in seconds.</option>
+		<option name="Feature column">Feature column.</option>
+		<option name="Reference column">Reference feature column.</option>
+		<option name="Executable">Absolute path to the Obiwarp executable.</option>
+		<option name="Gap init">Gap penalty for initiating a gap.</option>
+		<option name="Gap ext">Gap penalty for extending a gap.</option>
+		<option name="Response">Responsiveness value for the warping [0 - 100].</option>
+		<option name="m/z bin width">Absolute m/z bin width in amu.</option>
+		<option name="Time bin width">Time bin width in seconds.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Profile data.</inPort>
-		<inPort index="1" name="Reference profile table">Table containing a Profile data reference.</inPort>
-		<outPort index="0" name="Aligned profiles">Table containing aligned Profile data.</outPort>
-		<outPort index="1" name="Time shifts">Table containing time shifts of aligned profiles.</outPort>
+		<inPort index="0" name="Feature table">Table containing Feature data cells.</inPort>
+		<inPort index="1" name="Reference feature table">Table containing a Feature data cell reference.</inPort>
+		<outPort index="0" name="Aligned features">Table containing aligned Feature data cells.</outPort>
+		<outPort index="1" name="Time shifts">Table containing time shifts of aligned features.</outPort>
 	</ports>
 </knimeNode>

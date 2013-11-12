@@ -20,9 +20,6 @@
  */
 package uk.ac.ebi.masscascade.knime.identification.ion;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JRadioButton;
-
 import org.knime.core.data.DoubleValue;
 import org.knime.core.data.StringValue;
 import org.knime.core.node.NodeDialogPane;
@@ -86,16 +83,6 @@ public class IonSearchNodeFactory extends NodeFactory<IonSearchNodeModel> {
 		dialog.addColumnSelection(Parameter.VALUE_COLUMN, 1, DoubleValue.class);
 
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 5);
-
-		JRadioButton posMode = new JRadioButton("", true);
-		JRadioButton negMode = new JRadioButton("", true);
-
-		ButtonGroup bg = new ButtonGroup();
-		bg.add(posMode);
-		bg.add(negMode);
-
-		dialog.addCustomOption(Parameter.POSITIVE_MODE, posMode);
-		dialog.addCustomOption(Parameter.NEGATIVE_MODE, negMode);
 
 		return dialog.build();
 	}

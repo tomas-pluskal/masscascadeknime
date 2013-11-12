@@ -34,7 +34,6 @@ import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultModel;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
-import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.CoreTasks;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -64,24 +63,17 @@ public class IonSearchNodeModel extends DefaultModel {
 		final int massIndex = data[1].getDataTableSpec()
 				.findColumnIndex(settings.getColumnName(Parameter.VALUE_COLUMN));
 
-		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
-
-		double delta = 0;
-		if (settings.getBooleanOption(Parameter.POSITIVE_MODE))
-			delta = Constants.PARTICLES.PROTON.getMass();
-		else if (settings.getBooleanOption(Parameter.NEGATIVE_MODE))
-			delta = Constants.PARTICLES.PROTON.getMass() * -1;
-
-		TreeMap<Double, String> adductMap = new TreeMap<Double, String>();
+		TreeMap<Double, String> adductMap = new TreeMap<>();
 		for (DataRow row : data[1]) {
-			if (row.getCell(labelIndex).isMissing() || row.getCell(massIndex).isMissing()) continue;
-			String name = ((StringValue) row.getCell(labelIndex)).getStringValue();
-			double mass = ((DoubleValue) row.getCell(massIndex)).getDoubleValue() + delta;
-			
-			adductMap.put(mass, name);
-		}
-		parameterMap.put(Parameter.ION_LIST, adductMap);
-
+            if (row.getCell(labelIndex).isMissing() || row.getCell(massIndex).isMissing()) continue;
+            String name = ((StringValue) row.getCell(labelIndex)).getStringValue();
+            double mass = ((DoubleValue) row.getCell(massIndex)).getDoubleValue();
+            adductMap.put(mass, name);
+        }
+		
+		parameterMap.put(Parameter.EXACT_MASS_LIST, adductMap);
+		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
+		
 		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
 

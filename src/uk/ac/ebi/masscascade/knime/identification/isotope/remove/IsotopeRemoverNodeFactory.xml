@@ -11,23 +11,23 @@
 	<name>Isotope Manager</name>
 
 	<shortDescription>
-		Deisotopes the spectra or filters the isotopes using isotope annotations.
+		Deisotopes feature sets or filters isotopes using isotope annotations.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The node deisotopes the spectra by removing the isotope profiles. Alternatively, the spectra can be filtered 
-			for isotopes. I.e., only profiles with isotopes are kept. In addition, all detected adducts of the major isotope peak 
+			Deisotopes feature sets by removing isotope profiles. Alternatively, the feature sets can be filtered 
+			for isotopes. I.e. only profiles with isotopes are kept. In addition, all detected adducts of the major isotope peak 
 			are kept as well. Isotopes can be detected using the "Isotope Finder" node.
 		</intro>
 
-		<option name="Data column">A Spectrum data column.</option>
+		<option name="Feature Set column">A Feature Set column.</option>
 		<option name="Keep Isotopes">If the annotated isotopes should be extracted.</option>
 		<option name="Remove Isotopes">If the annotated isotopes should be removed.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Spectrum table">Table containing Spectra data.</inPort>
-		<outPort index="0" name="Processed spectrum table">Table containing deisotoped / filtered Spectra data.</outPort>
+		<inPort index="0" name="Feature Set table">Table containing Feature Set data cells.</inPort>
+		<outPort index="0" name="Processed Feature Set table">Table containing deisotoped / filtered Feature Set data cells.</outPort>
 	</ports>
 </knimeNode>

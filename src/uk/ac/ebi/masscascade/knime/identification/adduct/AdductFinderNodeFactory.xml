@@ -29,26 +29,22 @@
 
 	<fullDescription>
 		<intro>
-			Detects adducts in the spectra within the given mass tolerance and writes the information to the 
-			profiles. The node assumes the presence of either M-H (neg. mode) or M+H (pos. mode) signals as anchor points.
+			Detects adducts in the feature sets and writes the information to the features.
+			The node assumes the presence of either M-H (neg. mode) or M+H (pos. mode) signals as anchor points.
 			<br />
-			The adduct information is provided in two columns, the first containing the adduct label, the second 
-			containing the exact adduct mass.
-			<br />
-			The exact adduct mass must not be corrected for charge already (i.e., addition or subtraction of a hydrogen).
+			The adduct information is provided in two columns: the first containing adduct labels, the second 
+			containing the exact m/z value differences, e.g. loss of water 18.010565.
 		</intro>
 
-		<option name="Spectrum column">A Spectra data column.</option>
-		<option name="Label column">An ion label.</option>
-		<option name="Value column">An ion mass.</option>
-		<option name="Mass tolerance">A mass tolerance in ppm.</option>
-		<option name="Ion mode">An ion mode.</option>
-		<option name="Neutral loss">If the mass values are for neutral losses. Otherwise they will be charge corrected based on the ion mode.</option>
+		<option name="Feature Set column">Feature Set column.</option>
+		<option name="Label column">Adduct label.</option>
+		<option name="Value column">Adduct m/z difference.</option>
+		<option name="m/z tolerance">m/z tolerance in ppm.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Spectrum table">Table containing Spectra Data.</inPort>
-		<inPort index="1" name="Adduct table">Table containing adduct molecular masses and labels.</inPort>
-		<outPort index="0" name="Processed spectrum table">Table containing annotated Spectra Data.</outPort>
+		<inPort index="0" name="Feature Set table">Table containing Feature Set cells.</inPort>
+		<inPort index="1" name="Adduct table">Table containing adduct labels and m/z differences.</inPort>
+		<outPort index="0" name="Processed Feature Set table">Table containing annotated Feature Set cells.</outPort>
 	</ports>
 </knimeNode>

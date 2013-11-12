@@ -11,25 +11,27 @@
 	<name>MSn Builder</name>
 
 	<shortDescription>
-		MSn builder to generate a representative MSn spectrum.
+		Generates representative MSn spectra.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			The method compiles a representative MSn spectra for each profile that has
-			MSn references. The MSn references point to the RAW container. For each MSn level, one MSn spectrum is generated,
+			The method compiles representative MSn spectra for each feature in the feature sets that has got MSn data attached to it.
+			<br />
+			<br />
+			MSn data references point to the Scan containers. For each MSn level, one MSn spectrum is generated,
 			only taking into account signals that are present in all MSn scans of a particular level and that are above the intensity 
 			threshold.
 		</intro>
 
-		<option name="Spectrum column">A Spectrum Data column.</option>
-		<option name="Data column">A MS Data column.</option>
-		<option name="Mass window">A m/z tolerance in ppm.</option>
-		<option name="Min. intensity">A minimum intensity threshold.</option>
+		<option name="Feature Set column">Feature Set column.</option>
+		<option name="Data column">MS Data column.</option>
+		<option name="m/z tolerance">m/z tolerance in ppm.</option>
+		<option name="Min. intensity">Minimum signal intensity.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Spectrum Data.</inPort>
-		<outPort index="0" name="Processed Peak table">Table containing annotated Spectrum Data.</outPort>
+		<inPort index="0" name="Feature Set table">Table containing Feature Set data cells.</inPort>
+		<outPort index="0" name="Processed Feature Set table">Table containing annotated Feature Set data cells.</outPort>
 	</ports>
 </knimeNode>

@@ -36,7 +36,6 @@ import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultModel;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
-import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.CoreTasks;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 
@@ -51,7 +50,6 @@ public class AdductFinderNodeModel extends DefaultModel {
 	 * Constructor for the node model.
 	 */
 	protected AdductFinderNodeModel() {
-
 		super(2, 1, CoreTasks.ADDUCT_FINDER.getCallableClass());
 	}
 
@@ -68,11 +66,6 @@ public class AdductFinderNodeModel extends DefaultModel {
 
 		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
 
-		if (settings.getBooleanOption(Parameter.POSITIVE_MODE))
-			parameterMap.put(Parameter.ION_MODE, Constants.ION_MODE.POSITIVE);
-		else if (settings.getBooleanOption(Parameter.NEGATIVE_MODE))
-			parameterMap.put(Parameter.ION_MODE, Constants.ION_MODE.NEGATIVE);
-		
 		List<AdductSingle> adductList = new ArrayList<AdductSingle>();
 		for (DataRow row : data[1]) {
 			String name = ((StringValue) row.getCell(labelIndex)).getStringValue();

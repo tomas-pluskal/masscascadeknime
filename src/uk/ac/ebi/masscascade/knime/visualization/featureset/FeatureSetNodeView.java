@@ -52,6 +52,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.knime.core.data.DataRow;
+import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeView;
 import org.knime.core.node.tableview.TableContentModel;
 import org.knime.core.node.tableview.TableView;
@@ -197,8 +198,19 @@ public class FeatureSetNodeView extends NodeView<ViewerModel> {
 	private void getDataColumn(ViewerModel nodeModel) {
 
 		TableContentModel tableContentModel = nodeModel.getContentModel();
-
 		String columnName = nodeModel.getSettings().getColumnName(Parameter.FEATURE_SET_COLUMN);
+
+		// hack to avoid "null" value in auto-configured data column
+		if (columnName == null) {
+			try {
+				NodeUtils.getDataTableSpec(nodeModel.getContentModel().getDataTableSpec(), nodeModel.getSettings(),
+						Parameter.FEATURE_SET_COLUMN);
+				columnName = nodeModel.getSettings().getColumnName(Parameter.FEATURE_SET_COLUMN);
+			} catch (InvalidSettingsException e) {
+				e.printStackTrace();
+			}
+		}
+
 		column = tableContentModel.getDataTable().getDataTableSpec().findColumnIndex(columnName);
 	}
 
@@ -308,6 +320,7 @@ public class FeatureSetNodeView extends NodeView<ViewerModel> {
 				try {
 					loadDataFromSpectra(spectraTable.getSelectedRow());
 				} catch (Exception exception) {
+					exception.printStackTrace();
 					// fail silently
 				}
 			}

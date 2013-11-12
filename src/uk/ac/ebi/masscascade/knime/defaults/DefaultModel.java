@@ -207,7 +207,7 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 					taskParms.put(Parameter.FEATURE_CONTAINER, file);
 				} else if (columnIn.equals(Parameter.FEATURE_SET_COLUMN)) {
 					file = ((FeatureSetValue) cell).getFeatureSetDataValue();
-					taskParms.put(Parameter.FEATURE_SET_COLUMN, file);
+					taskParms.put(Parameter.FEATURE_SET_CONTAINER, file);
 				}
 			}
 

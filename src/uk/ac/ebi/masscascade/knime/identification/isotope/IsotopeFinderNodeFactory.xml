@@ -11,19 +11,19 @@
 	<name>Isotope Finder</name>
 
 	<shortDescription>
-		Detects isotopes in the spectra.
+		Detects isotopes in feture sets.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Detects isotopes in the charge range -3 to +3 and writes the information to the profiles. 
+			Detects isotopes and annotates feature sets. 
 		</intro>
 
-		<option name="Data column">A Spectrum data column.</option>
+		<option name="Feature Set column">A Feature Set column.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Spectrum table">Table containing Spectrum Data.</inPort>
-		<outPort index="0" name="Processed spectrum table">Table containing annotated Spectrum data.</outPort>
+		<inPort index="0" name="Feature Set table">Table containing Feature Set data cells.</inPort>
+		<outPort index="0" name="Processed feature set table">Table containing annotated Feature Set data cells.</outPort>
 	</ports>
 </knimeNode>

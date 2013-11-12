@@ -29,7 +29,6 @@ import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultModel;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
-import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.parameters.WebTasks;
 
@@ -54,15 +53,8 @@ public class ChemspiderNodeModel extends DefaultModel {
 	@Override
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
-		Constants.ION_MODE ionMode;
-		if (settings.getTextOption(Parameter.POSITIVE_MODE).equals("true"))
-			ionMode = Constants.ION_MODE.POSITIVE;
-		else
-			ionMode = Constants.ION_MODE.NEGATIVE;
-
 		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
 		parameterMap.put(Parameter.SECURITY_TOKEN, settings.getTextOption(Parameter.SECURITY_TOKEN));
-		parameterMap.put(Parameter.ION_MODE, ionMode);
 		parameterMap.put(Parameter.DATABASES, settings.getStringArrayOption(Parameter.DATABASES));
 
 		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
@@ -77,7 +69,6 @@ public class ChemspiderNodeModel extends DefaultModel {
 		if (settings.getOptionMapSize() == 0) {
 			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
 			settings.setTextOption(Parameter.SECURITY_TOKEN, "" + Parameter.SECURITY_TOKEN.getDefaultValue());
-			settings.setTextOption(Parameter.POSITIVE_MODE, "" + Parameter.POSITIVE_MODE.getDefaultValue());
 		}
 
 		return NodeUtils.getDataTableSpec(inSpecs[0], settings, Parameter.FEATURE_SET_COLUMN);

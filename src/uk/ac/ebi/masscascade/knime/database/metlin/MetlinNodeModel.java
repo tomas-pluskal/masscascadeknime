@@ -29,7 +29,6 @@ import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultModel;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
-import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.parameters.WebTasks;
 
@@ -53,18 +52,11 @@ public class MetlinNodeModel extends DefaultModel {
 	@Override
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
-		Constants.ION_MODE ionMode;
-		if (settings.getTextOption(Parameter.POSITIVE_MODE).equals("true"))
-			ionMode = Constants.ION_MODE.POSITIVE;
-		else
-			ionMode = Constants.ION_MODE.NEGATIVE;
-
 		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
 		parameterMap.put(Parameter.MZ_WINDOW_AMU, settings.getDoubleOption(Parameter.MZ_WINDOW_AMU));
 		parameterMap.put(Parameter.SECURITY_TOKEN, settings.getTextOption(Parameter.SECURITY_TOKEN));
 		parameterMap.put(Parameter.COLLISION_ENERGY, settings.getIntOption(Parameter.COLLISION_ENERGY));
 		parameterMap.put(Parameter.SCORE_METLIN, settings.getIntOption(Parameter.SCORE_METLIN));
-		parameterMap.put(Parameter.ION_MODE, ionMode);
 
 		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}
@@ -79,7 +71,6 @@ public class MetlinNodeModel extends DefaultModel {
 			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
 			settings.setTextOption(Parameter.MZ_WINDOW_AMU, "" + Parameter.MZ_WINDOW_AMU.getDefaultValue());
 			settings.setTextOption(Parameter.SECURITY_TOKEN, "" + Parameter.SECURITY_TOKEN.getDefaultValue());
-			settings.setTextOption(Parameter.POSITIVE_MODE, "" + Parameter.POSITIVE_MODE.getDefaultValue());
 			settings.setTextOption(Parameter.COLLISION_ENERGY, "" + Parameter.COLLISION_ENERGY.getDefaultValue());
 			settings.setTextOption(Parameter.SCORE_METLIN, "" + Parameter.SCORE_METLIN.getDefaultValue());
 		}

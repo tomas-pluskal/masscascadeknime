@@ -26,11 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -45,7 +43,6 @@ import org.knime.core.node.NotConfigurableException;
 import org.knime.core.node.util.ColumnSelectionComboxBox;
 
 import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
-import uk.ac.ebi.masscascade.parameters.Constants;
 
 /**
  * <code>NodeDialog</code> for the "MassBank" Node.
@@ -63,8 +60,6 @@ public class MassbankNodeDialog extends NodeDialogPane {
 	private JTextField maxNumOfResults = new JTextField(6);
 	private JTextField msnLevel = new JTextField(6);
 	private JTextField ppm = new JTextField(6);
-	private JRadioButton positiveButton = new JRadioButton("positive");
-	private JRadioButton negativeButton = new JRadioButton("negative");
 
 	private JButton selectButton = new JButton("(De)Select All");
 
@@ -94,7 +89,7 @@ public class MassbankNodeDialog extends NodeDialogPane {
 		panel.add(spectrumColumn, c);
 		c.gridy++;
 		c.gridx = 0;
-		panel.add(new JLabel("m/z window [ppm]"), c);
+		panel.add(new JLabel("m/z tolerance [ppm]"), c);
 		c.gridx++;
 		panel.add(ppm, c);
 		c.gridy++;
@@ -119,23 +114,12 @@ public class MassbankNodeDialog extends NodeDialogPane {
 		panel.add(msnLevel, c);
 		c.gridy++;
 		c.gridx = 0;
-		panel.add(new JLabel("Mode"), c);
-		c.gridx = 1;
-		panel.add(positiveButton, c);
-		c.gridy++;
-		panel.add(negativeButton, c);
-		c.gridy++;
-		c.gridx = 0;
 
 		c.gridwidth = 4;
 		c.insets = new Insets(0, 0, 0, 0);
 
 		JScrollPane sp = new JScrollPane(instrumentTable);
 		instrumentTable.setFillsViewportHeight(true);
-
-		ButtonGroup bg = new ButtonGroup();
-		bg.add(positiveButton);
-		bg.add(negativeButton);
 
 		panel.add(sp, c);
 		c.gridy++;
@@ -174,12 +158,6 @@ public class MassbankNodeDialog extends NodeDialogPane {
 		msnLevel.setText("" + this.settings.getMSnLevel());
 		ppm.setText("" + this.settings.getPpm());
 
-		if (this.settings.getIonMode() == Constants.ION_MODE.POSITIVE) {
-			positiveButton.setSelected(true);
-		} else if (this.settings.getIonMode() == Constants.ION_MODE.NEGATIVE) {
-			negativeButton.setSelected(true);
-		}
-
 		Map<String, Boolean> instrumentMap = new HashMap<String, Boolean>();
 		for (String instrument : MassbankSettings.ALL_INST)
 			instrumentMap.put(instrument, false);
@@ -201,12 +179,6 @@ public class MassbankNodeDialog extends NodeDialogPane {
 		this.settings.setMaxNumOfResults(Integer.parseInt(maxNumOfResults.getText()));
 		this.settings.setMSnLevel(Integer.parseInt(msnLevel.getText()));
 		this.settings.setPpm(Double.parseDouble(ppm.getText()));
-
-		if (positiveButton.isSelected()) {
-			this.settings.setIonMode(Constants.ION_MODE.POSITIVE);
-		} else if (negativeButton.isSelected()) {
-			this.settings.setIonMode(Constants.ION_MODE.NEGATIVE);
-		}
 
 		this.settings.setInstruments(instrumentModel.getSelected().toArray(new String[] {}));
 

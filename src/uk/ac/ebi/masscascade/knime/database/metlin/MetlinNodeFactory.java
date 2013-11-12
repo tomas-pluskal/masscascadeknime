@@ -17,9 +17,6 @@
  */
 package uk.ac.ebi.masscascade.knime.database.metlin;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JRadioButton;
-
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
@@ -80,16 +77,6 @@ public class MetlinNodeFactory extends NodeFactory<MetlinNodeModel> {
 		dialog.addTextOption(Parameter.MZ_WINDOW_AMU, 8);
 		dialog.addTextOption(Parameter.COLLISION_ENERGY, 8);
 		dialog.addTextOption(Parameter.SCORE_METLIN, 8);
-
-		JRadioButton positiveMode = new JRadioButton("", true);
-		JRadioButton negativeMode = new JRadioButton("");
-
-		ButtonGroup ionModeGroup = new ButtonGroup();
-		ionModeGroup.add(positiveMode);
-		ionModeGroup.add(negativeMode);
-
-		dialog.addCustomOption(Parameter.POSITIVE_MODE, positiveMode);
-		dialog.addCustomOption(Parameter.NEGATIVE_MODE, negativeMode);
 
 		dialog.addTextOption(Parameter.SECURITY_TOKEN, 20);
 

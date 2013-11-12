@@ -108,14 +108,13 @@ public class MassbankNodeModel extends NodeModel {
 				ParameterMap params = new ParameterMap();
 				params.put(Parameter.MZ_WINDOW_PPM, settings.getPpm());
 				params.put(Parameter.SCORE, settings.getScore());
-				params.put(Parameter.ION_MODE, settings.getIonMode());
 
 				List<String> instruments = new ArrayList<String>(Arrays.asList(settings.getInstruments()));
 
 				params.put(Parameter.INSTRUMENTS, instruments);
 				params.put(Parameter.RESULTS, settings.getMaxNumOfResults());
 				params.put(Parameter.MIN_FEATURES, settings.getMinNumOfProfiles());
-				params.put(Parameter.FEATURE_SET_COLUMN, container);
+				params.put(Parameter.FEATURE_SET_CONTAINER, container);
 				params.put(Parameter.MS_LEVEL, Constants.MSN.get(settings.getMSnLevel()));
 
 				CallableWebservice task = new MassBankBatchSearch(params);
@@ -284,7 +283,7 @@ public class MassbankNodeModel extends NodeModel {
 		tmpSettings.loadSettings(settings);
 
 		if (tmpSettings.getSpectrumColumn() == null || tmpSettings.getSpectrumColumn().length() == 0) {
-			throw new InvalidSettingsException("No valid spectrum column.");
+			throw new InvalidSettingsException("No valid feature set column.");
 		}
 
 		if (tmpSettings.getScore() < 0 || tmpSettings.getScore() > 1) {
@@ -296,7 +295,7 @@ public class MassbankNodeModel extends NodeModel {
 		}
 
 		if (tmpSettings.getMinNumOfProfiles() <= 0) {
-			throw new InvalidSettingsException("Min. no. of profiles must be positive.");
+			throw new InvalidSettingsException("Min. no. of features must be positive.");
 		}
 
 		if (tmpSettings.getMSnLevel() < 1) {

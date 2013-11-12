@@ -20,9 +20,6 @@ package uk.ac.ebi.masscascade.knime.database.chemspider;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JRadioButton;
-
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
@@ -81,16 +78,6 @@ public class ChemspiderNodeFactory extends NodeFactory<ChemspiderNodeModel> {
 
 		dialog.addColumnSelection(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 5);
-
-		JRadioButton positiveMode = new JRadioButton("", true);
-		JRadioButton negativeMode = new JRadioButton("");
-
-		ButtonGroup ionModeGroup = new ButtonGroup();
-		ionModeGroup.add(positiveMode);
-		ionModeGroup.add(negativeMode);
-
-		dialog.addCustomOption(Parameter.POSITIVE_MODE, positiveMode);
-		dialog.addCustomOption(Parameter.NEGATIVE_MODE, negativeMode);
 
 		dialog.addTextOption(Parameter.SECURITY_TOKEN, 20);
 

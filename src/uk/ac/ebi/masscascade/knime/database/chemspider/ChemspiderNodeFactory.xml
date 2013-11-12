@@ -11,26 +11,27 @@
 	<name>ChemSpider</name>
 
 	<shortDescription>
-		Profile-based Chemspider database search.
+		Single m/z (feature) Chemspider database search.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Profile-based query for the 
+			Single m/z (feature) query for the 
 			<a href="http://www.chemspider.com/">Chemspider</a>
-			database. The returned molecule names and InChI are stored with the matching profiles.  
+			database. The returned molecule names and InChI are stored with the matching features.  
 			<br />
-			The node relies on a web service and may be slow.
+			<br />
+			The node relies on a web service and may be slow for many features. A ChemSpider token is required.
 		</intro>
 
-		<option name="Data column">A Spectrum data column.</option>
-		<option name="Mass window">A m/z tolerance for the query in ppm.</option>
-		<option name="Token">A ChemSpider authentication token.</option>
+		<option name="Feature Set column">Feature Set column.</option>
+		<option name="m/z tolerance">m/z tolerance in ppm.</option>
+		<option name="Token">ChemSpider authentication token.</option>
 		<option name="Databases">The databases to query.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Profile table">Table containing Spectrum Data.</inPort>
-		<outPort index="0" name="Processed Peak table">Table containing annotated Spectrum Data.</outPort>
+		<inPort index="0" name="Feature Set table">Table containing Feature Set data cells.</inPort>
+		<outPort index="0" name="Processed Feature Set table">Table containing annotated Feature set data cells.</outPort>
 	</ports>
 </knimeNode>

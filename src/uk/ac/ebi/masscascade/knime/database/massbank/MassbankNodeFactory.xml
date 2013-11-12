@@ -11,32 +11,35 @@
 	<name>MassBank</name>
 
 	<shortDescription>
-		Spectrum-based Massbank database search.
+		MSn-based Massbank database search.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Simple spectra-based 
+			MSn-based 
 			<a href="http://www.massbank.jp/?lang=en">Massbank</a>
-			database queries using the "spectrum search" method. The identity of reference spectra that match the query spectra 
+			database queries using Massbank's "spectrum search" method. The identity of reference spectra that match the query spectra (feture sets)
 			are added to the M-H or M+H peak of the query spectra of precursor spectra. If no M-H or M+H peak can be found, the search is assumed to 
 			be invalid. 
+			<br />
+			<br />
+			MSn spectra must first be build using the MSn Builder node.
+			<br />
 			<br />
 			The node relies on a web service and may be slow.
 		</intro>
 
-		<option name="Data column">A Spectrum data column.</option>
-		<option name="Mass tolerance">A query m/z tolerance in ppm.</option>
-		<option name="MSn level">A MSn level to query.</option>
-		<option name="Score">The MassBank query score. Query results below the given score are rejected: 0-1</option>
-		<option name="Min. number of profiles">A minimum number of profiles a spectrum must have to be considered for a database query.</option>
+		<option name="Data column">Feature Set column.</option>
+		<option name="m/z tolerance">m/z tolerance in ppm.</option>
+		<option name="MSn level">MSn level to query.</option>
+		<option name="Score">The MassBank query score. Query results below the given score are rejected (0-1).</option>
+		<option name="Min. number of features">A minimum number of features a spectrum must have to be considered for a database query.</option>
 		<option name="Max results">A maximum number of results that are accepted.</option>
-		<option name="Ion mode">An ion mode.</option>
 		<option name="Instrument">The instruments which spectra should be queried.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Spectrum table">Table containing Spectra Data.</inPort>
-		<outPort index="0" name="Processed spectrum table">Table containing annotated Spectra Data.</outPort>
+		<inPort index="0" name="Feature Set table">Table containing Feature Set data cells.</inPort>
+		<outPort index="0" name="Processed Feature Set table">Table containing annotated Feature Set data cells.</outPort>
 	</ports>
 </knimeNode>

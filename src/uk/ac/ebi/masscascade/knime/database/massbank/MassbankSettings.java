@@ -21,8 +21,6 @@ import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 
-import uk.ac.ebi.masscascade.parameters.Constants;
-
 /**
  * Settings for the Massbank Webservice node.
  * 
@@ -41,11 +39,10 @@ public class MassbankSettings {
 	private String spectrumColumn;
 	private int minNumOfProfiles = 3;
 	private double score = 0.8;
-	private Constants.ION_MODE ionMode = Constants.ION_MODE.POSITIVE;
 	private int maxNumOfResults = 50;
 	private String[] instruments = DEF_INST;
 	private int msnLevel = 2;
-	private double ppm;
+	private double ppm = 10.0;
 
 	/**
 	 * @return the spectrumColumn
@@ -73,20 +70,6 @@ public class MassbankSettings {
 	 */
 	public final void setScore(double score) {
 		this.score = score;
-	}
-
-	/**
-	 * @return the ionMode
-	 */
-	public final Constants.ION_MODE getIonMode() {
-		return ionMode;
-	}
-
-	/**
-	 * @param ionMode the ionMode to set
-	 */
-	public final void setIonMode(Constants.ION_MODE ionMode) {
-		this.ionMode = ionMode;
 	}
 
 	/**
@@ -170,7 +153,6 @@ public class MassbankSettings {
 		settings.addString("spectrumColumn", spectrumColumn);
 
 		settings.addDouble("score", score);
-		settings.addString("mode", ionMode.name());
 		settings.addStringArray("instruments", instruments);
 		settings.addInt("results", maxNumOfResults);
 		settings.addInt("minProfiles", minNumOfProfiles);
@@ -188,7 +170,6 @@ public class MassbankSettings {
 		spectrumColumn = settings.getString("spectrumColumn", null);
 
 		score = settings.getDouble("score", 0.9);
-		ionMode = Constants.ION_MODE.valueOf(settings.getString("mode", Constants.ION_MODE.POSITIVE.name()));
 		instruments = settings.getStringArray("instruments", DEF_INST);
 		maxNumOfResults = settings.getInt("results", 50);
 		minNumOfProfiles = settings.getInt("minProfiles", 3);
@@ -207,7 +188,6 @@ public class MassbankSettings {
 		spectrumColumn = settings.getString("spectrumColumn");
 
 		score = settings.getDouble("score");
-		ionMode = Constants.ION_MODE.valueOf(settings.getString("mode"));
 		instruments = settings.getStringArray("instruments");
 		maxNumOfResults = settings.getInt("results");
 		minNumOfProfiles = settings.getInt("minProfiles");

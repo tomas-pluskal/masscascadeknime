@@ -11,7 +11,7 @@
 	<name>Metlin</name>
 
 	<shortDescription>
-		Spectrum-based Metlin database search.
+		MSn-based Metlin database search.
 	</shortDescription>
 
 	<fullDescription>
@@ -21,19 +21,24 @@
 			database queries using the "spectrum search" method. The identity of reference spectra that match the query spectra 
 			are added to the M-H or M+H peak of the precursor spectra. Note that the node only searches MS2 spectra and only takes into account 
 			up to 30 high-intensity peaks.
+			<br />
+			<br />
+			MSn spectra must first be build using the MSn Builder node.
+			<br />
+			<br />
+			The node relies on a web service and may be slow.
 		</intro>
 		
-		<option name="Data column">A Spectrum data column.</option>
-		<option name="Mass tolerance">A query m/z tolerance in ppm for the precursor ion.</option>
-		<option name="Mass tolerance">A query m/z tolerance in amu for the MSn signals.</option>
+		<option name="Feature Set column">Feature Set column.</option>
+		<option name="m/z tolerance">Query m/z tolerance in ppm for the precursor ion.</option>
+		<option name="m/z tolerance">Query m/z tolerance in amu for the MSn signals.</option>
 		<option name="Collision energy">A collision energy (20, 30, 40, ...).</option>
-		<option name="Score">The Metlin query score. Query results below the given score are rejected: 0-1</option>
-		<option name="Token">A Metlin authentication token.</option>
-		<option name="Ion mode">An ion mode.</option>
+		<option name="Score">Metlin query score. Query results below the given score are rejected (0-100)</option>
+		<option name="Token">Metlin authentication token.</option>
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Data table">Table containing Spectra Data.</inPort>
-		<outPort index="0" name="Retrieved hits">Table containing annotated Spectra Data.</outPort>
+		<inPort index="0" name="Feature Set table">Table containing Feature Set data cells.</inPort>
+		<outPort index="0" name="Retrieved hits">Table containing annotated Feature Set data cells.</outPort>
 	</ports>
 </knimeNode>

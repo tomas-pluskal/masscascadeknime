@@ -64,8 +64,7 @@ public class MsFileReaderNodeDialog extends NodeDialogPane {
 		public boolean accept(final File file, final String name) {
 
 			String s = name.toUpperCase();
-			if (s.endsWith(Constants.FILE_FORMATS.MZML.name()) || s.endsWith(Constants.FILE_FORMATS.RAW.name())
-					|| s.endsWith(Constants.FILE_FORMATS.CML.name())) {
+			if (s.endsWith(Constants.FILE_FORMATS.MZML.name()) || s.endsWith(Constants.FILE_FORMATS.RAW.name())) {
 				return true;
 			}
 			return false;
@@ -149,8 +148,7 @@ public class MsFileReaderNodeDialog extends NodeDialogPane {
 
 				if (i > 0 && i < fileName.length() - 1)
 					if (fileName.substring(i + 1).toUpperCase().equals(Constants.FILE_FORMATS.RAW.name())
-							|| fileName.substring(i + 1).toUpperCase().equals(Constants.FILE_FORMATS.MZML.name())
-							|| fileName.substring(i + 1).toUpperCase().equals(Constants.FILE_FORMATS.CML.name()))
+							|| fileName.substring(i + 1).toUpperCase().equals(Constants.FILE_FORMATS.MZML.name()))
 						return true;
 
 				return false;
@@ -160,8 +158,7 @@ public class MsFileReaderNodeDialog extends NodeDialogPane {
 
 				String wildcard = "*.";
 				return wildcard + Constants.FILE_FORMATS.RAW.name().toLowerCase() + ", " + wildcard
-						+ Constants.FILE_FORMATS.MZML.name().toLowerCase() + ", " + wildcard
-						+ Constants.FILE_FORMATS.CML.name().toLowerCase();
+						+ Constants.FILE_FORMATS.MZML.name().toLowerCase();
 			}
 		});
 

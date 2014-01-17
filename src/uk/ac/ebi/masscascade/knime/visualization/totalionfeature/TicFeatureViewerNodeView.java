@@ -132,7 +132,7 @@ public class TicFeatureViewerNodeView extends DefaultView {
 		for (Double rt : ticMap.keySet())
 			data.add(new XYPoint(rt, ticMap.get(rt)));
 		Collections.sort(data);
-		ticDataSet = new DataSet.Builder(data, "TIC").color(Color.BLACK).build();
+		ticDataSet = new DataSet.Builder(data, "TIC").color(Color.BLUE).build();
 
 		ProfileTableModel tableModel = new ProfileTableModel();
 		tableModel.setData(tableData);
@@ -149,9 +149,42 @@ public class TicFeatureViewerNodeView extends DefaultView {
 		sorter.setSortKeys(sortKeys);
 		listTable.setRowSorter(sorter);
 
+		// !!!!!!!!!!!!!!!!!!!!!!!!!
+//		int s = rowNumber.length != 0 ? rowNumber[1] : selectedRun;
+//		DataRow rows = NodeUtils.getDataRow(getNodeModel().getInternalTables()[0], s);
+//		Container featureContainers = null;
+//		if (rows.getCell(column).getType() == FeatureCell.TYPE)
+//			featureContainers = ((FeatureValue) rows.getCell(column)).getPeakDataValue();
+//		else if (rows.getCell(column).getType() == FeatureSetCell.TYPE)
+//			featureContainers = ((FeatureSetValue) rows.getCell(column)).getFeatureSetDataValue();
+//
+//		List<Object[]> tableDataLists = new ArrayList<>();
+//		Map<Double, Double> ticMaps = new HashMap<Double, Double>();
+//		Map<Integer, Feature> featuress = new HashMap<>();
+//		for (Feature feature : featureContainers.featureIterator()) {
+//
+//			for (XYZPoint dp : feature.getData()) {
+//				if (ticMaps.containsKey(dp.x))
+//					ticMaps.put(dp.x, ticMaps.get(dp.x) + dp.z);
+//				else
+//					ticMaps.put(dp.x, dp.z);
+//			}
+//
+//			featuress.put(feature.getId(), feature);
+//		}
+//
+//		XYList datas = new XYList();
+//		for (Double rt : ticMaps.keySet())
+//			datas.add(new XYPoint(rt, ticMaps.get(rt)));
+//		Collections.sort(datas);
+//		ticDataSets = new DataSet.Builder(datas, "TIC").color(Color.RED).build();
+		// !!!!!!!!!!!!!!!!!!!!!!!!!
+		
 		loadDataFromList();
 		chart.zoomAll();
 	}
+	
+//	private DataSet ticDataSets;
 
 	/**
 	 * Updates the features.
@@ -163,6 +196,7 @@ public class TicFeatureViewerNodeView extends DefaultView {
 		chart.clearData();
 		graphColor.reset();
 
+//		chart.addData(ticDataSets);
 		chart.addData(ticDataSet);
 
 		for (int selectedRow : selectedRows)

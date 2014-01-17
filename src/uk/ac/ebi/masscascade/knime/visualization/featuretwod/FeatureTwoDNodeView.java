@@ -65,7 +65,7 @@ public class FeatureTwoDNodeView extends DefaultView {
 		getJMenuBar().remove(spectrumMenu);
 
 		Map<SimpleSpectrum.PAINTERS, Boolean> tracePainter = new HashMap<SimpleSpectrum.PAINTERS, Boolean>();
-		tracePainter.put(PAINTERS.POINT_ONLY, false);
+		tracePainter.put(PAINTERS.DISC_ONLY, false);
 		chart.setDefaultTracePainter(tracePainter);
 
 		chart.getAxisY().setPaintGrid(false);

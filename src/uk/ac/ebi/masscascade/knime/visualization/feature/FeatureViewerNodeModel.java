@@ -90,6 +90,19 @@ public class FeatureViewerNodeModel extends NodeModel {
 		
 		model = new FeatureBinTableModel(profileContainers, ppm, sec, missingness);
 		
+//		for (int i = 0; i < model.getRowCount(); i++) {
+//			int[] ca = new int[2];
+//			int[] ia = new int[2];
+//			double[] ta = new double[2];
+//			for (Map.Entry<String, Feature> f : model.getProfilesForRow(i).entrySet()) {
+//				int c = Integer.parseInt(f.getKey().substring(1, 2));
+//				ca[c] = c;
+//				ia[c] = f.getValue().getId();
+//				ta[c] = f.getValue().getRetentionTime();
+//			}
+//			System.out.println(ca[0] + " " + ia[0] + " " + ta[0] + " " + ca[1] + " " + ia[1] + " " + ta[1]);
+//		}
+		
 		return null;
 	}
 	

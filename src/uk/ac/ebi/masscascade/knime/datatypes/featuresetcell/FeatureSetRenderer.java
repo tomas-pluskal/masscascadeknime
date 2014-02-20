@@ -123,6 +123,6 @@ public class FeatureSetRenderer extends AbstractPainterDataValueRenderer {
 	 */
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(180, 30);
+		return new Dimension(180, 100);
 	}
 }

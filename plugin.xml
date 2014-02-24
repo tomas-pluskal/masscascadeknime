@@ -124,7 +124,6 @@
 <node category-path="/community/masscascade/scans/scanvis" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.spectrum.compare.SpectrumComparatorNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.spectrum.compare.SpectrumComparatorNodeFactory"/>
 <node category-path="/community/masscascade/scans/scanvis" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.base.BasePeakViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.base.BasePeakViewerNodeFactory"/>
 <node category-path="/community/masscascade/features/alignment" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.alignment.obiwarp.ObiwarpNodeFactory" id="uk.ac.ebi.masscascade.knime.alignment.obiwarp.ObiwarpNodeFactory"/>
-<node category-path="/community/masscascade/features/alignment" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.alignment.ratiosets.RatioSetsNodeFactory" id="uk.ac.ebi.masscascade.knime.alignment.ratiosets.RatioSetsFactory"/>
 <node category-path="/community/masscascade/scans/background" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.noisesubtraction.bgs.MsBackgroundRemoverNodeFactory" id="uk.ac.ebi.masscascade.knime.noisesubtraction.bgs.MsBackgroundRemoverNodeFactory"/>
 <node category-path="/community/masscascade/scans" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.normalization.NormalizationNodeFactory" id="uk.ac.ebi.masscascade.knime.normalization.NormalizationNodeFactory"/>
 <node category-path="/community/masscascade/features/filter" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.featureselection.durbin.DurbinFilterNodeFactory" id="uk.ac.ebi.masscascade.knime.featureselection.durbin.DurbinFilterNodeFactory"/>
@@ -155,12 +154,15 @@
 <node category-path="/community/masscascade/features/featurevis" factory-class="uk.ac.ebi.masscascade.knime.visualization.feature.FeatureViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.feature.FeatureViewerNodeFactory"/>
 <node category-path="/community/masscascade/features/featureSetCompilation" factory-class="uk.ac.ebi.masscascade.knime.featuresetbuilding.biehman.BiehmanCompilerNodeFactory" id="uk.ac.ebi.masscascade.knime.featuresetbuilding.biehman.BiehmanCompilerNodeFactory"/>
 <node category-path="/community/masscascade/featuresets" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory"/>
-<!--<node category-path="/community/masscascade/io" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.io.write.MsFileWriterNodeFactory" id="uk.ac.ebi.masscascade.knime.io.write.MsFileWriterNodeFactory"/>
+<!--
+<node category-path="/community/masscascade/io" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.io.write.MsFileWriterNodeFactory" id="uk.ac.ebi.masscascade.knime.io.write.MsFileWriterNodeFactory"/>
 <node category-path="/community/masscascade/featuresets/identification" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory"/>
 <node category-path="/community/masscascade/featuresets/identification" factory-class="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory" id="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory"/>
 <node category-path="/community/masscascade/featuresets/identification/curation" factory-class="uk.ac.ebi.masscascade.knime.curation.bless.BlessTableNodeFactory" id="uk.ac.ebi.masscascade.knime.curation.bless.BlessTableNodeFactory"/>
 <node category-path="/community/masscascade/featuresets/identification/curation" factory-class="uk.ac.ebi.masscascade.knime.curation.brush.BrushNodeFactory" id="uk.ac.ebi.masscascade.knime.curation.brush.BrushNodeFactory"/>
-<node category-path="/community/masscascade/featuresets/identification/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.local.LibSearchNodeFactory" id="uk.ac.ebi.masscascade.knime.database.local.LibSearchNodeFactory"/>-->
+<node category-path="/community/masscascade/featuresets/identification/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.local.LibSearchNodeFactory" id="uk.ac.ebi.masscascade.knime.database.local.LibSearchNodeFactory"/>
+<node category-path="/community/masscascade/features/alignment" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.alignment.ratiosets.RatioSetsNodeFactory" id="uk.ac.ebi.masscascade.knime.alignment.ratiosets.RatioSetsFactory"/>
+-->
 </extension>
    <extension point="org.eclipse.ui.preferencePages">
       <page category="org.knime.workbench.ui.preferences" class="uk.ac.ebi.masscascade.knime.preferences.PreferencePage" id="uk.ac.ebi.masscascade.knime.MassCascadePreferencePage" name="MassCascade">

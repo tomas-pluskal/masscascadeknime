@@ -20,6 +20,7 @@ package uk.ac.ebi.masscascade.knime.curation.brush;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.knime.core.data.DataCell;
@@ -30,8 +31,10 @@ import org.knime.core.data.DataTableSpec;
 import org.knime.core.data.DataType;
 import org.knime.core.data.IntValue;
 import org.knime.core.data.RowKey;
+import org.knime.core.data.collection.ListCell;
 import org.knime.core.data.def.DefaultRow;
 import org.knime.core.data.def.DoubleCell;
+import org.knime.core.data.def.IntCell;
 import org.knime.core.data.def.StringCell;
 import org.knime.core.node.BufferedDataContainer;
 import org.knime.core.node.BufferedDataTable;
@@ -42,21 +45,17 @@ import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
-import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.knime.type.CDKCell;
 
 import uk.ac.ebi.masscascade.alignment.featurebins.FeatureBinGenerator;
 import uk.ac.ebi.masscascade.brush.FeatureSetCourt;
-import uk.ac.ebi.masscascade.compound.CompoundEntity;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrum;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrumAdapter;
-import uk.ac.ebi.masscascade.compound.NotationUtil;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
-import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.parameters.ParameterMap;
 
@@ -142,6 +141,8 @@ public class BrushNodeModel extends NodeModel {
 
 			// process spectrum cells of a group one by one using the
 			// "cToPIdMap" from above
+			BrushAggregator ba = new BrushAggregator();
+			
 			for (DataCell spectrumCell : groupToDataCells.get(group)) {
 				if (spectrumCell.isMissing()) {
 					continue;
@@ -156,15 +157,16 @@ public class BrushNodeModel extends NodeModel {
 				court.setParameters(params);
 				css = court.call();
 
-				// convert and add remaining compound spectrum to the output
-				// data container
-				for (CompoundSpectrum cs : css) {
-					for (CompoundEntity ce : cs.getBest(100)) {
-						DataCell[] resultCells = new DataCell[8];
-						addSpectrum(cs, ce, resultCells, ((FeatureSetValue) spectrumCell).getFeatureSetDataValue()
-								.getId());
-						dataContainer.addRowToTable(new DefaultRow(new RowKey(gid++ + ""), resultCells));
-					}
+				// convert and consolidate remaining compound spectra
+				ba.add(css);
+			}
+			
+			// add to output container
+			for (double mz : ba.mzs()) {
+				Iterator<DataCell[]> iter = ba.rows(mz, group);
+				while (iter.hasNext()) {
+					DataCell[] dataCells = iter.next();
+					dataContainer.addRowToTable(new DefaultRow(new RowKey(gid++ + ""), dataCells));
 				}
 			}
 		}
@@ -174,50 +176,19 @@ public class BrushNodeModel extends NodeModel {
 	}
 
 	/**
-	 * Converts a compound spectrum into a data cell array.
-	 * 
-	 * @param spectrum the compound spectrum
-	 * @param entityIndex the index of the associated chemical entity
-	 * @param resultCells the data cell array
-	 * @param id the id of the sample to which the compound spectrum belongs
-	 */
-	private void addSpectrum(CompoundSpectrum spectrum, CompoundEntity ce, DataCell[] resultCells, String id) {
-
-		int majorPeak = spectrum.getMajorPeak() - 1;
-
-		resultCells[0] = new StringCell(id.substring(0, id.indexOf(Constants.DELIMITER)));
-		resultCells[1] = new DoubleCell(spectrum.getPeakList().get(majorPeak).x);
-		resultCells[2] = new DoubleCell(spectrum.getRetentionTime());
-		resultCells[3] = new DoubleCell(spectrum.getPeakList().get(majorPeak).y);
-		resultCells[4] = new StringCell(ce.getName());
-
-		if (ce.getNotation(majorPeak + 1) == null)
-			resultCells[5] = DataType.getMissingCell();
-		else {
-			IAtomContainer molecule = NotationUtil.getMoleculeTyped(ce.getNotation(majorPeak + 1));
-			if (molecule == null)
-				resultCells[5] = DataType.getMissingCell();
-			else
-				resultCells[5] = new CDKCell(molecule);
-		}
-		resultCells[6] = new DoubleCell(ce.getScore());
-		resultCells[7] = new StringCell(ce.getStatus().name());
-	}
-
-	/**
 	 * Creates the table output specification.
 	 */
 	private DataColumnSpec[] createOutputTableSpecification() {
 
 		List<DataColumnSpec> dataColumnSpecs = new ArrayList<DataColumnSpec>();
 
-		createColumnSpec(dataColumnSpecs, "id", StringCell.TYPE);
+		createColumnSpec(dataColumnSpecs, "group", IntCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "mz", DoubleCell.TYPE);
-		createColumnSpec(dataColumnSpecs, "rt", DoubleCell.TYPE);
-		createColumnSpec(dataColumnSpecs, "intensity", DoubleCell.TYPE);
+		createColumnSpec(dataColumnSpecs, "rt", ListCell.getCollectionType(DoubleCell.TYPE));
+		createColumnSpec(dataColumnSpecs, "area", ListCell.getCollectionType(DoubleCell.TYPE));
 		createColumnSpec(dataColumnSpecs, "name", StringCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "molecule", CDKCell.TYPE);
-		createColumnSpec(dataColumnSpecs, "score", DoubleCell.TYPE);
+		createColumnSpec(dataColumnSpecs, "avg score", DoubleCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "status", StringCell.TYPE);
 
 		return dataColumnSpecs.toArray(new DataColumnSpec[] {});

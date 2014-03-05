@@ -284,27 +284,29 @@ public class FeatureFrame extends JFrame {
 				moleculePanel.revalidate();
 
 				String msnString = (String) msnLabel.getSelectedItem();
-				msnString = msnString.substring(2, 3);
-				Constants.MSN msn = Constants.MSN.get(msnString);
+				if (msnString != null) {
+					msnString = msnString.substring(2);
+					Constants.MSN msn = Constants.MSN.get(msnString);
 
-				Multimap<Double, Identity> msnMassToIdentity = HashMultimap.create();
-				Set<String> duplicates = new HashSet<>();
-				for (Feature msnProfile : feature.getMsnSpectra(msn).get(0)) {
-					if (!msnProfile.hasProperty(PropertyType.Identity))
-						continue;
+					Multimap<Double, Identity> msnMassToIdentity = HashMultimap.create();
+					Set<String> duplicates = new HashSet<>();
+					for (Feature msnProfile : feature.getMsnSpectra(msn).get(0)) {
+						if (!msnProfile.hasProperty(PropertyType.Identity))
+							continue;
 
-					for (Identity identity : msnProfile.getProperty(PropertyType.Identity, Identity.class)) {
-						if (tmpIdentity.getId().contains(identity.getSource())) {
-							String dupString = msnProfile.getMz() + "-" + identity.getNotation();
-							if (duplicates.contains(dupString))
-								continue;
-							duplicates.add(dupString);
-							msnMassToIdentity.put(msnProfile.getMz(), (Identity) identity);
+						for (Identity identity : msnProfile.getProperty(PropertyType.Identity, Identity.class)) {
+							if (tmpIdentity.getId().contains(identity.getSource())) {
+								String dupString = msnProfile.getMz() + "-" + identity.getNotation();
+								if (duplicates.contains(dupString))
+									continue;
+								duplicates.add(dupString);
+								msnMassToIdentity.put(msnProfile.getMz(), (Identity) identity);
+							}
 						}
 					}
-				}
 
-				((FragmentTableModel) fragmentTable.getModel()).setDataList(msnMassToIdentity);
+					((FragmentTableModel) fragmentTable.getModel()).setDataList(msnMassToIdentity);
+				}
 				TableRowSorter<FragmentTableModel> sorter = new TableRowSorter<FragmentTableModel>();
 				List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
 				sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));

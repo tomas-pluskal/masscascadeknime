@@ -285,7 +285,7 @@ public class FeatureFrame extends JFrame {
 
 				String msnString = (String) msnLabel.getSelectedItem();
 				if (msnString != null) {
-					msnString = msnString.substring(2);
+					msnString = msnString.substring(2, 3);
 					Constants.MSN msn = Constants.MSN.get(msnString);
 
 					Multimap<Double, Identity> msnMassToIdentity = HashMultimap.create();

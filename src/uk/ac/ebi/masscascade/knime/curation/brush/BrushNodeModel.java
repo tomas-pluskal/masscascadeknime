@@ -155,6 +155,7 @@ public class BrushNodeModel extends NodeModel {
 				// define filter criteria and run
 				FeatureSetCourt court = new FeatureSetCourt(css);
 				court.setParameters(params);
+				
 				css = court.call();
 
 				// convert and consolidate remaining compound spectra

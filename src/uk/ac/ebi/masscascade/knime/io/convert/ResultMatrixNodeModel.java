@@ -146,30 +146,6 @@ public class ResultMatrixNodeModel extends NodeModel {
 		DataCell[] cellRow;
 		List<FeatureBin> rows = model.getRows();
 		Collections.sort(rows, new FeatureBinTimeComparator());
-
-		// if
-		// (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX))
-		// {
-		// cellRow = new DataCell[rows.size() + 1];
-		// int mzIndex = 0;
-		// cellRow[mzIndex++] = new StringCell("Sample");
-		// for (ProfileBin row : rows)
-		// cellRow[mzIndex++] = new DoubleCell(row.getMz());
-		// dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""),
-		// cellRow));
-		// for (int i = 0; i < profileContainers.size(); i++) {
-		// mzIndex = 0;
-		// cellRow[mzIndex++] = new
-		// StringCell(TextUtils.cleanId(profileContainers.get(i).getId()));
-		// for (ProfileBin row : rows) {
-		// double intensity = row.isPresent(i);
-		// cellRow[mzIndex++] = intensity > 0 ? new DoubleCell(intensity) :
-		// DataType.getMissingCell();
-		// }
-		// dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""),
-		// cellRow));
-		// }
-		// } else {
 		Multimap<Integer, Integer> containerToRowId = HashMultimap.create();
 		int rowI = 0;
 		for (FeatureBin row : rows) {
@@ -199,7 +175,6 @@ public class ResultMatrixNodeModel extends NodeModel {
 				dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
 			}
 		}
-		// }
 
 		Map<String, TreeMap<Double, Double>> containerToTimeToShift = new HashMap<>();
 		if (inData[1] != null) {

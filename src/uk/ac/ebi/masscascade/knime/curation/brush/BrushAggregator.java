@@ -138,6 +138,7 @@ class BrushAggregator {
 		private double[][] timeByArea;
 		private String name[];
 		private String notation[];
+		private int occs[];
 		private double score[];
 		private int evidence[];
 
@@ -155,6 +156,7 @@ class BrushAggregator {
 			
 			name = new String[0];
 			notation = new String[0];
+			occs = new int[0];
 			score = new double[0];
 			evidence = new int[0];
 		}
@@ -167,17 +169,20 @@ class BrushAggregator {
 				
 				name = Arrays.copyOf(name, j + 1);
 				notation = Arrays.copyOf(notation, j + 1);
+				occs = Arrays.copyOf(occs, j + 1);
 				score = Arrays.copyOf(score, j + 1);
 				evidence = Arrays.copyOf(evidence, j + 1);
 				
 				name[j] = ceName;
 				notation[j] = ce.getNotation(id + 1);
+				occs[j] = 1;
 				score[j] = ce.getScore();
 				evidence[j] = ce.getEvidence().ordinal();
 				
 				j++;
 			} else {
-				score[m] = (score[m] + ce.getScore()) / 2.0;
+				score[m] = ((score[m] * occs[m]) + ce.getScore()) / (occs[m] + 1.0);
+				occs[m] = occs[m] + 1;
 				if (ce.getEvidence().ordinal() > evidence[m]) {
 					evidence[m] = ce.getEvidence().ordinal();
 				}

@@ -126,6 +126,7 @@ public class BrushNodeModel extends NodeModel {
 		HashMultimap<Integer, Integer> cToPIdMap = null;
 		// iterate over every group and process
 		for (int group : groupToDataCells.keySet()) {
+			
 			Multimap<Integer, Container> spectraContainer = HashMultimap.create();
 			for (DataCell spectrumCell : groupToDataCells.get(group)) {
 				if (spectrumCell.isMissing()) {
@@ -155,7 +156,6 @@ public class BrushNodeModel extends NodeModel {
 				// define filter criteria and run
 				FeatureSetCourt court = new FeatureSetCourt(css);
 				court.setParameters(params);
-				
 				css = court.call();
 
 				// convert and consolidate remaining compound spectra

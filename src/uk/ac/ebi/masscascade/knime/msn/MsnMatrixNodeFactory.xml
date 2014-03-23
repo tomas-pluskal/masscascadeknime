@@ -7,31 +7,26 @@
 	should have received a copy of the GNU General Public License along with the feature. If not, see <http://www.gnu.org/licenses/>. 
 	Contributors: Stephan Beisken - initial API and implementation -->
 <!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
-<knimeNode icon="./filter.png" type="Manipulator">
-	<name>Feature Set Filter</name>
+<knimeNode icon="./msnmatrix.png" type="Sink">
+	<name>MSn Matrix</name>
 
 	<shortDescription>
-		Filters feature sets based on a m/z-, and time-range as well as a minimum intensity threshold.
+		Extracts all MSn features and creates a table of parent to fragment peaks.
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Filters feature sets based on a m/z-, and time-range as well as a minimum intensity threshold.
-			<br />
-			<br />
-			Isotopes can be excluded from the min. intensity threshold.	
+			Extracts all MSn features and creates a table of parent to fragment peaks. Use the Split Collection node column to expand the fragmentation signals.
 		</intro>
 
-		<option name="Feature Set column">Feature Set data column.</option>
-		<option name="m/z range">Lower and upper m/z limit (from - to).</option>
-		<option name="Time range">Lower and upper time limit (from - to).</option>
-		<option name="Min. intensity">Minimum feature intensity.</option>
-		<option name="Keep isotopes">Excludes isotopes from the min. intensity threshold.</option>
-		<option name="Only MSn">Keep features with fragmentation spectra only.</option>
+		<option name="Feature Set column">Feature Set column.</option>
+		<option name="m/z window">A m/z window for matching features across samples [ppm].</option>
+		<option name="Time window">A time window for matching features across samples [s].</option>
+		<option name="Missingness">A percentage indicating the maximum number of allowed missing features across samples [%].</option>
 	</fullDescription>
 
 	<ports>
 		<inPort index="0" name="Feature Set table">Table containing Feature Set data cells.</inPort>
-		<outPort index="0" name="Processed Feature Set table">Table containing filtered Feature Set data cells.</outPort>
+		<outPort index="0" name="Extracted MSn matrix">Table containing the MSn feature matrix.</outPort>
 	</ports>
 </knimeNode>

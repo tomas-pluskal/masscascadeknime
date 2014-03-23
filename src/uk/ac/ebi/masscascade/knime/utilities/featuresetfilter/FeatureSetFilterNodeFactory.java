@@ -84,6 +84,7 @@ public class FeatureSetFilterNodeFactory extends NodeFactory<FeatureSetFilterNod
 		dialog.addCustomOption(Parameter.TIME_RANGE, new RangeComponent(5));
 		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 5);
 		dialog.addCustomOption("Keep isotopes", new JCheckBox());
+		dialog.addCustomOption("Only MSn", new JCheckBox());
 
 		return dialog.build();
 	}

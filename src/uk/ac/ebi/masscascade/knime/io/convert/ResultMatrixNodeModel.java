@@ -70,7 +70,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 /**
- * This is the model implementation of the "ProfileMatrix" node to build the m/z
+ * This is the model implementation of the "ResultMatrix" node to build the m/z
  * to sample matrix.
  * 
  * @author Stephan Beisken
@@ -207,8 +207,9 @@ public class ResultMatrixNodeModel extends NodeModel {
 		int unfilledGaps = 0;
 		for (FeatureBin row : rows) {
 
-			if (!indices.contains(currentI++))
+			if (!indices.contains(currentI++)) {
 				continue;
+			}
 
 			cellRow = new DataCell[model.getColumnCount() - 1];
 			cellRow[0] = new DoubleCell(row.getMz());

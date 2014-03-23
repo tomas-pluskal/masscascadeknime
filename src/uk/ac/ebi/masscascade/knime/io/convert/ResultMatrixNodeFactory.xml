@@ -23,9 +23,9 @@
 		</intro>
 
 		<option name="Data column">A Profile or Spectrum data column.</option>
-		<option name="m/z window">A m/z window for matching profiles across samples [ppm].</option>
-		<option name="Time window">A time window for matching profiles across samples [s].</option>
-		<option name="Missingness">A percentage indicating the maximum number of allowed missing profiles across samples [%].</option>
+		<option name="m/z window">A m/z window for matching features across samples [ppm].</option>
+		<option name="Time window">A time window for matching features across samples [s].</option>
+		<option name="Missingness">A percentage indicating the maximum number of allowed missing features across samples [%].</option>
 		<option name="Default">A default intensity value to be used when gap filling fails due to missing data points.</option>
 		<option name="Gap fill">Whether missing profiles should be filled with background values.</option>
 <!-- 		<option name="Classic matrix">Whether a simple sample to m/z matrix is preferred.</option> -->
@@ -34,6 +34,6 @@
 	<ports>
 		<inPort index="0" name="Profile table">Table containing Profile or Spectrum data.</inPort>
 		<inPort index="1" name="Time shifts">Optional table containing time shifts of aligned profiles, e.g., from Obiwarp output.</inPort>
-		<outPort index="0" name="Extracted profile table">Table containing the profile matrix.</outPort>
+		<outPort index="0" name="Extracted feature table">Table containing the feature matrix.</outPort>
 	</ports>
 </knimeNode>

@@ -155,6 +155,7 @@
 <node category-path="/community/masscascade/features/featureSetCompilation" factory-class="uk.ac.ebi.masscascade.knime.featuresetbuilding.biehman.BiehmanCompilerNodeFactory" id="uk.ac.ebi.masscascade.knime.featuresetbuilding.biehman.BiehmanCompilerNodeFactory"/>
 <node category-path="/community/masscascade/featuresets" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnBuilderNodeFactory"/>
 
+<node category-path="/community/masscascade/io" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnMatrixNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnMatrixNodeFactory"/>
 <node category-path="/community/masscascade/io" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.io.write.MsFileWriterNodeFactory" id="uk.ac.ebi.masscascade.knime.io.write.MsFileWriterNodeFactory"/>
 <node category-path="/community/masscascade/featuresets/identification" factory-class="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory" id="uk.ac.ebi.masscascade.knime.msn.MsnEnumeratorNodeFactory"/>
 <node category-path="/community/masscascade/featuresets/identification" factory-class="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory" id="uk.ac.ebi.masscascade.knime.io.reference.LibraryGeneratorNodeFactory"/>

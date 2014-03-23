@@ -30,6 +30,7 @@ import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultModel;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
+import uk.ac.ebi.masscascade.parameters.Constants;
 import uk.ac.ebi.masscascade.parameters.CoreTasks;
 import uk.ac.ebi.masscascade.parameters.Parameter;
 import uk.ac.ebi.masscascade.utilities.range.ExtendableRange;
@@ -64,6 +65,7 @@ public class FeatureSetFilterNodeModel extends DefaultModel {
 		parameterMap.put(Parameter.TIME_RANGE, rangeT);
 		parameterMap.put(Parameter.MIN_FEATURE_INTENSITY, settings.getDoubleOption(Parameter.MIN_FEATURE_INTENSITY));
 		parameterMap.put(Parameter.KEEP_ISOTOPES, settings.getBooleanOption("Keep isotopes"));
+		parameterMap.put(Parameter.MS_LEVEL, (settings.getBooleanOption("Only MSn") ? Constants.MSN.MS2 : Constants.MSN.MS1));
 
 		return getDataTableSpec(data, Parameter.FEATURE_SET_COLUMN, Parameter.FEATURE_SET_COLUMN, false);
 	}

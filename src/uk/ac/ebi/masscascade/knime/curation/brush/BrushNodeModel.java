@@ -20,6 +20,8 @@ package uk.ac.ebi.masscascade.knime.curation.brush;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -52,6 +54,7 @@ import uk.ac.ebi.masscascade.brush.FeatureSetCourt;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrum;
 import uk.ac.ebi.masscascade.compound.CompoundSpectrumAdapter;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
+import uk.ac.ebi.masscascade.interfaces.container.FeatureSetContainer;
 import uk.ac.ebi.masscascade.knime.NodeUtils;
 import uk.ac.ebi.masscascade.knime.datatypes.featuresetcell.FeatureSetValue;
 import uk.ac.ebi.masscascade.knime.defaults.DefaultSettings;
@@ -126,7 +129,7 @@ public class BrushNodeModel extends NodeModel {
 		HashMultimap<Integer, Integer> cToPIdMap = null;
 		// iterate over every group and process
 		for (int group : groupToDataCells.keySet()) {
-			
+
 			Multimap<Integer, Container> spectraContainer = HashMultimap.create();
 			for (DataCell spectrumCell : groupToDataCells.get(group)) {
 				if (spectrumCell.isMissing()) {
@@ -143,15 +146,26 @@ public class BrushNodeModel extends NodeModel {
 			// process spectrum cells of a group one by one using the
 			// "cToPIdMap" from above
 			BrushAggregator ba = new BrushAggregator();
-			
+
+			List<FeatureSetContainer> featureCs = new ArrayList<>();
 			for (DataCell spectrumCell : groupToDataCells.get(group)) {
+
 				if (spectrumCell.isMissing()) {
 					continue;
 				}
+
+				featureCs.add(((FeatureSetValue) spectrumCell).getFeatureSetDataValue());
+			}
+
+			// tmp solution: possibly working, needs more testing
+			Collections.sort(featureCs, new ContainerComparator());
+
+			for (FeatureSetContainer featureC : featureCs) {
+
 				exec.checkCanceled();
+
 				CompoundSpectrumAdapter adapter = new CompoundSpectrumAdapter((int) (100 - missing) * 2);
-				List<CompoundSpectrum> css = adapter.getSpectra(cToPIdMap, index++,
-						((FeatureSetValue) spectrumCell).getFeatureSetDataValue());
+				List<CompoundSpectrum> css = adapter.getSpectra(cToPIdMap, index++, featureC);
 
 				// define filter criteria and run
 				FeatureSetCourt court = new FeatureSetCourt(css);
@@ -161,7 +175,7 @@ public class BrushNodeModel extends NodeModel {
 				// convert and consolidate remaining compound spectra
 				ba.add(css);
 			}
-			
+
 			// add to output container
 			for (double mz : ba.mzs()) {
 				Iterator<DataCell[]> iter = ba.rows(mz, group);
@@ -262,5 +276,13 @@ public class BrushNodeModel extends NodeModel {
 	@Override
 	protected void reset() {
 		// nothing to do
+	}
+}
+
+class ContainerComparator implements Comparator<Container> {
+
+	@Override
+	public int compare(Container o1, Container o2) {
+		return o1.getId().compareTo(o2.getId());
 	}
 }

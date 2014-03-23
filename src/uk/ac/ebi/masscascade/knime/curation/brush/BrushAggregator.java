@@ -59,17 +59,21 @@ class BrushAggregator {
 			if (mzMapping.containsKey(mz)) {
 				AggregationUnit au = mzMapping.get(mz);
 				au.addMeta(cs.getPeakList().get(majorPeak).y, cs.getRetentionTime());
-				for (CompoundEntity ce : cs.getBest(100)) {
+				for (CompoundEntity ce : cs.getBest(1000)) {
 					au.add(ce, majorPeak);
 				}
 			} else {
 				XYPoint xy = cs.getPeakList().get(majorPeak);
 				AggregationUnit au = new AggregationUnit(mz, cs.getRetentionTime(), xy.y);
-				for (CompoundEntity ce : cs.getBest(100)) {
+				for (CompoundEntity ce : cs.getBest(1000)) {
 					au.add(ce, majorPeak);
 				}
 				mzMapping.put(mz, au);
 			}
+		}
+		
+		for (AggregationUnit au : mzMapping.values()) {
+			au.close();
 		}
 	}
 	
@@ -140,6 +144,7 @@ class BrushAggregator {
 		private String notation[];
 		private int occs[];
 		private double score[];
+		private double tmpScore[][];
 		private int evidence[];
 
 		private int i = 0;
@@ -158,6 +163,7 @@ class BrushAggregator {
 			notation = new String[0];
 			occs = new int[0];
 			score = new double[0];
+			tmpScore = new double[0][0];
 			evidence = new int[0];
 		}
 
@@ -170,22 +176,43 @@ class BrushAggregator {
 				name = Arrays.copyOf(name, j + 1);
 				notation = Arrays.copyOf(notation, j + 1);
 				occs = Arrays.copyOf(occs, j + 1);
+				tmpScore = Arrays.copyOf(tmpScore, j + 1);
+				tmpScore[j] = new double[0];
 				score = Arrays.copyOf(score, j + 1);
 				evidence = Arrays.copyOf(evidence, j + 1);
 				
 				name[j] = ceName;
 				notation[j] = ce.getNotation(id + 1);
-				occs[j] = 1;
-				score[j] = ce.getScore();
+				occs[j] = 0;
+				tmpScore[j] = Arrays.copyOf(tmpScore[j], tmpScore[j].length + 1);
+				tmpScore[j][tmpScore[j].length - 1] = ce.getScore();
 				evidence[j] = ce.getEvidence().ordinal();
 				
 				j++;
 			} else {
-				score[m] = ((score[m] * occs[m]) + ce.getScore()) / (occs[m] + 1.0);
-				occs[m] = occs[m] + 1;
+				tmpScore[m] = Arrays.copyOf(tmpScore[m], tmpScore[m].length + 1);
+				tmpScore[m][tmpScore[m].length - 1] = ce.getScore();
 				if (ce.getEvidence().ordinal() > evidence[m]) {
 					evidence[m] = ce.getEvidence().ordinal();
 				}
+			}
+		}
+		
+		private void close() {
+			
+			double max = 0;
+			for (int j = 0; j < tmpScore.length; j++) {
+				if (tmpScore[j].length == 0) {
+					continue;
+				}
+				for (int i = 0; i < tmpScore[j].length; i++) {
+					if (tmpScore[j][i] > max) {
+						max = tmpScore[j][i];
+					}						
+				}
+				score[j] = ((score[j] * occs[j]) + max) / (occs[j] + 1.0);
+				occs[j] = occs[j] + 1;
+				tmpScore[j] = new double[0];
 			}
 		}
 		

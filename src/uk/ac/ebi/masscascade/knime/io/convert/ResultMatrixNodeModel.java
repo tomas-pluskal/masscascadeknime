@@ -125,13 +125,7 @@ public class ResultMatrixNodeModel extends NodeModel {
 			}
 			rawContainers.add(((MsCell) cellRaw).getMsDataValue());
 		}
-		profileContainerIds = new ArrayList<>();
-		for (int groupId : profileContainers.keySet()) {
-			for (Container orderedContainer : profileContainers.get(groupId)) {
-				profileContainerIds.add(orderedContainer.getId());
-			}
-		}
-
+		
 		double ppm = settings.getDoubleOption(Parameter.MZ_WINDOW_PPM);
 		double sec = settings.getDoubleOption(Parameter.TIME_WINDOW);
 		double missing = settings.getDoubleOption(Parameter.MISSINGNESS);
@@ -139,6 +133,14 @@ public class ResultMatrixNodeModel extends NodeModel {
 		double defaultValue = settings.getDoubleOption(Parameter.DEFAULT);
 
 		FeatureBinTableModel model = new FeatureBinTableModel(profileContainers, ppm, sec, missing);
+		
+		profileContainerIds = new ArrayList<>();
+		for (int groupId : profileContainers.keySet()) {
+			for (Container orderedContainer : profileContainers.get(groupId)) {
+				profileContainerIds.add(orderedContainer.getId());
+			}
+		}
+
 		BufferedDataContainer dataContainer = exec.createDataContainer(new DataTableSpec(
 				createOutputTableSpecification()));
 
@@ -254,13 +256,6 @@ public class ResultMatrixNodeModel extends NodeModel {
 
 		List<DataColumnSpec> dataColumnSpecs = new ArrayList<DataColumnSpec>();
 
-		// if
-		// (settings.getBooleanOption(ProfileMatrixNodeFactory.CLASSIC_MATRIX))
-		// {
-		// createColumnSpec(dataColumnSpecs, "Sample", StringCell.TYPE);
-		// for (int i = 1; i <= rows.size(); i++)
-		// createColumnSpec(dataColumnSpecs, i + "", DoubleCell.TYPE);
-		// } else {
 		createColumnSpec(dataColumnSpecs, "m/z", DoubleCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "rt", DoubleCell.TYPE);
 		createColumnSpec(dataColumnSpecs, "area", DoubleCell.TYPE);

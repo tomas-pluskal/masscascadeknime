@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -136,7 +137,10 @@ public class ResultMatrixNodeModel extends NodeModel {
 		
 		profileContainerIds = new ArrayList<>();
 		for (int groupId : profileContainers.keySet()) {
-			for (Container orderedContainer : profileContainers.get(groupId)) {
+			List<Container> featureCs = new ArrayList<>(profileContainers.get(groupId));
+            // tmp solution: possibly working, needs more testing
+            Collections.sort(featureCs, new ContainerComparator());
+			for (Container orderedContainer : featureCs) {
 				profileContainerIds.add(orderedContainer.getId());
 			}
 		}
@@ -340,4 +344,12 @@ public class ResultMatrixNodeModel extends NodeModel {
 	protected void reset() {
 		// nothing to do
 	}
+}
+
+class ContainerComparator implements Comparator<Container> {
+
+    @Override
+    public int compare(Container o1, Container o2) {
+        return o1.getId().compareTo(o2.getId());
+    }
 }

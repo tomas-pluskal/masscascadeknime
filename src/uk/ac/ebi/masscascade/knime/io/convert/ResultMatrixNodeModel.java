@@ -176,7 +176,11 @@ public class ResultMatrixNodeModel extends NodeModel {
 				cellRow[0] = new DoubleCell(row.getMz());
 				cellRow[1] = new DoubleCell(row.getRt());
 				cellRow[2] = new DoubleCell(row.getArea());
-				cellRow[3] = new StringCell(row.getLabel());
+				String label = "";
+				for (String l : row.getLabel()) {
+					label += l + ", ";
+				}
+				cellRow[3] = new StringCell(label);
 				cellRow[4] = new DoubleCell(row.getMzDev());
 				dataContainer.addRowToTable(new DefaultRow(new RowKey(id++ + ""), cellRow));
 			}
@@ -221,7 +225,11 @@ public class ResultMatrixNodeModel extends NodeModel {
 			cellRow[0] = new DoubleCell(row.getMz());
 			cellRow[1] = new DoubleCell(row.getRt());
 			cellRow[2] = new DoubleCell(row.getArea());
-			cellRow[3] = new StringCell(row.getLabel());
+			String label = "";
+			for (String l : row.getLabel()) {
+				label += l + ", ";
+			}
+			cellRow[3] = new StringCell(label);
 			cellRow[4] = new DoubleCell(row.getMzDev());
 
 			for (int i = 6; i < model.getColumnCount(); i++) {

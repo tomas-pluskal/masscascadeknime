@@ -50,6 +50,7 @@ public class MsnBuilderNodeModel extends DefaultModel {
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
 		parameterMap.put(Parameter.MZ_WINDOW_PPM, settings.getDoubleOption(Parameter.MZ_WINDOW_PPM));
+		parameterMap.put(Parameter.MIN_FEATURE_WIDTH, settings.getIntOption(Parameter.MIN_FEATURE_WIDTH));
 		parameterMap.put(Parameter.MIN_FEATURE_INTENSITY, settings.getDoubleOption(Parameter.MIN_FEATURE_INTENSITY));
 
 		return getDataTableSpec(data, new Parameter[] { Parameter.FEATURE_SET_COLUMN, Parameter.DATA_COLUMN },
@@ -64,6 +65,7 @@ public class MsnBuilderNodeModel extends DefaultModel {
 
 		if (settings.getOptionMapSize() == 0) {
 			settings.setTextOption(Parameter.MZ_WINDOW_PPM, "" + Parameter.MZ_WINDOW_PPM.getDefaultValue());
+			settings.setTextOption(Parameter.MIN_FEATURE_WIDTH, "" + Parameter.MIN_FEATURE_WIDTH.getDefaultValue());
 			settings.setTextOption(Parameter.MIN_FEATURE_INTENSITY,
 					"" + Parameter.MIN_FEATURE_INTENSITY.getDefaultValue());
 		}
@@ -85,5 +87,6 @@ public class MsnBuilderNodeModel extends DefaultModel {
 		NodeUtils.validateColumnSetting(tmpSettings, Parameter.FEATURE_SET_COLUMN);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MZ_WINDOW_PPM);
 		NodeUtils.validateDoubleGreaterZero(tmpSettings, Parameter.MIN_FEATURE_INTENSITY);
+		NodeUtils.validateIntGreaterZero(tmpSettings, Parameter.MIN_FEATURE_WIDTH);
 	}
 }

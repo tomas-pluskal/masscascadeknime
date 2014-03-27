@@ -75,6 +75,7 @@ public class MsnBuilderNodeFactory extends NodeFactory<MsnBuilderNodeModel> {
 
 		dialog.addColumnSelection(Parameter.DATA_COLUMN, MsValue.class);
 		dialog.addColumnSelection(Parameter.FEATURE_SET_COLUMN, FeatureSetValue.class);
+		dialog.addTextOption(Parameter.MIN_FEATURE_WIDTH, 8);
 		dialog.addTextOption(Parameter.MZ_WINDOW_PPM, 8);
 		dialog.addTextOption(Parameter.MIN_FEATURE_INTENSITY, 8);
 		

@@ -111,7 +111,7 @@ class BrushAggregator {
 				}
 				dataCells[2] = CollectionCellFactory.createListCell(timeCells);
 				dataCells[3] = CollectionCellFactory.createListCell(areaCells);
-				dataCells[4] = new StringCell(au.name[m]);
+				dataCells[4] = new StringCell(au.name[m] == null ? "" : au.name[m]);
 
 				if (au.notation[m] == null)
 					dataCells[5] = DataType.getMissingCell();

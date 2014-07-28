@@ -116,6 +116,7 @@
       </category>
    </extension>
    <extension point="org.knime.workbench.repository.nodes">
+<node category-path="/community/masscascade/io" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.io.plain.PlainReaderNodeFactory" id="uk.ac.ebi.masscascade.knime.io.plain.PlainReaderNodeFactory"/>
 <node category-path="/community/masscascade/io" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.io.read.MsFileReaderNodeFactory" id="uk.ac.ebi.masscascade.knime.io.read.MsFileReaderNodeFactory"/>
 <node category-path="/community/masscascade/scans/scanvis" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.visualization.totalion.TicViewerNodeFactory" id="uk.ac.ebi.masscascade.knime.visualization.totalion.TicViewerNodeFactory"/>
 <node category-path="/community/masscascade/featuresets/identification/database" expert-flag="false" factory-class="uk.ac.ebi.masscascade.knime.database.metlin.MetlinNodeFactory" id="uk.ac.ebi.masscascade.knime.database.metlin.MetlinNodeFactory"/>

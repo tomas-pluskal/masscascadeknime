@@ -29,7 +29,7 @@ import org.knime.core.node.NodeSettingsWO;
 public class MassbankSettings {
 
 	private static final String[] DEF_INST = new String[] { "CE-ESI-TOF", "EI-EBEB", "ESI-IT-MS/MS", "ESI-QqTOF-MS/MS",
-			"LC-ESI-IT", "LC-ESI-ITFT", "LC-ESI-ITTOF", "LC-ESI-Q", "LC-ESI-QIT", "LC-ESI-QQ", "LC-ESI-QTOF" };
+			"LC-ESI-IT", "LC-ESI-ITFT", "LC-ESI-ITTOF", "LC-ESI-Q", "LC-ESI-QIT", "LC-ESI-QQ", "LC-ESI-QTOF", "ESI-ITFT" };
 
 	public static final String[] ALL_INST = new String[] { "CE-ESI-TOF", "CI-B", "EI-B", "EI-EBEB", "ESI-IT-MS/MS",
 			"ESI-QqIT-MS/MS", "ESI-QqQ-MS/MS", "ESI-QqTOF-MS/MS", "FAB-B", "FAB-EB", "FAB-EBEB", "FD-B", "FI-B",

@@ -51,6 +51,7 @@ import org.knime.core.util.ThreadPool;
 import uk.ac.ebi.masscascade.core.container.file.FileContainerBuilder;
 import uk.ac.ebi.masscascade.interfaces.container.Container;
 import uk.ac.ebi.masscascade.interfaces.container.ScanContainer;
+import uk.ac.ebi.masscascade.io.NetCDFReader;
 import uk.ac.ebi.masscascade.io.PsiMzmlReader;
 import uk.ac.ebi.masscascade.io.XCaliburReader;
 import uk.ac.ebi.masscascade.knime.NodePlugin;
@@ -177,7 +178,9 @@ public class MsFileReaderNodeModel extends NodeModel {
 				return new XCaliburReader(params);
 			} else if (suffix.equalsIgnoreCase(Constants.FILE_FORMATS.MZML.name())) {
 				return new PsiMzmlReader(params);
-			} 
+			} else if (suffix.equalsIgnoreCase(Constants.FILE_FORMATS.CDF.name())) {
+				return new NetCDFReader(params);
+			}
 		} catch (Exception exception) {
 			throw new IOException(fileName + ". " + exception.getMessage());
 		}

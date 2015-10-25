@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.knime.base.data.replace.ReplacedColumnsDataRow;
 import org.knime.base.node.parallel.builder.ThreadedTableBuilderNodeModel;
@@ -77,7 +77,7 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 	private final Settings settings = new DefaultSettings();
 	private final ParameterMap parameterMap;
 
-	private AtomicInteger rowId;
+	private AtomicLong rowId;
 	private int colIndex;
 
 	/**
@@ -96,7 +96,7 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 	protected DataTableSpec[] prepareExecute(final DataTable[] data) throws Exception {
 
 		DataTableSpec inSpec = data[1].getDataTableSpec();
-		rowId = new AtomicInteger(1);
+		rowId = new AtomicLong(1);
 		colIndex = inSpec.findColumnIndex(settings.getColumnName(Parameter.REFERENCE_FEATURE_COLUMN));
 		FeatureContainer refContainer = null;
 		for (DataRow row : data[1]) {
@@ -267,8 +267,10 @@ public class ObiwarpNodeModel extends ThreadedTableBuilderNodeModel {
 		String line = "";
 		while ((line = bufferedReader.readLine()) != null) {
 			File file = new File(line);
-			if (!file.exists())
+			if (!file.exists()) {
+				bufferedReader.close();
 				throw new IOException("Serialized data file missing: " + line);
+			}
 			ids.add(file);
 		}
 		bufferedReader.close();

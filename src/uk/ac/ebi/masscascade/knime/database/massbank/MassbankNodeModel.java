@@ -95,7 +95,7 @@ public class MassbankNodeModel extends NodeModel {
 		FeatureSetContainer container = null;
 		double currentRow = 1;
 		double threadCounter = 1;
-		double rowCount = inData[0].getRowCount();
+		double rowCount = inData[0].size();
 
 		try {
 			for (DataRow row : inData[0]) {
@@ -319,10 +319,13 @@ public class MassbankNodeModel extends NodeModel {
 		String line = "";
 		while ((line = bufferedReader.readLine()) != null) {
 			File file = new File(line);
-			if (!file.exists())
+			if (!file.exists()) {
+				bufferedReader.close();
 				throw new IOException("Serialized data file missing: " + line);
+			}
 			ids.add(file);
 		}
+		bufferedReader.close();
 	}
 
 	/**

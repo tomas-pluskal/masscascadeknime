@@ -36,6 +36,7 @@ import org.knime.core.node.BufferedDataTable;
 import org.knime.core.node.ExecutionMonitor;
 import org.knime.core.node.InvalidSettingsException;
 import org.knime.core.node.port.PortType;
+import org.knime.core.node.port.PortTypeRegistry;
 
 import uk.ac.ebi.masscascade.interfaces.Option;
 import uk.ac.ebi.masscascade.knime.defaults.Settings;
@@ -158,10 +159,13 @@ public class NodeUtils {
 		String line = "";
 		while ((line = bufferedReader.readLine()) != null) {
 			File file = new File(line);
-			if (!file.exists())
+			if (!file.exists()) {
+				bufferedReader.close();
 				throw new IOException("Serialized data file missing: " + line);
+			}
 			ids.add(file);
 		}
+		bufferedReader.close();
 	}
 
 	/**
@@ -210,7 +214,7 @@ public class NodeUtils {
 		if (optionalPortsIds.length > 0) {
 			for (int portId : optionalPortsIds) {
 				if ((portId - 1) < nrDataPorts) {
-					portTypes[portId - 1] = new PortType(BufferedDataTable.class, true);
+					portTypes[portId - 1] = PortTypeRegistry.getInstance().getPortType(BufferedDataTable.class, true);
 				}
 			}
 		}

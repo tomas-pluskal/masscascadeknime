@@ -263,8 +263,10 @@ public abstract class DefaultModel extends ThreadedTableBuilderNodeModel {
 		String line = "";
 		while ((line = bufferedReader.readLine()) != null) {
 			File file = new File(line);
-			if (!file.exists())
+			if (!file.exists()) {
+				bufferedReader.close();
 				throw new IOException("Serialized data file missing: " + line);
+			}
 			ids.add(file);
 		}
 		bufferedReader.close();

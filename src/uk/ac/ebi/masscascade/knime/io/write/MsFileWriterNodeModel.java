@@ -79,7 +79,7 @@ public class MsFileWriterNodeModel extends NodeModel {
 		String path = settings.getTextOption(Parameter.OUTPUT_DIRECTORY);
 		double currentRow = 1;
 		double threadCounter = 1;
-		double rowCount = inData[0].getRowCount();
+		double rowCount = inData[0].size();
 
 		try {
 			for (DataRow row : inData[0]) {
